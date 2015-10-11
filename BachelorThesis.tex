@@ -1,0 +1,165 @@
+\documentclass[bachelor,english]{hgbthesis}
+% Zulässige Class Options: 
+%   Typ der Arbeit: diplom, master (default), bachelor, praktikum 
+%   Hauptsprache: german (default), english
+%%------------------------------------------------------------
+
+% !TeX spellcheck = en_GB
+
+\graphicspath{{images/}}    % wo liegen die Bilder? 
+\bibliography{literatur}  	% Angabe der BibTeX-Datei, % utf8-change
+
+\usepackage{multirow,slashbox,courier,lscape,tablefootnote,hyperref}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage[toc]{glossaries}
+
+% code listing packages
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{color}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+\usepackage{pdfpages}
+\usepackage{framed}
+
+\usepackage[all]{nowidow}
+
+\usepackage{graphicx}
+
+\usepackage{epigraph}
+
+
+\setacronymstyle{long-short} % creates example(EX) for the first usage and EX for the following usages of an acronym
+\makeglossaries
+
+
+\loadglsentries{glossary}
+
+% no hyphenation for the following words:
+%\hyphenation{example}
+
+
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+
+% use \bigskip for paragraphs that to not belowng to the section anymore. 
+% (e.g. conclusions of chapters)
+\bigskipamount=30pt
+
+% Einträge für ALLE Arbeiten: --------------------------------
+\title{Service Cutter (Working title)}
+\author{Michael Gysel \& Lukas K\"{o}lbener}
+\studiengang{Computer Science}
+\studienort{Rapperswil}
+\abgabedatum{2015}{12}{18}	% {YYYY}{MM}{DD}
+
+%%% zusätzlich für eine Bachelorarbeit: ---------------------
+%\semester{Spring semester 2015} 
+%\gegenstand{Enterprise Application Integration} 
+%\betreuer{Olaf Zimmermann} % oder \betreuerin{..}
+
+%\strictlicense  % erzeugt restriktive Lizenzformel
+
+%%%----------------------------------------------------------
+\frontmatter
+\maketitle
+\setcounter{tocdepth}{1}
+\tableofcontents
+%%%----------------------------------------------------------
+
+\include{abstract}			
+
+%%%----------------------------------------------------------
+\mainmatter         % Hauptteil (ab hier arab. Seitenzahlen)
+%%%----------------------------------------------------------
+
+% Don't show "Chapter X" titles for every Chapter
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+\vspace*{50 pt}%
+{\setlength{\parindent}{0pt} \raggedright \normalfont
+\bfseries\Huge\thechapter.\ #1
+\par\nobreak\vspace{40 pt}}}
+\makeatother
+
+
+\include{introduction}
+
+\chapter{Analysis}
+\label{cha:analysis}
+
+
+
+\chapter{Requirements}
+\label{cha:requirements}
+
+These chapters describes the (non-)functional requirements of the target solutions and the target users working with the end product.
+
+The requirements in this chapter are not prioritised. As part of the sprint planning meetings, these requirements are transformed and prioritised to user stories and tasks. The description in this chapter is meant to provide a high level overview and establish a common sense between all stakeholders of this project.
+
+\input{requirements/personas/introduction}
+
+\input{requirements/functional}
+\input{requirements/nonfunctional}
+
+\bigskip
+
+After defining all (non-)functional requirements, the next Chapter outlines design and implementation steps which were taken to satisfy these requirements.
+
+
+\chapter{Design and Implementation}
+\label{cha:implementation}
+
+
+\section{Design} 
+
+
+\subsection{Technology}
+
+
+\subsection{Infrastructure}
+
+
+
+\bigskip
+After covering the important design and implementation aspects, the next chapter assesses the built solution described in this chapter against the defined requirements.
+
+\chapter{Conclusion}
+
+
+%%%----------------------------------------------------------
+%%%Anhang
+\appendix
+
+\chapter{Project Management}
+\label{cha:projectmgmt}
+
+This Appendix documents aspects of project management like methodology, roles, environment, quality management, and risk management. The project was time boxed and started on \formatdate{14}{9}{2015} and ended on \formatdate{18}{12}{2015} which implies 14 working weeks. 
+
+
+%\input{projectmgmt/scrum}
+%\input{projectmgmt/roles}
+%\input{projectmgmt/environment}
+%\input{projectmgmt/qualitymgmt}
+%\input{projectmgmt/plan}
+%\include{projectmgmt/risk_management}
+
+%\include{anhang_a}	% 
+%\include{anhang_b} % 
+%\include{anhang_c} % 
+%\include{anhang_d} % 
+%\include{anhang_e} % 
+
+%\renewcommand{\glossarypreamble}{Descriptions of Glossary items have mainly been taken from Wikipedia.org.\newline\newline}
+
+\printglossaries
+
+
+%%%----------------------------------------------------------
+\MakeBibliography
+%%%----------------------------------------------------------
+
+
+\end{document}
