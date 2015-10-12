@@ -6,8 +6,7 @@ The following non-functional requirements should be satisfied by the Service Cut
 
 No software installation is required. The latest version of any popular internet browser (Chrome, Firefox, Internet Explorer) is sufficient.
 
-web app, no install.
-java, docker
+On the server side Java is used to implement the business logic. An appropriate storage and web server technology will be evaluated as part of the design phase. The deployment of the different components is managed using \gls{docker} containers.
 
 \subsection{Usability}
 \label{sec:usability}
@@ -24,7 +23,13 @@ A simple workflow can be achieved with a few clicks. All steps are provided with
 
 \subsection{Information Security}
 
+The web application is secured using an authentication and authorization implementation. Any other internal components such as the database or web services are hidden behind the servers firewall and therefore do not need any special security measures.
+
+The uploaded data models are initially shared amongst all registered users.
+
 \subsection{Separation of Concerns}
+
+The software is structured in a way that separates the application into several concerns running in separated containers that are managed individually.
 
 \subsection{Performance}
 
@@ -32,12 +37,20 @@ All regular user interactions should not take more than one second. The service 
 
 \subsection{Monitoring}
 
+The software is not business critical and no explicit monitoring is required.
+
 \subsection{Availability and Fault Tolerance}
+
+The software does not implement any high availability measures. A common error handling is built into the application and ensures that operations continue even in case of unexpected input or state.
 
 \subsection{Maintainability}
 
-\subsection{Integrity Tests, Audits, Logs}
+The application should leverage existing open source frameworks or libraries whereever possible to ensure a minimal maintenance effort.
+
+\subsection{Logs}
+
+Log files should be written using SLF4J\cite{slf4j} provided by Spring Boot\cite{springboot}.
 
 \subsection{License}
 
-No GPL?
+No GPL? to be discussed %TODO
