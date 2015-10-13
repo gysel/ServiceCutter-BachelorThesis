@@ -13,7 +13,7 @@
 \newcommand{\@matitelseiten}{}
 \newcommand{\@datitelseiten}{}
 \newcommand{\@batitelseiten}{}
-\newcommand{\@satitelseiten}{}
+\newcommand{\@hsrtitelseiten}{}
 \newcommand{\@prtitelseiten}{}
 \newcommand{\@maketitlepages}{\@matitelseiten}  %default: Masterarbeit
 
@@ -22,7 +22,7 @@
 \DeclareOption{master}{\renewcommand{\@maketitlepages}{\@matitelseiten}}
 \DeclareOption{diplom}{\renewcommand{\@maketitlepages}{\@datitelseiten}}
 \DeclareOption{bachelor}{\renewcommand{\@maketitlepages}{\@batitelseiten}}
-\DeclareOption{studienarbeit}{\renewcommand{\@maketitlepages}{\@satitelseiten}}
+\DeclareOption{hsr-ba}{\renewcommand{\@maketitlepages}{\@hsrtitelseiten}}
 \DeclareOption{praktikum}{\renewcommand{\@maketitlepages}{\@prtitelseiten}}
 \DeclareOption{english}{\renewcommand{\hgb@MainLanguage}{english}}
 \DeclareOption{german}{\renewcommand{\hgb@MainLanguage}{german}}
@@ -40,6 +40,11 @@
 \newcommand{\@studiengang}{\@MissingArg{Studiengang??}}
 \newcommand{\studiengang}[1]{%
 	\renewcommand{\@studiengang}{#1}
+}
+
+\newcommand{\@subtitle}{\@MissingArg{Subtitle??}}
+\newcommand{\subtitle}[1]{%
+	\renewcommand{\@subtitle}{#1}
 }
 
 \newcommand{\@studienort}{\@MissingArg{Studienort??}}
@@ -179,14 +184,15 @@
   \begin{picture}(12,2)
     \put(0,1.8){\parbox{12cm}{\centering\large\bf%
     \setlength{\baselineskip}{20pt}%
-    Enhancing Apache Camel with \break Data Mapping and Job Management}}
+    \@subtitle}}
   \end{picture}  
   
   
     \vskip 10mm%
     {\large\sc\@author}
     \vskip 40mm%
-    {\Large S\,E\,M\,E\,S\,T\,E\,R\, \,T\,H\,E\,S\,I\,S}%
+    {\Large B\,A\,C\,H\,E\,L\,O\,R\, \,T\,H\,E\,S\,I\,S}
+    % S\,E\,M\,E\,S\,T\,E\,R\, \,T\,H\,E\,S\,I\,S
     %  B\,A\,C\,H\,E\,L\,O\,R\,A\,R\,B\,E\,I\,T
     \vskip 8mm%
     %{\large eingereicht am} \vskip 1mm {Fachhochschul-Bachelorstudiengang}%
@@ -480,7 +486,7 @@ Lukas Kölbener \hspace{20ex} Michael Gysel
 \@erklaerungsseite
 }
 
-\renewcommand{\@satitelseiten}{
+\renewcommand{\@hsrtitelseiten}{
 \@satitel
 %\@babetreuerseite
 \@erklaerungsseite
