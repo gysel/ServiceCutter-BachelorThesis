@@ -1,0 +1,101 @@
+\section{Project Status}
+
+Every sprint one or two status meetings where held to track the progress.
+
+\subsection{Kick Off \formatdate{15}{9}{2015}}
+
+\textbf{Time:} 14:00 – 15:15
+
+\textbf{Next Meeting:} \formatdate{21}{9}{2015} 10:30
+
+\textbf{Attendees:} Olaf Zimmermann (ZIO), Lukas Kölbener (KOE), Michael Gysel (GYS)
+
+\textbf{Agenda}
+\begin{itemize}
+\item Meetings, Sprints
+\item Aufgabenstellung
+\item Discussion on the subject of the thesis
+\end{itemize}
+
+\textbf{Notes}
+\begin{itemize}
+\item The automatic REST interface of Apache ISIS could be an inspiration
+\item Vaughn Vernon provides his DDD samples on \href{https://github.com/VaughnVernon/IDDD_Samples}{GitHub}
+\item The provided article by Subbu Allamaraju is a must-read.
+\item General approach: Start with business requirements (Use Cases, User Stories) and transform them into Components (e.g. UML). These Components are then modeled into services.
+\item UML Components approach: Identification, Specification, Realization. (Our tool would probably support the step from spec to realization)
+\item Possible quality attributes: Coupling, Cohesion, Security, Performance, Data volatility, Frequency of updates, Monitoring, Reconciliation, Consistency, Data invariants, Data Volumes
+\item Structurizer by Simon Brown is a possible input format
+\item C4: Context, Container, Components, Classes
+\item Swagger is a possible output of the tool
+\item Idea: Quality attributes should be specified on the level of fields instead of entities.
+\item New item in the reading list: \url{https://msdn.microsoft.com/en-us/library/ms954587.aspx} 
+\item NFR: Number of entities/fields to be supported
+\end{itemize}
+
+\textbf{Decisions}
+\begin{itemize}
+\item MoM and Meetings should be handled the same way as in the SA.
+\item Project management should be < 10\% of the overall effort.
+\item Model reconciliation is out of scope!
+\end{itemize}
+
+\textbf{Tasks}
+\begin{itemize}
+\item GYS: Send invite for the next meeting
+\item GYS/KOE: Suggest dates for the intermediate presentation (end Oct, beginning of Nov)
+\item ZIO: Send Aufgabenstellung via mail to GYS/KOE
+\item ZIO: Bring UML Components book to the next meeting
+\item ZIO: Book a room for the next meeting (21.9. 16:30)
+\end{itemize}
+
+\subsection{Status Meeting \formatdate{21}{9}{2015}}
+
+\textbf{Time:} 10:30 – 12:00
+ 
+\textbf{Next Meeting:} \formatdate{19}{10}{2015} 14:00-16:00 (Zühlke Office)
+ 
+\textbf{Attendees:} Olaf Zimmermann (ZIO), Lukas Kölbener (KOE), Michael Gysel (GYS), Wolfgang Giersche
+ 
+\textbf{Agenda}
+\begin{itemize}
+\item Scope and content of the thesis 
+\item Project Organization / Review Meetings
+\item Intellectual property rights
+\end{itemize}
+
+\textbf{Notes}
+\begin{itemize}
+\item Coupling Criterion / architectural significant requirements
+\subitem Data confidentiality
+\subitem SPI, Sensitive Personal Information
+\subitem Structural volatility
+\item Critique on automated scoring systems for IT architecture:
+\subitem Pseudo accuracy, for example when mapping non functional requirements
+\subitem Only one of many relevant criteria considered
+\subitem => Make a sensitivity analysis to analyze the impact of weight-parameters
+\item Define exactly what is meant with entity, bounded context and aggregates are within the system
+\item Check Spark framework for algorithms
+\item Check triple graph grammar for model transformations
+\item Possible modes of system: Suggested bounded contexts are local (Modules, Components) or separated by network (Remote/ Microservices)
+\item The data used in multiple bounded contexts should be part of the \enquote{published language} (DDD)
+\item Dr. Gerald Reif will take the role of the expert
+\end{itemize}
+
+\textbf{Decisions}
+\begin{itemize}
+\item The target audience (Persona) are architects which use the system as assistance in taking architectural decisions
+\item The produced results will be published on Github under the Apache 2.0 license
+\item Meetings 
+\subitem 19.10.2015, 14:00-16:00 Office Zühlke 
+\subitem 22.10.2015, 09:00-10:00 HSR
+\subitem 19.10.2015, 11:00-12:00 HSR
+\end{itemize}
+
+\textbf{Tasks}
+\begin{itemize}
+\item GYS/KOE: Review \enquote{Aufgabenstellung} and send back to ZIO
+\item GYS/KOE: Send invitation for meetings
+\item GYS/KOE: Authorize ZIO on Github repositories
+\item Giersche: Find example project(s) with good complexity level and documentation (domain model, user stories, NFRs...). Clarify if the project can be published as an example within the thesis.
+\end{itemize}
