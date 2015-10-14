@@ -9,7 +9,7 @@ section.
 
 A set of data fields can either be defined in the application or imported using a predefined data format. A data field consists of it's name and a combination of connections to other fields, referred to as Coupling Criteria.
 
-The process of putting fields in relation to each other should use as many familiar concepts as possible. The concept of an entity - a set of fields sharing a common identity and lifecycle\cite{evans2003domain} - is a widely used notion and is therefore used by the architect to model the data and then mapped to the Coupling Criteria \enquote{Shares Lifecycle} and \enquote{Common Identity} by the system.
+The process of putting fields in relation to each other should use as many familiar concepts as possible. The concept of an entity - a set of fields sharing a common identity and lifecycle\cite[p.13]{evans2014domain} - is a widely used notion and is therefore used by the architect to model the data and then mapped to the Coupling Criteria \enquote{Shares Lifecycle} and \enquote{Common Identity} by the system.
 
 \subsection{Coupling Criteria}
 
@@ -34,3 +34,11 @@ A list of relevant Coupling Criteria was identified in a workshop with Zühlke. 
 Once the user has added all data fields and coupling criteria he can calculate the suggested service boundaries. An algorithm groups fields in a way that minimizes coupling between the groups while maximizing the cohesion inside a group.
 
 The calculation can be parametrised using weights assigned to coupling criteria. In this way different service boundaries can be calculated for different requirements. For example in an application that processed financial data, security might be more important than Use Cases. In a different context, e.g. for an application that needs to support high volumes of data, volatility and resilience might be a primary focus.
+
+\subsection{Service Coupling}
+
+Some Coupling Criteria will likely span across service boundaries. The architect uses the graphical representation of the Service Cutter to inspect the coupling. Using this information he might change the calculation parameters to achieve a different service cut.
+
+Service Coupling maps to the Published Language as described by Evans \cite[p.375]{evans2003domain}.
+
+% link zu published language von DDD?
