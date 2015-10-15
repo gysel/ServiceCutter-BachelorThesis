@@ -1,1 +1,41 @@
 \chapter{Introduction}
+
+Starting with Microservices, what news they bring (deployability) and what old, underlying problem they try to solve (decomposition)
+
+These: There is more to service decomposition than "Belongs to bigger concept defined by noun or verb(Chris Richardson)
+=> Goal/Idea
+
+- Identify coupling criteria and constraints after which service 
+decomposition should be done. 
+
+- Build a tool that takes data fields and applied coupling criteria and constraints as input and produces suggestions on how to split the system in different parts. 
+
+
+\section{Scope}
+
+Identification \& Implementation not in scope
+
+Focus only on data, not on logic. (??)
+
+No focus on ways to handle coupling (async, interfaces, messaging, CAP, REST, etc.)
+
+
+We should define what is part of our scope and what not. We focus only on functional partitioning (Y-axis scalability) and neglect hardware or technological impacts on service decomposition. We’re also not going into how to implement or soften service dependencies with events, RPC, REST, Messaging, abstract interfaces etc. 
+
+TODO: is "logic" in scope of the thesis? Sometimes a bounded context might depend on a lot of data fields of another BC, but in the ends all it want's is a single processed result of this number that could be served by the other BC. How do we handle this? => Could this be modelled as a data field itself with a new kind of coupling criteria "calculated by"?
+
+Begriffe: Module, Service, Microservice, Komponente, DDD, Bounded Context, Entity, Aggregate, Classes, Packages
+=> Microservice vs. Bounded Context vs. Service definition by Udi Dahan, what is it that we produce?
+=> Bounded context is not really accurate. it defines the logical borders of a system, but there might be other coupling criteria (not logical ones?) that define the broders of a "thing"
+
+Service
+Over-defined but Udi Dahan uses a good definition that suits our result. 
+=> Fowler Definition 
+Service Boundary Recommondations
+Service/BC > Microservices 
+AppArch 3 Ebenen von Services
+Drei definitionen von SOMA/Services, User / Architect / Developer
+
+
+Entity: Lifecycle management \& identify (=> composition?)
+Local: Module, remote: Microservice
