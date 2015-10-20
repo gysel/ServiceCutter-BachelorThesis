@@ -92,6 +92,53 @@
 \chapter{Analysis}
 \label{cha:analysis}
 
+\section{What is a Service?}
+
+\textit{Serivce} is one of the most used words in the area of software architecture and has been differently defined in many papers, books and blogposts in various contexts. 
+
+The 4+1 View concept by XY suggests to split the complexity of a software design in multiple views like A,B,C. During the research for this thesis we discovered that the difficulty to clearly define the word Service lies in the fact that different definitions focus on different views. For this thesis we use multiple definitions for Service depending if we talk about the \textit{logical} or the \textit{technical} view of a service.
+
+\subsection{A logical Service}
+
+\begin{quotation}
+A service is the technical authority for a specific business capability - Udi Dahan TODO quote
+\end{quotation}
+   
+This definition focuses more on the logical or business view of a service than it's technical representation. All data and business rules required to fulfil a business specification reside in the Service. 
+
+This definition implies that a Service is not restricted to one process, one technology or one layer. "Vielmehr" it contains it's own layers including databases, logic and UI code if needed. 
+%TODO: \gls{?}
+
+A logical service is autonomous and can be composed of many processes, webservices or databases, but keeps a clear boundary and interface against the outer world. Communication with other parts of the system only happens on a well defined interface on a common communication channel.
+
+\subsubsection{Bounded Context}
+
+Another concept describing logical Services is the Bounded Context as defined in the Domain Driven Design (TODO Evans). 
+
+TODO Bounded Context definition. Focus on internal and external concepts and language.
+
+\subsection{A technical Service}
+
+\begin{quotation}
+	[Definition Fowler]
+\end{quotation}
+
+This definition by Martin Fowler is much more technical oriented than the one by Udi Dahan and is close to what  lately has been advertised as \textit{Microservice}. A process providing a remote API might provide business logic, pure technical functionality or a data store, of which the latest is often seen nowadays wrapped by a RESTful HTTP API.
+
+A technical Service might be "deckungsgleich" with a logical service but very often more complex cases split logical services in multiple technical Services. 
+
+While it is often good to align technical services along business capabilities, other more technical factors might define the boundaries of Microservices. Factors driving the decomposition of a system into Services are discussed in more detail in the next Section.
+
+\section{Driving factors for Service Decomposition}
+
+\subsection{Fundamentals}
+
+\subsubsection{Single Responsibility Principle}
+
+\subsubsection{High Cohesion, Loose Coupling}
+
+\subsection{Coupling Criteria}
+
 Louse Coupling, High cohesion, SIP
 "http://programmer.97things.oreilly.com/wiki/index.php/The\_Single\_Responsibility\_Principle"
 
