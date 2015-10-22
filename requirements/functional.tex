@@ -5,11 +5,18 @@ section.
 
 %TODO machen wir user stories?
 
+%TODO: each data field needs a master who is the only one doing writes.
+
+%TODO low prio: Add relations between coupling criteria. examples: High volatility and high security is dangerous. Or high criticality and high change management. The Service Cutter could generate warnings if theses things are put together in the same service or either consider theses r
+
+
+%TODO low prio: Show warnings as part of the output should a predefined service have a significant negative effect!
+
 \subsection{Data Fields and Entities}
 
 A set of data fields can either be defined in the application or imported using a predefined data format. A data field consists of it's name and a combination of connections to other fields, referred to as Coupling Criteria.
 
-The process of putting fields in relation to each other should use as many familiar concepts as possible. The concept of an entity - a set of fields sharing a common identity and lifecycle\cite[p.13]{evans2014domain} - is a widely used notion and is therefore used by the architect to model the data and then mapped to the Coupling Criteria \enquote{Shares Lifecycle} and \enquote{Common Identity} by the system.
+The process of putting fields in relation to each other should use as many familiar concepts as possible. The concept of an entity - a set of fields sharing a commdon identity and lifecycle\cite[p.13]{evans2014domain} - is a widely used notion and is therefore used by the architect to model the data and then mapped to the Coupling Criteria \enquote{Shares Lifecycle} and \enquote{Common Identity} by the system.
 
 \subsection{Coupling Criteria}
 
@@ -42,3 +49,5 @@ Some Coupling Criteria will likely span across service boundaries. The architect
 Service Coupling maps to the Published Language as described by Evans \cite[p.375]{evans2003domain}.
 
 % link zu published language von DDD?
+
+% TODO:  Quantification is configurable – but the system provides a good default
