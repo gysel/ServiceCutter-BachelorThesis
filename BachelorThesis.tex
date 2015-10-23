@@ -3,7 +3,7 @@
 %   Typ der Arbeit: diplom, master (default), bachelor, praktikum 
 %   Hauptsprache: german (default), english
 %%------------------------------------------------------------
-
+\errorcontextlines 10000
 % !TeX spellcheck = en_GB
 
 \graphicspath{{images/}}    % wo liegen die Bilder? 
@@ -92,64 +92,99 @@
 \chapter{Analysis}
 \label{cha:analysis}
 
+introduction sentence
+=> Define decomposition
+
+
 \section{What is a Service?}
 
-\textit{Serivce} is one of the most used words in the area of software architecture and has been differently defined in many papers, books and blogposts in various contexts. 
+\textit{Serivce} is one of the most used words in the field of software architecture and has been differently defined in many papers, books and blogposts in various contexts. 
 
-The 4+1 View concept by XY suggests to split the complexity of a software design in multiple views like A,B,C. During the research for this thesis we discovered that the difficulty to clearly define the word Service lies in the fact that different definitions focus on different views. For this thesis we use multiple definitions for Service depending if we talk about the \textit{logical} or the \textit{technical} view of a service.
+The \enquote{The 4+1 View Model of Software Architectureby} by Philippe Kruchten\cite{fourPlusOne} suggests to describe software architecture using multiple views like a \enquote{Logical-}, \enquote{Physical-}, \enquote{Development-} or  \enquote{Process-}View. During the research for this thesis we discovered that the difficulty to clearly define the word Service lies in the fact that different definitions focus on contrasting views. For this thesis we use multiple definitions for the word Service depending if we talk about the \textit{logical} or the \textit{technical} view of a service.
 
-\subsection{A logical Service}
+\subsection{Logical Service}
 
 \begin{quotation}
-A service is the technical authority for a specific business capability - Udi Dahan TODO quote
+A service is the technical authority for a specific business capability --- Udi Dahan\cite{serviceDefinitionDahan}
 \end{quotation}
    
-This definition focuses more on the logical or business view of a service than it's technical representation. All data and business rules required to fulfil a business specification reside in the Service. 
+This definition focuses more on the logical or business view of a service than it's technical representation. All data and rules required to fulfil a business specification are owned by one and only one Service. 
 
-This definition implies that a Service is not restricted to one process, one technology or one layer. "Vielmehr" it contains it's own layers including databases, logic and UI code if needed. 
-%TODO: \gls{?}
+This definition implies that a Service is not restricted to a specific application, process, technology or layer. In fact it contains required layers itself, including databases, logic and \gls{UI} code.
 
 A logical service is autonomous and can be composed of many processes, webservices or databases, but keeps a clear boundary and interface against the outer world. Communication with other parts of the system only happens on a well defined interface on a common communication channel.
 
 \subsubsection{Bounded Context}
 
-Another concept describing logical Services is the Bounded Context as defined in the Domain Driven Design (TODO Evans). 
-
-TODO Bounded Context definition. Focus on internal and external concepts and language.
-
-\subsection{A technical Service}
+Another concept describing logical Services is the bounded context as defined in the Domain-Driven Design:\cite{evans2014domain}
 
 \begin{quotation}
-	[Definition Fowler]
+	A description of a boundary (typically a subsystem, or the work of a particular team) within which a particular model is defined and applicable.
 \end{quotation}
 
-This definition by Martin Fowler is much more technical oriented than the one by Udi Dahan and is close to what  lately has been advertised as \textit{Microservice}. A process providing a remote API might provide business logic, pure technical functionality or a data store, of which the latest is often seen nowadays wrapped by a RESTful HTTP API.
+A model only used within one bounded context is defined and visible only in that context. Accordingly a model used in multiple Services needs to have a globally shared definition, defined as \textit{Published Language} in the context of \gls{DDD}\cite{evans2014domain}:
 
-A technical Service might be "deckungsgleich" with a logical service but very often more complex cases split logical services in multiple technical Services. 
+\begin{quotation}
+	The translation between the models of two bounded contexts requires a common Language.
+\end{quotation}
 
-While it is often good to align technical services along business capabilities, other more technical factors might define the boundaries of Microservices. Factors driving the decomposition of a system into Services are discussed in more detail in the next Section.
+The process of Service decomposition done by the Service Cutter automatically defines the published language of the system. 
 
-\section{Driving factors for Service Decomposition}
+\subsection{Technical Service}
 
-\subsection{Fundamentals}
+Martin Fowler describes a Service as following:
 
-\subsubsection{Single Responsibility Principle}
+\begin{quotation}
+	A service will be used remotely through some remote interface, either synchronous or asynchronous.\cite{fowlerIoC}
+\end{quotation}
 
-\subsubsection{High Cohesion, Loose Coupling}
+This definition by Martin Fowler is much more technical oriented and is close to what recently has been advertised as \textit{Microservice}:
+
+\begin{quotation}
+	In short, the microservice architectural style is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API.\cite{fowlerMicroservice}
+\end{quotation}
+
+
+A process providing a remote API might provide business logic, pure technical functionality or a data store, of which the latest is often seen nowadays wrapped by a RESTful HTTP API. A technical Service might be congruent with a logical Service but very often more complex cases split logical Services in multiple technical Services. 
+
+\subsection{Should the Service Cutter produce Logical or Technical Service Candidates?}
+
+While every logical reason to define Service boundaries applies to logical and technical Services, technical reasons like technology constraints might define additional technical Service boundaries. We do not strictly define what kind of Services the Service Cutter suggests. But given that the Service Cutter mostly focusses on logical criteria it could well be that a suggested Service needs to be further decomposed due to technological reasons.
+
+The factors driving the decomposition of a system into Services are discussed in more detail in the next section.
+
+\section{Driving Factors for Service Decomposition}
+
+Well experienced software architects decompose systems by reason of multiple factors to ensure a maintainable, stable and secure system with business relevance and good performance. This section describes the factors mostly considered by architects. The content of this section is based on research, our own experience and discussions with our industry partner Zühlke AG. 
+
+\subsection{Decomposition Principles}
+
+Decomposition --- the craft of splitting a system into smaller parts --- has been a main discipline for programmers since early in the history of our industry. David L. Parnas published a paper entitled \enquote{On the Criteria To Be Used in Decomposing Systems into Modules} in 1972\cite{parnaDecomposing}. Shortly after, the terms \textit{coupling} and \textit{cohesion} as software design metrics appeared as part of the Structured Design technique\cite{structuredDesign}:
+
+\begin{description}
+	\item[Loose Coupling] In computing and systems design a loosely coupled system is one in which each of its components has, or makes use of, little or no knowledge of the definitions of other separate components.\cite{looseCoupling}
+	\item[High Cohesion] In object-oriented programming, if the methods that serve a class tend to be similar in many aspects, then the class is said to have high cohesion. In a highly cohesive system, code readability and reusability is increased, while complexity is kept manageable.\cite{highCohesion}
+\end{description}
+
+Robert Martin later described a general principle to achieve loose coupling and high cohesion:
+
+\begin{description}
+	\item[Single Responsibility Principle] Gather together the things that change for the same reasons. Separate those things that change for different reasons.\cite{SRP}
+\end{description}
+
+Starting from these principles, we analysed different types and reasons for coupling and cohesion as described in the next section.
 
 \subsection{Coupling Criteria}
 
-Louse Coupling, High cohesion, SIP
-"http://programmer.97things.oreilly.com/wiki/index.php/The\_Single\_Responsibility\_Principle"
+A Coupling Criteria describes a reason why two data fields should or should not be owned by the same Service. These Criteria define the semantic model on which the Service Cutter is built on. 
 
-Different type of coupling in Industry and in Theory
 
-List of identified coupling criteria
+TODO: List of identified coupling criteria
 
-Aggregates: Consistency Constraints, Root interface, transactions, sync internally \& async externally. Not to be split up between remote microservices
 
-User stories as most important criteria: check Ivar Jacobson, oose, a use case driven approach
+%TODO User stories as most important criteria: check Ivar Jacobson, oose, a use case driven approach
 
+%TODO: Should we describe non relevant coupling criteria as well? (Hiding design decisions etc, see CC catalog doc)
 
 %TODO: (Bring result \& discussion already here?)
 
@@ -214,6 +249,7 @@ document not so important findings here
 
 * Resilience not only per Field definition but also per Instance definition 
 
+* Find Aggregates from Consistency data? Aggregates should not be split between services.
 
 \chapter{Project Management}
 \label{cha:projectmgmt}
