@@ -1,18 +1,21 @@
 \section{Risk Management}
 
+%TODO: we should have a measurement for impact and "Eintretungswahrscheinlichkeit" to provide a proper risk mgmt analysis.
+
 To assess the risk associated with this project, a comprehensive list of possible risks and their mitigations is described in the following Section. 
 
 The risk assessment shown in Table \ref{tab:toprisks} is based on a literature survey\cite{risk} taken in 2011. Two custom lists of project specific risks are documented in Table \ref{tab:projmgmtrisks} and Table \ref{tab:projtechnicalrisks}.
 
 \begin{table}[H]
-\begin{tabular}{|c|p{80pt} p{140pt} p{140pt}|}
+\begin{tabular}{|c|p{120pt} p{100pt} p{140pt}|}
 \hline \# & Risk & Impact & Evaluation \& Mitigation \\ 
-\hline 1 & Stakeholders have opposing requirements. & It is impossible to prioritise requirements. & Discuss implementation approaches and priorities in meetings with all stakeholders present. \\ 
-2 & Wrong priorities are defined and unimportant features implemented first. & Important features are left out. & Validate priorities and functionality with all stakeholders on a regular basis. \\ 
-3 & The domain area is more complex than expected. & The implementation takes more time than expected and not all required features can be implemented. & The iterative approach helps to focus to maximize business value at all times. \\ 
+%\hline 1 & Stakeholders have opposing requirements. & It is impossible to prioritise requirements. & Discuss implementation approaches and priorities in meetings with all stakeholders present. \\ 
+%2 & Wrong priorities are defined and unimportant features implemented first. & Important features are left out. & Validate priorities and functionality with all stakeholders on a regular basis. \\ 
+1 & The criteria on which architects create Service cuts are too complex or to context specific to be modeled in a system. & The idea of an automatic Service Cutter won't be possible to realize. & Analyze Coupling Criteria early on in the project and review with Z\"uhlke. Focus more on the conceptual part if modeling the criteria proves to be impossible. \\
+2 & The scope of the thesis is too wide and the domain area too complex to be covered within the time box available. & No significant result can be produced within the time available. & Focus first on the conceptual part of identifying Coupling Criteria, which is already a significant result. Then use an iterative approach to maximize business value at all time, focusing on a proof of concept of the decomposition algorithm. \\
+3 & As the thesis includes many different tasks and facets, loosing too much time in details is likely to happen. & The main goal can not be reached because resources are not available. & Review work done recently with Dr. O. Zimmermann and Z\"uhlke to ensure common priorities. \\
 4 & A team member faces health issues and cannot continue to work on the project. & The project scope is impossible to fulfill. & The project scope has to be renegotiated with Z\"uhlke and HSR. \\ 
-5 & Project infrastructure outage & JIRA, GitHub or the project server goes down and the progress is therefore delayed.  & All components are supported by a company and professional support should therefore be available quickly.  \\ 
-6 & Personal infrastructure failure & A personal laptop of one of the team members stops working. & HSR desktops are available and can be used as replacement hardware. Furthermore an personal spare notebook owned by Michael Gysel is available as well.  \\ 
+5 & The idea and implementation of a Service Cutter works, but the tool is not accepted by it's target users as the usability is insufficient or the effort to provide the needed data is too high. & Service Cutter won't be used by it's target group. & Define clear non functional requirements for usability and simplicity. Try to find well known concepts (user representation) for the input data. \\
 \hline
 \end{tabular}
 \caption{Project-Specific Management Risks}
@@ -22,10 +25,14 @@ The risk assessment shown in Table \ref{tab:toprisks} is based on a literature s
 \begin{table}[H]
 \begin{tabular}{|c|p{80pt} p{140pt} p{140pt}|}
 	\hline \# & Risk & Impact & Evaluation \& Mitigation \\ 
-	\hline 1 & Calculating service cuts using a clustering algorithm does not produce usable results. & An important functional part of the service cutter cannot be implemented. & Also evaluate other types of algorithms and functional alternatives. Discuss ideas early on with experts to validate feasibility. \\ 
-	2 & Unstable development environment & Analysing and fixing problems takes too much time and causes a delay in the project plan. & Make use of established development tools and agree on a common version of Java, the IDE and plugins. \\ 
-	3 & Architectural decisions introduce unnecessary complexity. & Implementation of functionality is  & Assess every architectural decision regarding its impact towards the complexity. Where possible prefer established technologies. \\ 
-	4 & Developed source code is not covered with unit tests. & Future refactorings are hard to perform without appropriate test coverage. Unit tests serve as a functional documentation as they specify the intended behavior of a piece of code. & All written software should be covered with automated unit or integration tests. The code coverage plugin of Jenkins helps to monitor the test coverage. \\ 
+	\hline 1 & Calculating service cuts using a clustering algorithm does not produce usable results. & An important functional part of the service cutter cannot be implemented. & Also evaluate other types of algorithms and functional alternatives. Discuss ideas early on with experts available at \gls{HSR} to validate feasibility. \\ 
+	2 & Unstable development environment & Analyzing and fixing problems takes too much time and causes a delay in the project plan. & Make use of established development tools and agree on a common version of Java, the development environment and plugins. \\
+%	3 & Architectural decisions introduce unnecessary complexity. & Implementation of functionality is  & Assess every architectural decision regarding its impact towards the complexity. Where possible prefer established technologies. \\ 
+	3 & Developed source code is not covered with unit tests. & Future refactorings are hard to perform without appropriate test coverage. Unit tests serve as a functional documentation as they specify the intended behavior of a piece of code. & All written software should be covered with automated unit or integration tests. The code coverage plugin of Jenkins helps to monitor the test coverage. \\
+	4 & The suggested technology stack by the industry partner is difficult to install or requires significant training investments. & The prototype and user interface will require too much time to be build so that the conceptual analysis and algorithm development won't get enough resources. & Evaluate and build a first prototype within the first sprint to have enough time to discuss impact of technology constraints early.\\
+	5 & Project infrastructure outage & JIRA, GitHub or the project server goes down and the progress is therefore delayed.  & All components are supported by a company and professional support should therefore be available quickly.  \\ 
+	6 & Personal infrastructure failure & A personal laptop of one of the team members stops working. & HSR desktops are available and can be used as replacement hardware. Furthermore an personal spare notebook owned by Michael Gysel is available as well.  \\ 
+
 	\hline
 \end{tabular}
 \caption{Project-Specific Technical Risks}
@@ -35,11 +42,11 @@ The risk assessment shown in Table \ref{tab:toprisks} is based on a literature s
 \begin{table}[H]
 \begin{tabular}{|c|p{80pt} p{140pt} p{140pt}|}
 \hline \# & Risk & Impact & Evaluation \& Mitigation \\ 
-\hline 1 & Misunderstanding of requirements & The final product consists of features that do not comply with the requirements of the customer. & User Stories are reviewed by the customer prior to the implementation and review meetings are held at the end of every sprint. \\ 
+\hline 1 & Misunderstanding of requirements & The final product consists of features that do not comply with the requirements of the stakeholders. & Likely to happen as the industry partner's resources are limited for requirement and deliverable reviews. At least one meeting per sprint needs to be held to ensure the work is in line with Z\"uhlke's expectations.  \\ 
 2 & Lack of management commitment and support & The project lacks funding or resourcing. & The project sponsor and other stakeholders committed to attend status and review meetings whenever allowed by their schedules. \\ 
-3 & Lack of adequate user involvement & Requirements and solutions cannot be validated with users. & workshop? \\ 
-4 & Failure to gain user commitment & End users may not be able to provide required progress reviews or required contributions towards the requirement specification. & ? \\ 
-5 & Failure to manage end user expectation & End users may not be able to use the product or refuse to do so. & The end users can influence the priorities of the user stories. This ensures that the most relevant features will be tackled first. \\ 
+3 & Lack of adequate user involvement & Requirements and solutions cannot be validated with users. & An extra workshop apart of the sprint status meeting will be held to review the conceptual work on Coupling Criteria. Acceptance tests with potential external customers would help to improve user feedback. \\ 
+4 & Failure to gain user commitment & End users may not be able to provide required progress reviews or required contributions towards the requirement specification. & As the thesis goal is a prototype as a proof of concept, end user involvement is not in scope. \\ 
+5 & Failure to manage end user expectation & End users may not be able to use the product or refuse to do so. & As the thesis goal is a prototype as a proof of concept, end user involvement is not in scope. \\ 
 6 & Changes to requirements & Already implemented functionality turns out to be unnecessary or based on wrong assumptions. & Likely to happen as the stakeholders have varying priorities and conceptions of the product to be developed. Has to be mitigated by reviewing requirements as part of the regular meetings. Absent stakeholders need to be informed of all decisions taken at such meetings. \\ 
 7 & Lack of an effective project management methodology & Project is delayed and generated business value is impacted. & The project will be managed using Scrum, a methodology that is already known to all involved parties. \\ 
 \hline 
