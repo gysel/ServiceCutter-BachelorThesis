@@ -4,7 +4,7 @@
 %   Hauptsprache: german (default), english
 %%------------------------------------------------------------
 \errorcontextlines 10000
-% !TeX spellcheck = en_GB
+% !TeX spellcheck = en_US
 
 \graphicspath{{images/}}    % wo liegen die Bilder? 
 \bibliography{literatur}  	% Angabe der BibTeX-Datei, % utf8-change
@@ -108,7 +108,7 @@ The \enquote{The 4+1 View Model of Software Architectureby} by Philippe Kruchten
 A service is the technical authority for a specific business capability --- Udi Dahan\cite{serviceDefinitionDahan}
 \end{quotation}
    
-This definition focuses more on the logical or business view of a service than it's technical representation. All data and rules required to fulfil a business specification are owned by one and only one Service. 
+This definition focuses more on the logical or business view of a service than it's technical representation. All data and rules required to fulfill a business specification are owned by one and only one Service. 
 
 This definition implies that a Service is not restricted to a specific application, process, technology or layer. In fact it contains required layers itself, including databases, logic and \gls{UI} code.
 
@@ -149,7 +149,7 @@ A process providing a remote API might provide business logic, pure technical fu
 
 \subsection{Should the Service Cutter produce Logical or Technical Service Candidates?}
 
-While every logical reason to define Service boundaries applies to logical and technical Services, technical reasons like technology constraints might define additional technical Service boundaries. We do not strictly define what kind of Services the Service Cutter suggests. But given that the Service Cutter mostly focusses on logical criteria it could well be that a suggested Service needs to be further decomposed due to technological reasons.
+While every logical reason to define Service boundaries applies to logical and technical Services, technical reasons like technology constraints might define additional technical Service boundaries. We do not strictly define what kind of Services the Service Cutter suggests. But given that the Service Cutter mostly focuses on logical criteria it could well be that a suggested Service needs to be further decomposed due to technological reasons.
 
 The factors driving the decomposition of a system into Services are discussed in more detail in the next section.
 
@@ -157,9 +157,14 @@ The factors driving the decomposition of a system into Services are discussed in
 
 Well experienced software architects decompose systems by reason of multiple factors to ensure a maintainable, stable and secure system with business relevance and good performance. This section describes the factors mostly considered by architects. The content of this section is based on research, our own experience and discussions with our industry partner Zühlke AG. 
 
+\subsection{Decomposition within the Service Cutter}
+
+The Service Cutter is based on data fields. Therefore Service decomposition for the Service Cutter is simply the act of grouping fields into containers. If a field is assigned to a Service, the Service becomes the data owner and is the only instance allowed to create, update or delete instances of the field.
+
 \subsection{Decomposition Principles}
 
-Decomposition --- the craft of splitting a system into smaller parts --- has been a main discipline for programmers since early in the history of our industry. David L. Parnas published a paper entitled \enquote{On the Criteria To Be Used in Decomposing Systems into Modules} in 1972\cite{parnaDecomposing}. Shortly after, the terms \textit{coupling} and \textit{cohesion} as software design metrics appeared as part of the Structured Design technique\cite{structuredDesign}:
+Decomposition --- the craft of splitting a system into smaller parts --- has been a main discipline for programmers since early in the history of our industry. David L. Parnas published a paper entitled \enquote{On the Criteria To Be Used in Decomposing Systems into Modules} in 1972\cite{parnaDecomposing}. Shortly after, the terms \textit{coupling} 
+and \textit{cohesion} as software design metrics appeared as part of the Structured Design technique\cite{structuredDesign}:
 
 \begin{description}
 	\item[Loose Coupling] In computing and systems design a loosely coupled system is one in which each of its components has, or makes use of, little or no knowledge of the definitions of other separate components.\cite{looseCoupling}
@@ -172,14 +177,37 @@ Robert Martin later described a general principle to achieve loose coupling and 
 	\item[Single Responsibility Principle] Gather together the things that change for the same reasons. Separate those things that change for different reasons.\cite{SRP}
 \end{description}
 
-Starting from these principles, we analysed different types and reasons for coupling and cohesion as described in the next section.
+Starting from these principles, we analyzed different types and reasons for coupling and cohesion as described in the next section.
 
 \subsection{Coupling Criteria}
+\label{sec:couplingCriteria}
 
 A Coupling Criteria describes a reason why two data fields should or should not be owned by the same Service. These Criteria define the semantic model on which the Service Cutter is built on. 
 
 
 TODO: List of identified coupling criteria
+
+
+\subsection{What is a good Decomposition Solution?}
+\label{sec:decompositionRequirements}
+
+Based on the Coupling Criteria described above, we define a good decomposition solution as following:
+
+\begin{enumerate}
+	\item Not violating any constraints.
+	\item Putting as few data fields together which have different characteristics as possible.
+	\item Each Service should depend on as few data of other Services as possible (A use case should cross as few Service boundaries as possible).
+	\item The amount of data fields a Service depends on should be similar for all Services.
+	%TODO: This is a cite by Udi Dahan internal workshop material, how can we cite this?
+	\item Not too many Services which leads to the nanoservice antipattern\cite{nanoservice}.
+	\item Not too few Services, which leads to a monolithic architecture.
+\end{enumerate}
+
+\section{Existing Decomposition Solutions}
+
+TODO: Market analysis. Java Code analysis, GraphGist project to analyse service dependencies etc...
+
+
 
 
 %TODO User stories as most important criteria: check Ivar Jacobson, oose, a use case driven approach
@@ -191,11 +219,14 @@ TODO: List of identified coupling criteria
 \chapter{Requirements}
 \label{cha:requirements}
 
+%TODO: describe the service cutter as a solution finding tool (not a architecture builder) either here or in introduction
+
 This chapter describes the (non-)functional requirements of the target solution and covers the characteristics of it's target users. 
 
-The requirements in this chapter are not prioritised. As part of the sprint planning meetings, these requirements are transformed to tasks and prioritised. The description in this chapter is meant to provide a high level overview and establish a common sense between all stakeholders of this project.
+The requirements in this chapter are not prioritized. As part of the sprint planning meetings, these requirements are transformed to tasks and prioritized. The description in this chapter is meant to provide a high level overview and establish a common sense between all stakeholders of this project.
 
 \input{requirements/personas}
+
 \input{requirements/functional}
 \input{requirements/nonfunctional}
 
@@ -208,15 +239,31 @@ After defining all (non-)functional requirements, the next Chapter outlines desi
 \chapter{Design and Implementation}
 \label{cha:implementation}
 
+\section{Decomposition Algorithm}
 
-\section{Design} 
+\subsection{Approach \#1: Clustering of a Weighted Graph}
 
+\subsection{Approach \#2: Set Rating}
+
+\subsection{Approach \#3: Constructing Services - a Heuristic Approach}
+
+\section{Prototype} 
+
+\subsection{Design}
 
 \subsection{Technology}
 
-
 \subsection{Infrastructure}
 
+\subsection{Information Security}
+
+The web application is secured using an authentication and authorization implementation. Any other internal components such as the database or web services are hidden behind the servers firewall and therefore do not need any special security measures.
+
+The uploaded data models are initially shared amongst all registered users.
+
+\subsection{User Interface}
+
+The base layout is responsive and adapts to smaller screens such as smartphones. However the tool is mostly used on devices such as laptops and the controls are therefore optimized for use on screens that are at least 15 inches wide and used with a mouse and a keyboard.
 
 
 \bigskip
@@ -237,6 +284,8 @@ o   How do you organize such an interview?
 
 * Suggestions for APIs (REST) or Message types 
 
+* Create a Questionnary similar to JHipster to find out the importance of criteria for a specfic system. What questions do we need to ask to find out the characterstics of a system? 
+
 
 %%%----------------------------------------------------------
 %%%Anhang
@@ -250,6 +299,11 @@ document not so important findings here
 * Resilience not only per Field definition but also per Instance definition 
 
 * Find Aggregates from Consistency data? Aggregates should not be split between services.
+
+* Decomposition mode: logical or phyiscal. Or: Microservice vs. Module?
+
+* Idea: Only suggested logical services (similarity), then zoom in to see technical services (distance). Algorithm could be splitted into two parts?
+
 
 \chapter{Project Management}
 \label{cha:projectmgmt}

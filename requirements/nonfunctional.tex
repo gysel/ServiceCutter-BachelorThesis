@@ -2,54 +2,66 @@
 
 The following non-functional requirements should be satisfied by the Service Cutter.
 
-\subsection{Deployment}
-
-No software installation is required. The latest version of any popular internet browser (Chrome, Firefox, Internet Explorer) is sufficient.
-
-On the server side Java is used to implement the business logic. An appropriate storage and web server technology will be evaluated as part of the design phase. The deployment of the different components is managed using \gls{docker} containers.
-
 \subsection{Usability}
 \label{sec:usability}
 
 A software architect should be able to use the software without any training. All controls are clearly named and, where appropriate, documented using an inline user manual.
 
-Up to 500 data fields and 50 entities are manageable without losing track.
+The user gets well introduced to the important concepts of the Service Cutter. These concepts include:
 
-The base layout is responsive and adapts to smaller screens such as smartphones. However the tool is mostly used on devices such as laptops and the controls are therefore optimized for use on screens that are at least 15 inches wide and used with a mouse and a keyboard.
+\begin{enumerate}
+	\item A Service and service decomposition
+	\item A system's model (data fields)
+	\item Coupling Criteria, their meaning and decomposition impact
+	\item User representations and their impact on Coupling Criteria
+	\item Variant weights, Coupling Criteria priorities and final ratings.
+\end{enumerate}
+
+Often used configuration like Coupling Criteria priorities should be shown directly to the user to encourage its usage. More advanced configuration like the weights of Coupling Criteria variants should be accessible for the user but do not need to be shown directly in a standard workflow. 
+
+Up to 2000 data fields and 200 entities need to be manageable without losing track.
 
 \subsection{Simplicity}
 
 A simple workflow can be achieved with a few clicks. All steps are provided with useful defaults that can be changed.
 
-\subsection{Information Security}
-
-The web application is secured using an authentication and authorization implementation. Any other internal components such as the database or web services are hidden behind the servers firewall and therefore do not need any special security measures.
-
-The uploaded data models are initially shared amongst all registered users.
-
-\subsection{Separation of Concerns}
-
-The software is structured in a way that separates the application into several concerns running in separated containers that are managed individually.
-
 \subsection{Performance}
 
 All regular user interactions should not take more than one second. The service boundary calculation may take up to 10 seconds depending on the data model size. The benchmark is the upper limit outlined in section \ref{sec:usability}.
 
-\subsection{Monitoring}
+\subsection{Monitoring, Logging, Deployment, Availability}
 
-The software is not business critical and no explicit monitoring is required.
+The scope of this thesis is to prototypically implement the Service Cutter. Operational aspects do therefore not need to be covered. 
 
-\subsection{Availability and Fault Tolerance}
+\subsection{Fault Tolerance}
 
-The software does not implement any high availability measures. A common error handling is built into the application and ensures that operations continue even in case of unexpected input or state.
+As the prototype does not need to handle ever possible use case or unexpected input, a common error handling needs to be built into the application and ensures that operations continue even in case of unexpected input or state.
 
 \subsection{Maintainability}
 
-The application should leverage existing open source frameworks or libraries whereever possible to ensure a minimal maintenance effort.
+In case of a success the prototype might be the basis for further development or other thesis' projects. It therefore should be built in clearly separated modules (or even remote services) to ensure good maintainability. At least the following modules need to be clearly separated:
 
-\subsection{Logs}
+%TODO thesis plural
 
-Log files should be written using SLF4J\cite{slf4j} provided by Spring Boot\cite{springboot}.
+\begin{enumerate}
+	\item Internal representation of Coupling Criteria
+	\item Data of a users system (data fields, use case definition etc.) 
+	\item Decomposition algorithm (Solver)
+	\item User interface
+\end{enumerate}
+
+The application should leverage existing open source frameworks or libraries wherever possible to ensure a minimal maintenance effort.
+
+\subsection{State-of-the-Art Technology}
+
+To support further development of the Service Cutter the prototype needs to be implemented in state-of-the-art technology. Our industry partner Zühlke has suggested the following technology stack:
+
+\begin{enumerate}
+	\item Java Spring as a base framework. 
+	\item JHipster with Spring Boot for project setup.
+	\item AngularJS and Bootstrap for the user interface.
+	\item Docker for container and deployment configuration and handling. 
+\end{enumerate}
 
 \subsection{License}
 

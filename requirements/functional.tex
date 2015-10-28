@@ -1,53 +1,96 @@
 \section{Functional Requirements}
 
-The Service Cutter faces the functional requirements presented in the following
+The Service Cutter faces the functional requirements presented in this
 section.
-
-%TODO machen wir user stories?
-
-%TODO: each data field needs a master who is the only one doing writes.
-
-%TODO low prio: Add relations between coupling criteria. examples: High volatility and high security is dangerous. Or high criticality and high change management. The Service Cutter could generate warnings if theses things are put together in the same service or either consider theses r
-
 
 %TODO low prio: Show warnings as part of the output should a predefined service have a significant negative effect!
 
-\subsection{Data Fields and Entities}
+\subsection{Service Cutter Process}
 
-A set of data fields can either be defined in the application or imported using a predefined data format. A data field consists of it's name and a combination of connections to other fields, referred to as Coupling Criteria.
+The Service Cutter's analysis and suggestions is based on data fields. In a first step, data fields are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the data fields and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions of how the data fields could be split into Services. He finally analyzes the suggestion and compares it with his own expectations. 
 
-The process of putting fields in relation to each other should use as many familiar concepts as possible. The concept of an entity - a set of fields sharing a common identity and lifecycle\cite[p.13]{evans2014domain} - is a widely used notion and is therefore used by the architect to model the data and then mapped to the Coupling Criteria \enquote{Shares Lifecycle} and \enquote{Common Identity} by the system.
+\subsubsection{Step 1: Model Initialization}
 
-\subsection{Coupling Criteria}
+In this step a model representing a system to be analyzed is created within the Service Cutter. The user defines all data fields relevant in his domain. 
 
-Almost all data fields are related to other fields. The concept of a Coupling Criterion is used to characterise such connections.
+In a first approach, defining these data fields should be possible either as a list of fields or parsed from an \gls{ERM} defined in a self defined JSON representation.
 
-A list of relevant Coupling Criteria was identified in a workshop with Zühlke. The following Criteria are supported by the system:
+\subsubsection{Step 2: Describing the System based on Coupling Criteria}
 
-\begin{itemize}
-	\item Shares Lifecycle
-	\item Common Identity
-	\item Inheritance
-	\item Volatility
-	\item Security
-	\item Resilience
-	\item Use Case
-\end{itemize}
+Almost all data fields are related in some way to other fields. The concept of a Coupling Criterion described in section \ref{sec:couplingCriteria} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the data fields' characteristics and relations to each other. 
 
-%TODO liste ergänzen nach workshop!
+To achieve better usability, the user does not need to now the exact definitions of the Coupling Criteria or their internal structure. He can use well known concepts called \textit{user representations} to describe his system, from which the relevant Coupling Criteria data will be extracted by the Service Cutter. At least the following User Representation should be supported by the system:
 
-\subsection{Service Boundaries}
+\begin{description}
+	\item[Use Case] containing at least information about all fields read or written within the particular case. 
+		\item[Entity Relationship Diagram] containing \glspl{entity} and their relations to each other. 
+	\item[Categorization] of the fields in different categories per coupling criteria variants. 
+\end{description}
 
-Once the user has added all data fields and coupling criteria he can calculate the suggested service boundaries. An algorithm groups fields in a way that minimizes coupling between the groups while maximizing the cohesion inside a group.
+Importing the user representation should either be done over a RESTful HTTP API in a self defined JSON format or using a wizard within the Service Cutter's \gls{UI}.
 
-The calculation can be parametrised using weights assigned to coupling criteria. In this way different service boundaries can be calculated for different requirements. For example in an application that processed financial data, security might be more important than Use Cases. In a different context, e.g. for an application that needs to support high volumes of data, volatility and resilience might be a primary focus.
+\subsubsection{Step 3: Decomposition}
 
-\subsection{Service Coupling}
+Once the user has added all data fields and Coupling Criteria he can start the decomposition process. An algorithm groups fields in a way that a good decomposition solution as described in \ref{sec:decompositionRequirements} is found. 
 
-Some Coupling Criteria will likely span across service boundaries. The architect uses the graphical representation of the Service Cutter to inspect the coupling. Using this information he might change the calculation parameters to achieve a different service cut.
+The algorithm will then present one or multiple solution suggestions to the user.
 
-Service Coupling maps to the Published Language as described by Evans \cite[p.375]{evans2003domain}.
+The calculation can be parametrized using priorities assigned to Coupling Criteria. In this way different service boundaries can be calculated for different requirements. For example in an application processing financial data, security might be more important than network traffic. In a different context, e.g. for an application that needs to support high volumes of data, volatility and resilience might be a primary focus.
 
-% link zu published language von DDD?
+\subsubsection{Step 4: Working with Solution Suggestions}
 
-% TODO:  Quantification is configurable – but the system provides a good default
+(this might not be in scope of this thesis, should we describe this in requirements or in future work?)
+
+Once solution suggestions have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project:
+
+\subsubsection{Improve Understanding the own System or Domain}
+
+It is important that the calculated data is presented to the user in a way for him to understand why the suggested solution has been selected. By visualizing user representation like use cases, the architect gets a better understanding of how his input and definitions affect the suggested architecture. 
+
+\subsubsection{Visualize Published Language}
+
+If relevant user input (e.g. use case definitions) is available, the Service Cutter is able to tell which Service depends on which data fields of other Services. This dependencies need to be visualized in the solution presentation. All fields together that have dependencies from external Services make up the published language of the system and should be visualized as such.
+
+\subsubsection{Adjust Suggested Solutions}
+
+The architect is able to adjust the solution by moving a field from one to another Service. He instantly sees the impact of his adjustment by the rating of each Coupling Criteria.
+
+\subsubsection{Identify hard Architectural Decisions}
+
+The rating of two solutions might be similar so that is not clear which variant is the better one according to the users priorities. Such cases indicate difficult design decisions the architect has to take. Presenting these cases and the impact they have on each Coupling Criteria, the Service Cutter provides great support for the architect in identifying and taking architectural decisions.
+
+\subsubsection{Document Architectural Decisions}
+
+Documenting architectural decisions is a significant documentation artifact of every long-term software project. In order to retrace architectural decisions taken with help of the Service Cutter, important solutions enhanced with discussion notes can be saved persistently. These notes could have one of the following forms:
+
+\begin{enumerate}
+	\item Free text
+	\item Y-Template
+	\item ...
+\end{enumerate}
+(TODO Referenzen)
+
+\subsubsection{Use Solution as Fundament for Working Software}
+
+If the solution is good enough to be used as an initial architecture of a system, it can be used to built the suggested Services. As the Service Cutter has sophisticated information about the usage of data fields in use cases, it is able to generate the APIs used to communicate between Services. 
+
+Depending on the communication layer used to communicate between Services these APIs look differently. In a messaging based system the Service Cutter generates a set of messages or events needed to communicate between Services. When Services interact by RESTful HTTP interfaces, the Service Cutter generates Swagger\cite{swagger} API definitions for the resources which need to be part of the published language\cite[p.375]{evans2003domain} of the system. 
+
+
+\subsection{Algorithm Parametrization}
+
+The algorithm uses numbers to quantify variants of a Coupling Criteria. An example for such variants is:
+
+TODO: Screenshot Resilience doc from web
+
+Every variant has a number from which the Service Cutter calculates distances which are used to apply a penalty to a solution that puts fields with different variants in the same Service. 
+
+For a normal usage, the Service Cutter provides reasonable defaults which have been tested with at least three example projects. For advanced usage the Service Cutter provides an interface to change these internal weights in order to adjust the algorithm interpretation of the input to a systems characteristics. 
+
+\subsection{Relationships between Coupling Criteria Variants}
+
+To keep the decomposition simple, relationships between Coupling Criteria are not taken into account. Nevertheless a relationship like the following has significant impact on how a system is modeled:
+
+\textit{Data fields with high security criticality should not be placed in the same service as data fields with low consistency requirements.}
+
+Even if these relationships are not considered during decomposition, the Service Cutter should present a warning to the user whenever a critical relationship in a solution appears.
