@@ -137,3 +137,53 @@ Every sprint one or two status meetings where held to track the progress.
 \item GYS/KOE: Return "UML Components" book to ZIO by next week (22.10)
 \item ZIO: Find date for intermediate presentation during 9-11. November (21.10)
 \end{itemize}
+
+
+\subsection{Status Meeting \formatdate{22}{10}{2015}}
+
+\textbf{Attendees}: Wolfgang Giersche, Olaf Zimmermann (ZIO), Lukas Kölbener (KOE), Michael Gysel (GYS)
+ 
+\textbf{Next Meeting}: 19.11.2015, 11:00 @HSR / Skype
+ 
+\textbf{Agenda}
+
+\begin{itemize}
+\item Admin: Sign paper regarding usage rights
+\item Demo: Prototype, development environment
+\item Coupling Criteria Catalog
+\item Algorithms and coupling quantification
+\item Sample project (not discussed)
+\end{itemize}
+ 
+\textbf{Notes}
+
+\begin{itemize}
+\item Maintainability is important. Coupling Criteria should be changeable with an appropriate effort.
+\item Findings discussion on the algorithm / approach.
+\subitem Calculating a score of every possible service cut is not possible.
+\subitem New term: Candidate Service Cut.
+\subitem Idea W.G.: Start with a heuristic approach like “Substantiv-Clustering”, a set of Candidate Service Cuts derived from a graph cluster or an analysis using only one Coupling Criteria.
+\subitem Document needs to explain why we did not “just use a graph cluster”.
+\item Three step approach is probably required
+\subitem Determine a set of Candidate Service Cuts (perform once) (needs to be a smart solution – not a brute force approach! E.g. 100 possibilities.)
+\subitem Assess all Candidates with a given set of weights to come up with a score.
+\subitem Evaluate all Candidates with priorities by CC to find best choices.
+\item Idea: Shake solution to improve it.
+\end{itemize}
+ 
+\textbf{Decisions}
+
+\begin{itemize}
+\item It is not an exact science – a good solution is enough.
+\item No complete freeze of the CC catalog as of now.
+\item Performance for 100 Entities, 2000 Fields:
+\subitem Calculate Candidate Service Cuts (Steps 1\&2) – less than 10 minutes
+\subitem Evaluate Candidates with parametrized weights (Step 3) – less than 5 seconds
+\end{itemize}
+ 
+\textbf{Action Items}
+
+\begin{itemize}
+\item GYS/KOE: Send documentation to ZIO for a review by the end of Oct.
+\item GYS/KOE: Enhance Coupling Catalog with Decomposition Impact, Example (maybe from trading system), Measurement/Quantification, Type (Distance/Proximity/Constraint)
+\end{itemize}
