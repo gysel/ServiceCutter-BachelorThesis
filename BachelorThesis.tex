@@ -161,6 +161,9 @@ Well experienced software architects decompose systems by reason of multiple fac
 
 The Service Cutter is based on data fields. Therefore Service decomposition for the Service Cutter is simply the act of grouping fields into containers. If a field is assigned to a Service, the Service becomes the data owner and is the only instance allowed to create, update or delete instances of the field.
 
+%TODO: is "logic" in scope of the thesis? Sometimes a bounded context might depend on a lot of data fields of another BC, but in the ends all it want's is a single processed result of this number that could be served by the other BC. How do we handle this? => Could this be modelled as a data field itself with a new kind of coupling criteria "calculated by"?
+
+
 \subsection{Decomposition Principles}
 
 Decomposition --- the craft of splitting a system into smaller parts --- has been a main discipline for programmers since early in the history of our industry. David L. Parnas published a paper entitled \enquote{On the Criteria To Be Used in Decomposing Systems into Modules} in 1972\cite{parnaDecomposing}. Shortly after, the terms \textit{coupling} 
@@ -185,7 +188,7 @@ Starting from these principles, we analyzed different types and reasons for coup
 A Coupling Criteria describes a reason why two data fields should or should not be owned by the same Service. These Criteria define the semantic model on which the Service Cutter is built on. 
 
 
-TODO: List of identified coupling criteria
+TODO: Coupling Criteria Catalog
 
 
 \subsection{What is a good Decomposition Solution?}
