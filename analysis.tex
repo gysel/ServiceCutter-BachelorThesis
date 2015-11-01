@@ -5,12 +5,11 @@
 introduction sentence
 => Define decomposition
 
-
 \section{What is a Service?}
 
-\textit{Serivce} is one of the most used words in the field of software architecture and has been differently defined in many papers, books and blogposts in various contexts. 
+The term \textit{service} is one of the most used words in the field of software architecture and has been differently defined in many papers, books, and blog posts in numerous ways and various contexts. 
 
-The \enquote{The 4+1 View Model of Software Architectureby} by Philippe Kruchten\cite{fourPlusOne} suggests to describe software architecture using multiple views like a \enquote{Logical-}, \enquote{Physical-}, \enquote{Development-} or  \enquote{Process-}View. During the research for this thesis we discovered that the difficulty to clearly define the word Service lies in the fact that different definitions focus on contrasting views. For this thesis we use multiple definitions for the word Service depending if we talk about the \textit{logical} or the \textit{technical} view of a service.
+The \enquote{4+1 View Model of Software Architecture} by Philippe Kruchten\cite{fourPlusOne} describes software architecture using multiple views like a \mbox{Logical-}, \mbox{Physical-}, \mbox{Development-} or  \mbox{Process-}View. During the research for this thesis we discovered that the difficulty to clearly define the word Service lies in the fact that different definitions focus on contrasting views. For this thesis we use multiple definitions for the word Service depending if we talk about the \textit{logical} or the \textit{technical} view of a service.
 
 \subsection{Logical Service}
 
@@ -18,11 +17,11 @@ The \enquote{The 4+1 View Model of Software Architectureby} by Philippe Kruchten
 A service is the technical authority for a specific business capability --- Udi Dahan\cite{serviceDefinitionDahan}
 \end{quotation}
    
-This definition focuses more on the logical or business view of a service than it's technical representation. All data and rules required to fulfill a business specification are owned by one and only one Service. 
+This definition focuses more on the logical or business view of a service than its technical representation. All data and rules required to fulfill a business specification are owned by one and only one Service. 
 
-This definition implies that a Service is not restricted to a specific application, process, technology or layer. In fact it contains required layers itself, including databases, logic and \gls{UI} code.
+Udi Dahan implies that a Service is not restricted to a specific application, process, technology or layer. In fact it contains required layers itself, including databases, logic, and \gls{UI} code.
 
-A logical service is autonomous and can be composed of many processes, webservices or databases, but keeps a clear boundary and interface against the outer world. Communication with other parts of the system only happens on a well defined interface on a common communication channel.
+A logical service is autonomous and composed from many processes, webservices or databases, but keeps a clear boundary and interface against the outer world. Communication with other parts of the system only happens on a well defined interface on a common communication channel.
 
 \subsubsection{Bounded Context}
 
@@ -38,7 +37,7 @@ A model only used within one bounded context is defined and visible only in that
 	The translation between the models of two bounded contexts requires a common Language.
 \end{quotation}
 
-The process of Service decomposition done by the Service Cutter automatically defines the published language of the system. 
+The process of Service decomposition as done by the Service Cutter automatically defines the published language of the system. 
 
 \subsection{Technical Service}
 
@@ -48,7 +47,7 @@ Martin Fowler describes a Service as following:
 	A service will be used remotely through some remote interface, either synchronous or asynchronous.\cite{fowlerIoC}
 \end{quotation}
 
-This definition by Martin Fowler is much more technical oriented and is close to what recently has been advertised as \textit{Microservice}:
+This definition by Martin Fowler is much more technically oriented and is close to what recently has been advertised as a \textit{Microservice}:
 
 \begin{quotation}
 	In short, the microservice architectural style is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API.\cite{fowlerMicroservice}
@@ -65,7 +64,7 @@ The factors driving the decomposition of a system into Services are discussed in
 
 \section{Driving Factors for Service Decomposition}
 
-Well experienced software architects decompose systems by reason of multiple factors to ensure a maintainable, stable and secure system with business relevance and good performance. This section describes the factors mostly considered by architects. The content of this section is based on research, our own experience and discussions with our industry partner Zühlke AG. 
+Well experienced software architects decompose systems by reason of multiple factors to ensure a maintainable, stable and secure system with business relevance and good performance. This section describes the factors mostly considered by architects. The content of this section is based on research, our own experience and discussions with our industry partner Zühlke Technology Group AG. 
 
 \subsection{Decomposition within the Service Cutter}
 

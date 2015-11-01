@@ -27,7 +27,14 @@ A simple workflow can be achieved with a few clicks. All steps are provided with
 
 \subsection{Performance}
 
-All regular user interactions should not take more than one second. The service boundary calculation may take up to 10 seconds depending on the data model size. The benchmark is the upper limit outlined in section \ref{sec:usability}.
+All regular user interactions should not take more than one second.
+
+Calculations of service cuts should meet the following conditions assuming a data set of 100 entities and 2000 data fields.
+
+\begin{itemize}
+\item Calculations that are used once per day should take less than 10 minutes.
+\item Calculations that are used once per minute should take less than 5 seconds.
+\end{itemize}
 
 \subsection{Monitoring, Logging, Deployment, Availability}
 
