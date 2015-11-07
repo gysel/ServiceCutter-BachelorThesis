@@ -1,0 +1,34 @@
+\chapter{Clustering Graph Evaluation}
+\label{appendix:graphClustering}
+
+To implement the weighted graph approach described in Section \ref{subsec:approach1_graph}, a clustering algorithm is required to split the graph into as little as possible connected groups of data fields. 
+
+The following requirements should be met by the algorithm implementation:
+
+\begin{table}[H]
+	\centering
+	\caption{Algorithm Requirements}
+	\label{tab:requirementsAlgorithm}
+	\begin{tabular}{|p{100pt}|p{250pt}|p{50pt}|}
+		\hline	
+		Name & Description & Priority \\
+		\hline
+		Distinct Clusters & Every field is contained once and only once in a cluster & High  \\
+		\hline
+		Balanced Coupling & The sum of weights of the edges a cluster connects with other clusters should be similar for all clusters & High \\
+		\hline
+		Minimal Coupling & The total weight of the edges connecting clusters should be minimal & High \\
+		\hline
+		Implementation & A free implementation of the algorithm should be available either in Java or another language easily callable from the \gls{JVM}. & High  \\
+		\hline
+		Number of Clusters & The number of clusters should be defined by a parameter & Medium \\
+		\hline
+		Performance & An algorithm run with 2000 edges should not take longer than 2 minutes on an average laptop. & Medium \\
+		\hline
+		Simplicity & It should be possible to understand the mechanism and parameters of the algorithm within a day with the mathematical background we have from the studies at \gls{HSR} & Low \\
+		\hline
+		%TODO: specify more
+		Hardship Cases & Cases in which it is unclear which cut is best should be made visible in form of a hint or multiple solution suggestions. & Low \\
+		\hline
+	\end{tabular}
+\end{table}
