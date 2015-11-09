@@ -1,0 +1,45 @@
+\section{Feasibility Assessment}
+
+During sprint 2 we contacted Oliver Augenstein, professor of mathematics at \gls{HSR} for a feasibility assessment of the graph based approach. 
+
+\subsection{\formatdate{13}{10}{2015} at HSR}
+
+\textbf{Agenda}
+
+\begin{enumerate}
+\item Introduction and context
+\item A weighted undirected graph approach
+\item Alternative approaches or goals
+\end{enumerate}
+
+\textbf{Attendees:} Oliver Augenstein, Lukas Kölbener (KOE)
+
+\textbf{General Feedback}
+
+\begin{enumerate}
+	\item The problem description and goal of the thesis might be too broad and ambitious. 
+	\item An alternative approach to the problem could be to concentrate on coupling visualization instead of calculating candidate cuts. Data fields used more frequently by use cases could for example be colored with darker colors. A query language with queries like \enquote{show all transactions which operate on field X} would help to analyze a manually generated architecture. 
+\end{enumerate}
+
+\textbf{Notes on Graph Approach}
+
+\begin{itemize}
+	\item To develop a meaningful algorithm, we need a clear conception of the expected algorithm output for a given input.
+	\item Normalizing the dimensions of every Coupling Criteria to one weight for each edge is challenging.  
+	\item The Coupling Criteria characteristics are different. Modeling distance or clear constraints between vertices is difficult with weighted edges.
+\end{itemize}
+
+\textbf{Alternative Approaches}
+
+\begin{itemize}
+	\item To break down the problem into smaller pieces, every Coupling Criteria should be analyzed isolated of other Coupling Criteria. 
+	\item A possible approach to achieve this is working with sets instead of a graph. For each Criteria a set of candidate cuts is calculated that meets all requirements of the Criteria. 
+	\item Theoretically the number of candidate cuts is way too big to be calculated. Optimization is required.
+	\item To analyze all Criteria, the algorithm tries to find a candidate cut existing in the solution set of every Criteria. 
+\end{itemize}
+
+\textbf{Conclusion}
+
+We discussed these findings together and with our supervisor prof. dr. Olaf Zimmermann. We decided to not change the focus to a more visualization based solution and still concentrate on finding optimal service cuts. The ideas for better visualization can still be integrated in the Service Cutter or used if early in the project it becomes clear that no sufficient algorithm can be found. 
+
+The approach to assess precalculated candidate cuts per Coupling Criteria has many benefits over the graph based approach. It is more comprehensible as it is easier to debug or change and provides more information about the reasons why a candidate cut is a good solution for a system. Nevertheless, it first needs to be ascertained that the calculation can be done with a reasonable amount of time and resources. 
