@@ -1,9 +1,9 @@
 \chapter{Clustering Graph Evaluation}
 \label{appendix:graphClustering}
 
-To implement the weighted graph approach described in Section \ref{subsec:approach1_graph}, a clustering algorithm is required to split the graph into as little as possible connected groups of data fields. 
+To implement the graph approach described in Section \ref{subsec:approach1_graph}, a clustering algorithm is required to split the undirected weighted graph into as little as possible connected groups of data fields. 
 
-The following requirements should be met by the algorithm implementation:
+The requirements listed in Table \ref{tab:requirementsAlgorithm} should be met by the algorithm and it's implementation:
 
 \begin{table}[H]
 	\centering
@@ -13,22 +13,52 @@ The following requirements should be met by the algorithm implementation:
 		\hline	
 		Name & Description & Priority \\
 		\hline
-		Distinct Clusters & Every field is contained once and only once in a cluster & High  \\
+		Distinct Clusters & Every field is contained once and only once in a cluster. & High  \\
 		\hline
-		Balanced Coupling & The sum of weights of the edges a cluster connects with other clusters should be similar for all clusters & High \\
+		Balanced Coupling & The sum of weights of the edges a cluster connects with other clusters should be similar for all clusters. & High \\
 		\hline
-		Minimal Coupling & The total weight of the edges connecting clusters should be minimal & High \\
+		Minimal Coupling & The total weight of the edges connecting clusters should be minimal. & High \\
 		\hline
 		Implementation & A free implementation of the algorithm should be available either in Java or another language easily callable from the \gls{JVM}. & High  \\
 		\hline
-		Number of Clusters & The number of clusters should be defined by a parameter & Medium \\
+		Number of Clusters & The number of clusters should be defined by a parameter. & Medium \\
 		\hline
 		Performance & An algorithm run with 2000 edges should not take longer than 2 minutes on an average laptop. & Medium \\
 		\hline
-		Simplicity & It should be possible to understand the mechanism and parameters of the algorithm within a day with the mathematical background we have from the studies at \gls{HSR} & Low \\
+		Simplicity & It should be possible to understand the mechanism and parameters of the algorithm within a day with the mathematical background we have from the studies at \gls{HSR}. & Low \\
 		\hline
 		%TODO: specify more
 		Hardship Cases & Cases in which it is unclear which cut is best should be made visible in form of a hint or multiple solution suggestions. & Low \\
 		\hline
+		License & ? & ? \\
+		\hline
 	\end{tabular}
 \end{table}
+
+The algorithms listed in Table \ref{tab:algorithmEvaluation} are the result of a online research on clustering and community algorithms.
+
+\begin{table}[H]
+	\centering
+	\caption{Algorithm Evaluation}
+	\label{tab:algorithmEvaluation}
+	\begin{tabular}{|p{90pt}|p{200pt}|p{130pt}|}
+		\hline	
+		Name & Description & Implementation \\
+		\hline
+		MCL - Markov Cluster Algorithm\cite{mcl} & A clustering algorithm working on weighted undirected graphs. MCL is based on Random Walks with Markov Chains. & Implementations of MCL are available in R and in Java as s plugin of the Gephi\cite{gephi} platform.  \\
+		\hline
+		HCS - Highly Connected Subgraphs\cite{hcs} & A clustering algorithm working on unweighted undirected graphs. The CLICK clustering algorithm enhances HCS for weighted edges. & Implementations only available in R.  \\
+		%TODO: check CLICK algorithm again
+		\hline
+		Girvan–Newman\cite{girvanNewman} & A clustering algorithm working on weighted undirected graphs based on Edge-Betweenness \footnote{The amount of shortest paths between nodes going through a specific edge.}. & Java implementations exist as part of the Jung\cite{jung} framework (only unweighted graphs) and as a plugin of the Gephi\cite{gephi} platform. \\
+		\hline	
+		K-means\cite{kmeans} & A clustering algorithm working with vectors in an n-dimensional space. & Multiple implementations, for example as part of the Spark\cite{spark} framework, are available. \\
+		\hline
+		Apiacoa\cite{apiacoa} & A clustering algorithm working on unweighted undirected graphs. This algorithm is based on maximal modularity clustering. & Apiacoa.com provides an implementation of the algorithm in Java. \\
+		\hline
+		%TODO: what is maximal modularity clusterni?	
+		%TODO: replace wikipedia with original sources		
+	\end{tabular}
+\end{table}
+
+We did not find a simple way to transform the problem from a graph to vector based representation in order to use k-means as a solution. We  decided to try the Gephi implementations of Girvan-Newman and MCL as Apiacoa does not support weighted edges and no Java implementation for HCS was found. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The two algorithms are provided by Gephi plugins, from which the algorithm implementations can be extracted as \gls{JAR} files. 
