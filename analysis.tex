@@ -94,12 +94,94 @@ Starting from these principles, we analyzed different types and reasons for coup
 \subsection{Coupling Criteria}
 \label{sec:couplingCriteria}
 
-A Coupling Criteria describes a reason why two data fields should or should not be owned by the same Service. These Criteria define the semantic model on which the Service Cutter is built on. 
+A coupling criterion describes a reason why two data fields should or should not be owned by the same service. These criteria define the semantic model on which the Service Cutter is built on. 
 
+\newcommand{\ccCard}[7] {
+\begin{minipage}{\linewidth}
+	\begin{framed}
+	\textbf{#1 #2}
+	
+		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries User Representation}]
+		\item[Description] #3
+		\item[User Representation] #4 %TODO source?
+		%\ifx #5\empty  #5 \fi
+		\ifthenelse{\equal{#5}{}}{}{\item[Variants] #5}
+		\item[Literature] #6
+		\item[Type] #7
+		\end{description}
+	
+	\end{framed}
+\end{minipage}
+}
+\ccCard{CC-1}{Identity \& Lifecycle Commonality}{Data that belongs to the same identity and therefore shares a common lifecycle.}{UML class diagrams (Same Class, Composition, Inheritance)}{}{Evans?\cite{evans2003domain}.}{Proximity}
+
+\ccCard{CC-2}{Semantic Proximity}{Two fields are semantically when they have a natural connection. Semantic proximity originates from coherent field updates or aggregations in UML class diagram.}{Coherent field updates in Use Cases or User Stories. Aggregation or association relationships in UML class diagrams.}{}{Single Responsibility Priciple by Martin\cite{SRP}}{Proximity}
+%todo literature based on use case driven services?
+
+\ccCard{CC-3}{Security Constraint}{Two fields are semantically related but must not reside in the same context. This restriction can be established by an external party such as a certification authority or an internal design team.}{A demilitarized zone, regulations, or certifications requiring separation of data.}{}{}{Separation}
+
+\ccCard{CC-4}{Security Criticality}{Criticality of a field in case of data loss or a privacy violation. Represents the reputational or financial risk when the data is disclosed unauthorized parties.}{}{High, Medium, Low}{}{Distance}
+
+\ccCard{CC-5}{Resilience}{Data and their connected operations have varying availability constraints. Some parts are critical while others can be unavailable for some time.}{}{Critical, Normal, Low}{}{Distance}
+
+\ccCard{CC-6}{Volatility}{Some data is hardly updated. Some data is updated very often.}{Use Cases may include volatility information when they include information about their usage frequency.}{Often, Regularly, Rarely}{}{Distance}
+%TODO add literature (datentypen?)
+
+\ccCard{CC-7}{Consistency}{Some data loses its value if not kept consistent together while other data is more tolerant to inconsistencies.}{}{High, Eventually, Weak}{}{Consistency}
+
+\ccCard{CC-8}{Storage Similarity}{Storage that is required to persist all instances of a data field.}{}{Small (KB), Medium (MB), Large (GB), Huge (TB)}{}{Distance}
+
+\ccCard{CC-9}{Network Traffic Similarity}{Volume of data transferred on the network. This information is defined by how often an instance of a field is read or written, how many instances of the field exist and the size of the field.}{}{Low (1/d or small size), Medium (1/min or medium size), High (1/s or large size), Huge (100/s or huge size)}{}{Distance}
+
+\ccCard{CC-10}{Change Similarity}{How often Change Requests are going to be implemented in this area.}{}{Often (every month), Rarely (every year), Never}{}{Distance}
+
+\ccCard{CC-11}{Predefined Service Constraint}{There might be the following reasons why some parts forcefully needs to be modelled in the same service. Those may include technology optimizations, organizational reasons, or existing legacy services.}{}{}{}{Exclusive}
+%TODO quote conweys law
+
+% \ccCard{CC-}{}{}{}{}{}{}
+
+%TODO Security Context Distinction
+%TODO mutability
+%TODO Responsibility 
 
 \subsubsection{Coupling Criteria Types}
 \label{subsec:couplingCriteriaTypes}
 
+\begin{description}
+	\item[Distance] - The service should not contain different variants.
+	\item[Proximity] - The fields should be in the same service.
+	\item[Separation] - The fields must be distributed amongst different services.
+	\item[Exclusive] - The fields must form a service. No fields are assigned to another service; no fields are added to this service.
+\end{description}
+
+\begin{itemize}
+\item Proximity
+	\begin{itemize}
+	\item Identity \& Lifecycle Commonality
+	\item Semantic Proximity
+	\item Security Context Distinction
+	\item Responsibility
+	\end{itemize}
+\item Distance
+	\begin{itemize}
+	\item Security Criticality
+	\item Resilience
+	\item Volatility
+	\item Consistency
+	\item Storage Analogy
+	\item Network Traffic Analogy
+	\item Change Analogy
+	\item Mutability
+	\end{itemize}
+\item Separation
+	\begin{itemize}
+	\item Security Constraint
+	\end{itemize}
+\item Exclusive
+	\begin{itemize}
+	\item Predefined Service Constraint
+	\end{itemize}
+\end{itemize}
 
 TODO: Coupling Criteria Catalog
 
