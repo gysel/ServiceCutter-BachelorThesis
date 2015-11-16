@@ -12,14 +12,14 @@ Decomposition describes the task of grouping data fields into services. Achievin
 \subsection{Approach \#1: Clustering of a Weighted Undirected Graph}
 \label{subsec:approach1_graph}
 
-Our first approach to solve the decomposition problem was using a weighted, undirected graph with a clustering or community algorithm. 
+Our first approach to solve the decomposition problem was a clustering or community algorithm applied on a weighted, undirected graph.
 
 Every data field in the model is represented by a node. Edges define a relationship between two data fields. The weight on each edge shows how \textit{close} or \textit{cohesive} two fields are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
 
 \begin{minipage}[t]{0.5\textwidth}
-	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. As user representations are imported, data fields and  information for predefined Coupling Criteria are extracted by the \textit{Importer} to store all important information to create the graph.
+	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations such as class diagrams or use cases are imported. The \textit{importer} component extracts the data fields and the occurences of coupling, called Coupling Criteria Instances, in this model and stores this information into the database.
 	
-	The \textit{Solver} then creates all vertices from the data fields and builds edges between them according to the stored Coupling Criteria instances. This task contains complexity for the following reasons:
+	The \textit{Solver} then creates all vertices from the data fields and builds edges between them according to the stored Coupling Criteria instances. This task is complex for the following reasons:
 	
 	\begin{enumerate}
 		\item Coupling Criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaTypes}. 
@@ -27,7 +27,7 @@ Every data field in the model is represented by a node. Edges define a relations
 		
 		\item All Coupling Criteria information is reduced to a single number with one single unit of measurement. An increase of the weight for one Criteria automatically changes the relative importance of that CC to others.
 		
-		\item To give the user a way to define the specific requirements of his system, priorities per Coupling Criteria can optionally be defined to influence the weights of each Coupling Criteria instance. 
+		\item To allow the user to define the specific requirements of his system, priorities per Coupling Criteria can optionally be defined to influence the weights of each Coupling Criteria instance.
 	\end{enumerate}
 	
 	The \textit{Clustering Algorithm} then analyzes the graph and creates clusters of data fields so that as few edges as possible need to be cut.
@@ -47,11 +47,11 @@ Every data field in the model is represented by a node. Edges define a relations
 	\end{figure}
 \end{minipage}
 
-A detailed evaluation of clustering algorithms is document in Appendix \ref{appendix:graphClustering}. We decided to do a first assessment of this approach with the MCL\cite{mcl} and Girvan-Newman\cite{girvanNewman} algorithms. Both algorithms are implemented as plugins of the Gephi\cite{gephi} platform and can be extracted as \gls{JAR} files.
+A detailed evaluation of clustering algorithms is document in Appendix \ref{appendix:graphClustering}. We decided to do a first assessment of this approach using the MCL\cite{mcl} and Girvan-Newman\cite{girvanNewman} algorithms. Both algorithms are implemented as plugins of the Gephi\cite{gephi} platform and can be extracted as \gls{JAR} files.
 
 \subsubsection{Practical Assessment of the Graph Clustering Approach}
 
-To assess the graph approach we use a simple booking domain model. In Figure \ref{fig:clusteringBookingSimple} the MCL algorithm was run on the booking model with all Coupling Criteria priorities set to zero expect the Variant \textit{Same Entity} of the \textit{Identity \& Lifecycle Commonality} Criteria. Consequently the visualized Services contain one entity each. The entities can be identified as \textit{Customer}, \textit{Article} and \textit{Booking}.
+To assess the graph approach we use a simple booking domain model. In Figure \ref{fig:clusteringBookingSimple} the MCL algorithm was tested using the booking model with all Coupling Criteria priorities set to zero except the \textit{Identity \& Lifecycle Commonality} Criteria. Consequently the visualized services contain one entity each. The entities can be identified as \textit{Customer}, \textit{Article} and \textit{Booking}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -62,7 +62,7 @@ To assess the graph approach we use a simple booking domain model. In Figure \re
 \end{figure}
 
 
-Figure \ref{fig:clusteringBooking} shows the result of the MCL algorithm with user stories of the Booking domain added. 
+Figure \ref{fig:clusteringBooking} demonstrates the result of the MCL algorithm with user stories of the Booking domain added. 
 
 \begin{figure}[H]
 	\begin{center}
@@ -72,16 +72,16 @@ Figure \ref{fig:clusteringBooking} shows the result of the MCL algorithm with us
 	\label{fig:clusteringBooking}
 \end{figure}
 
-Obviously this is not the result expected. The requirement that a data field should be once and only once grouped to a Service is not met and the meaning of each Service can't be interpreted. 
+Obviously this is not the expected result. The requirement that a data field should be once and only once grouped to a Service is not met and the meaning of each Service can't be interpreted. %TODO noch etwas holprig...
 
 
 \subsubsection{Discussion}
-Theoretical assessment
+Theoretical assessment %TODO
 
 
 \subsection{Approach \#2: Rating of possible Service Cuts}
 
-During sprint 2 we conducted a feasibility assessment with a professor of mathematics on the graph based approach as documented in Appendix \ref{sec:feasibilityAssessment}. The result of the assessment is the idea to create a set of all possible service cuts and rate the cuts isolated per Coupling Criteria. The approach is illustrated in Figure \ref{fig:setProcess}.
+During sprint 2 we conducted a feasibility assessment with a professor of mathematics of the graph based approach as documented in Appendix \ref{sec:feasibilityAssessment}. The result of the assessment is the idea to create a set of all possible service cuts and rate the cuts isolated per Coupling Criteria. The approach is illustrated in Figure \ref{fig:setProcess}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -94,23 +94,23 @@ During sprint 2 we conducted a feasibility assessment with a professor of mathem
 This approach is processed in three steps:
 
 \begin{description}
-	\item[Partitioning] Based on the data fields, a set of all possible candidate service cuts is calculated. This includes every theoretical possible service cut for every number of services. For practical usage, this step needs to be optimized. 
-	\item[Assessment] For every Coupling Criteria, a processor assess all service cuts with a score on how well the criteria's requirements are met. The score is a number between 0 and 10, while 10 means that all requirements are perfectly satisfied. 
-	\item[Evaluation] The user optionally defines priorities how important each Criteria is for his system. The priorities are defined with approximately exponential numbers like the Fibonacci sequence. These priorities are applied on the service cut scores. The resulting best candidate cut is evaluated to be presented to the user.
+	\item[Partitioning] Based on the data fields, a set of all possible candidate service cuts is calculated. This includes every theoretically possible service cut for every number of services. For practical usage, this step needs to be optimized. 
+	\item[Assessment] For all Coupling Criteria a processor assesses all service cuts with a score describing how well the criteria's requirements are met. The score is a number between 0 and 10, while 10 means that all requirements are perfectly satisfied. 
+	\item[Evaluation] The user optionally defines priorities how important each Criteria is for his system. The priorities are defined with approximately exponential numbers like the Fibonacci sequence. These priorities are applied on the service cut scores. The resulting best candidate cut is then presented to the user.
 \end{description}
 
 \subsubsection{Discussion}
 
 An advantage of this approach is that each relevant step is clearly separated and can thus be analyzed, debugged and visualized better than in the graph based approach. The assessment and score calculation is done separately for every cut and for every Coupling Criteria. Each Criteria processor needs to score candidate cuts with a uniform scoring range. 
 
-The weak point is the partitioning process. Theoretically, every possible set of Services where each data field is contained in one and only one Service is a candidate cut. In mathematics this is described as the \textit{partition of a set}\cite{partitionOfASet} problem. The Bell number $B_n$ defines the amount of possible partitions: 
+The weak point is the partitioning process. Theoretically every possible set of services where each data field is contained in one and only one Service is a candidate cut. In mathematics this is described as the \textit{partition of a set}\cite{partitionOfASet} problem. The Bell number $B_n$ defines the amount of possible partitions: 
 
 
 \begin{displaymath}
 B_{n+1}=\sum_{j=0}^n {n\choose j} B_j
 \end{displaymath}
 
-For the Service Cutter, $n$ is the number of data fields, so the number of possible service cuts for $n=20$ data fields is $51'724'158'235'372$\footnote{We don't show the number for the required $2000$ data fields for lack of space in the document.}.
+For the Service Cutter $n$ is the number of data fields, so the number of possible service cuts for $n=20$ data fields is $51'724'158'235'372$\footnote{We don't show the number for the required $2000$ data fields for lack of space in the document.}.
 
 The Bell number includes cuts for $1 - n$ number of Services. In the context of a software system only certain numbers of Services are realistic. The \textit{Stirling numbers of the second kind} calculate the Bell number for a given number of sets $k$:
 
@@ -120,9 +120,9 @@ The Bell number includes cuts for $1 - n$ number of Services. In the context of 
 
 For $n=20$ data fields and $k=4$ Services the equation results in $45'232'115'901$ possible cuts. For $k=6$ its already $4'306'078'895'384$.
 
-During a discussion with our industry partner and supervisor documented in Appendix \ref{sec:status22102015}, we decided that the Service Cutter should be able to process system models with up to 2000 data fields. We therefore concluded during the same meeting that this approach is not practicable without a heuristic approach of finding relevant candidate cuts. 
+During a discussion with our industry partner and supervisor documented in Appendix \ref{sec:status22102015}, we decided that the Service Cutter should be able to process system models with up to 2000 data fields. We therefore concluded in the same meeting that this approach is not practicable without a heuristic approach of finding a small set of relevant candidate cuts. 
 
-A possible heuristic approach is to take one or a few Coupling Criteria information about the system into account for finding Service Candidates. A simple example would be to only analyze cuts where data fields of the same entity are not split across Services so that only entities and not it's data fields need to be considered.
+A possible heuristic approach is to take one or a few Coupling Criteria information about the system into account for finding Service Candidates. A simple example would be to only analyze cuts where data fields of the same entity are not split across services so that only entities and not it's data fields need to be considered.
 
 As we tried to find a heuristic approach to calculate candidate cuts, we discovered a new idea for the composition algorithm described in the next approach. 
 
