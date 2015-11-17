@@ -37,6 +37,8 @@ The algorithm will then present one or multiple solution suggestions to the user
 
 The calculation can be parametrized using priorities assigned to Coupling Criteria. In this way different service boundaries can be calculated for different requirements. For example in an application processing financial data, security might be more important than network traffic. In a different context, e.g. for an application that needs to support high volumes of data, volatility and resilience might be a primary focus.
 
+A deterministic algorithm should be favored as it allows reproducibility of the result. For a given data set the Service Cutter should always suggest the same candidate cuts. A non deterministic algorithm may be chosen if it produces noticeably better results.
+
 \subsubsection{Step 4: Working with Solution Suggestions}
 
 (this might not be in scope of this thesis, should we describe this in requirements or in future work?)
