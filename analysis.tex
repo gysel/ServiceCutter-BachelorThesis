@@ -96,6 +96,36 @@ Starting from these principles, we analyzed different types and reasons for coup
 
 A coupling criterion describes a reason why two data fields should or should not be owned by the same service. These criteria define the semantic model on which the Service Cutter is built on. 
 
+The coupling criteria can be classified in a grid as shown in Figure \ref{fig:cc_grid}.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{diagrams/CouplingCatalog.pdf}
+	\caption{Coupling criteria grid}
+	\label{fig:cc_grid}
+\end{figure}
+
+The grid columns and rows represent the following partitions:
+
+\begin{description}
+	\item[Coupling Type / Distance] - The service should not contain different variants.
+	\item[Cohesiveness / Proximity] - The fields should be in the same service.
+	\item[Constraint] - The fields must be distributed amongst different services or the fields must form a service. (No fields are assigned to another service; no fields are added to this service.)
+	\item[Security] The fields involve security requirements.
+	\item[Quality] The fields involve quality characteristics.
+	\item[Resources] The fields are resources and require specific hardware to be operated.
+	\item[Domain] The fields originate from the context of a a specific business domain.
+\end{description}
+
+We specified all coupling criteria listed in the grid in the following \enquote{CC cards}. All cards share the following information:
+
+\begin{description}
+\item[Description] Explains the coupling criteria in more details.
+\item[User Representation] Lists the familiar concepts that can be used to feed the coupling information into the Service Cutter.
+\item[Literature] References the coupling criteria to descriptions in existing literature.
+\item[Variants] Cards of type \enquote{Coupling Type / Distance} list different variants of a coupling criteria that should be separated.
+\item[Type] Denominates the algorithm that is used for decomposition. %TODO add reference to implementation chapter
+\end{description}
+
 \newcommand{\ccCard}[7] {
 \begin{minipage}{\linewidth}
 	\begin{framed}
@@ -143,48 +173,6 @@ A coupling criterion describes a reason why two data fields should or should not
 %TODO Security Context Distinction
 %TODO mutability
 %TODO Responsibility 
-
-\subsubsection{Coupling Criteria Types}
-\label{subsec:couplingCriteriaTypes}
-
-\begin{description}
-	\item[Distance] - The service should not contain different variants.
-	\item[Proximity] - The fields should be in the same service.
-	\item[Separation] - The fields must be distributed amongst different services.
-	\item[Exclusive] - The fields must form a service. No fields are assigned to another service; no fields are added to this service.
-\end{description}
-
-\begin{itemize}
-\item Proximity
-	\begin{itemize}
-	\item Identity \& Lifecycle Commonality
-	\item Semantic Proximity
-	\item Security Context Distinction
-	\item Responsibility
-	\end{itemize}
-\item Distance
-	\begin{itemize}
-	\item Security Criticality
-	\item Resilience
-	\item Volatility
-	\item Consistency
-	\item Storage Analogy
-	\item Network Traffic Analogy
-	\item Change Analogy
-	\item Mutability
-	\end{itemize}
-\item Separation
-	\begin{itemize}
-	\item Security Constraint
-	\end{itemize}
-\item Exclusive
-	\begin{itemize}
-	\item Predefined Service Constraint
-	\end{itemize}
-\end{itemize}
-
-TODO: Coupling Criteria Catalog
-
 
 \subsection{What is a good Decomposition Solution?}
 \label{sec:decompositionRequirements}

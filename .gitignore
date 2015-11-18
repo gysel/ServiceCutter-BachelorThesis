@@ -6,7 +6,7 @@
 *.fls
 *.out
 *.toc
-*.pdf
+BachelorThesis.pdf
 
 ## Intermediate documents:
 *.dvi
