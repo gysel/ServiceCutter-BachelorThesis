@@ -150,7 +150,28 @@ Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decom
 
 \subsection{Technology}
 
+
+\begin{minipage}[t]{0.5\textwidth}
+	The Service Cutter is implemented as a three tier application.
+	
+	The first tier is the web \textit{browser} of the user. The single-page application is based on AngularJS\cite{angularjs} and uses a template based on Bootstrap\cite{bootstrap}. A REST API provides access to the Editor tier.
+	
+	The \textit{Editor} component is a web application based on the JHipster\cite{jhipster} framework. It provides the use the possibility to import this domain information using a JSON upload and feeds this information into the Engine. All security and user interface aspects are handled in this layer.
+	
+	The Engine is the isolated component that holds all the code to calculate service decomposition suggestions. It is also based on Spring technologies and provides a REST web service. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in Section \ref{subsec:infrastructure}.
+	
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+	\begin{figure}[H]
+		\includegraphics[scale=1]{diagrams/Technologies.pdf}
+		\caption{Technology overview}
+		\label{fig:technologies}
+	\end{figure}
+\end{minipage}
+
+
 \subsection{Infrastructure}
+\label{subsec:infrastructure}
 
 \subsection{Information Security}
 
