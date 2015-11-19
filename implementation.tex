@@ -173,6 +173,17 @@ Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decom
 \subsection{Infrastructure}
 \label{subsec:infrastructure}
 
+Technically the Service Cutter can be operated on a single server providing a relational database and a Tomcat web server. However we developed a more sophisticated infrastructure aligned with modern standards which is presented as follows.
+
+\begin{itemize}
+\item Every components runs in an isolated Docker\cite{docker} container.
+\item Docker Compose\cite{dockercompose} is used to link the Docker containers (hostnames, ports).
+\item The Engine and the Editor operate in an embedded Tomcat server as provided by Sprint Boot web.
+\item The Engine and the Editor both require a relational database. As Hibernate\cite{hibernate} and Liquibase\cite{liquibase} are used, all database related code is vendor agnostic. However we only tested the Service Cutter on Postgres 9.4\cite{postgres}.
+\end{itemize}
+
+The Docker Compose definition is attached in Appendix XX. %TODO add appendix
+
 \subsection{Information Security}
 
 The web application is secured using an authentication and authorization implementation. Any other internal components such as the database or web services are hidden behind the servers firewall and therefore do not need any special security measures.
