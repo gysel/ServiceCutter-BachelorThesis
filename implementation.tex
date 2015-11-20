@@ -146,9 +146,25 @@ Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decom
 
 \section{Prototype} 
 
+This section introduces the prototypical implementation of the Service Cutter to verify the feasibility of the decomposition approach presented in the previous section.
+
 \subsection{Design}
 
+The design of the Service Cutter was intentionally not evaluated in detail. We therefore followed the recommendation of our industry partner and used Spring Boot\cite{springboot} and JHipster\cite{jhipster} as the underlying frameworks.
+
+The main reasons were:
+
+\begin{itemize}
+\item Zühlke uses them successfully.
+\item Spring Boot is considered the way to go for Spring based applications nowadays.
+\item JHipster is based on established technologies that are partially already familiar to us. Furthermore it provides a code generator and samples. This can noticeable speed up development especially in the prototyping area.
+\item We were able to implement a technological proof of concept in a few days and did not face major obstacles.
+\end{itemize}
+
+For the reasons listed above, we implemented the web application component using JHipster and the Engine using Spring Boot combined with a web service library. Section \ref{subsec:technology} discusses the utilized technologies in more detail.
+
 \subsection{Technology}
+\label{subsec:technology}
 
 
 \begin{minipage}[t]{0.5\textwidth}
@@ -159,6 +175,8 @@ Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decom
 	The \textit{Editor} component is a web application based on the JHipster\cite{jhipster} framework. It provides the use the possibility to import this domain information using a JSON upload and feeds this information into the Engine. All security and user interface aspects are handled in this layer.
 	
 	The Engine is the isolated component that holds all the code to calculate service decomposition suggestions. It is also based on Spring technologies and provides a REST web service. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in Section \ref{subsec:infrastructure}.
+	
+	%TODO db/orm? -> spring data supports hibernate
 	
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
@@ -182,7 +200,7 @@ Technically the Service Cutter can be operated on a single server providing a re
 \item The Engine and the Editor both require a relational database. As Hibernate\cite{hibernate} and Liquibase\cite{liquibase} are used, all database related code is vendor agnostic. However we only tested the Service Cutter on Postgres 9.4\cite{postgres}.
 \end{itemize}
 
-The Docker Compose definition is attached in Appendix XX. %TODO add appendix
+The Docker Compose definition is attached in Appendix \ref{appendix:dockerCompose}.
 
 \subsection{Information Security}
 
