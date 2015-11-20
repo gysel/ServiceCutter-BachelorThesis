@@ -258,3 +258,87 @@ Every sprint one or two status meetings where held to track the progress.
 \item GYS/KOE: Prepare suggestions for meetings in December.
 \end{itemize}
 
+
+
+\subsection{Status Meeting \formatdate{20}{11}{2015}}
+
+\textbf{Attendees}: Wolfgang Giersche, Olaf Zimmermann (ZIO), Lukas Kölbener (KOE), Michael Gysel (GYS)
+ 
+\textbf{Next Meeting}: \formatdate{4}{12}{2015}, Zühlke, Schlieren
+
+\textbf{Agenda}
+
+\begin{itemize}
+\item Evaluation of Algorithms
+\item Overview of Coupling Criteria Types and Scoring
+\item Demo \enquote{Trading System}
+\item Scope of Sprint 4
+\item Various items
+\end{itemize}
+
+\textbf{Decisions}
+ 
+Priority for the next sprint are:
+\begin{itemize}
+\item DDD Sample
+\item Polishing of UI, small enhancements. See \enquote{Notes ZIO}.
+\end{itemize}
+
+\textbf{Notes ZIO}
+\begin{itemize}
+\item Define/explain and possibly challenge/refine all new names/concepts, expsecially those exposed in UI, e.g. \enquote{Variant}, \enquote{Field Group}, \dots
+\item If input is a set of nano entities (new name of data field, which is ok with me), what is the output? Services? Microservices? Entitites? Bounded contexts? Current UI says \enquote{Service A}, \enquote{Service B} etc. (which is ok, but input/output terminology should be consistent and symmetric) 
+\item Feature requests/ideas incl. UI enhancements:
+
+	\begin{itemize}
+	\item Save output (service cuts suggested by alg.) in a machine-processable form, JSON at a minmum (so that next tool in chain can pick them up); ideally, this output takes the form of serialized CRC cards and/or Swagger definitions 
+	\item Ability to store and reload all settings done by user, e.g. prioritizations
+	\item Stepwise forward/backward button, or before/after feature to support incrementa design and what-if analyses (as a service modeler, I want to see how service cut changes when I update one setting at a time, and I also want to be able to undo my last changes)
+	\item Show output of several algorithms in parallel/in comparison (workaround/simpleo solution: two browser tabs wordking with same model in backend)
+	\item \enquote{Reset to default settings} button (e.g. for prioritizations)
+	\item Graph metrics (analysis) with simple aggregation gree-yellow-red \enquote{how good is the current service cut} (according to some rules of thumb from OOAD or SOA design methods; I  can provide some input in next meeting)
+	\item Make defaults and score values [-10…10] configurable (e.g. in config file or system property)
+	\item Ability to define own variants (with weight scores), e.g. what if I want to specific a security classification \enquote{very critical} in addition to those shown in demo
+	\end{itemize}
+
+\end{itemize}
+
+\textbf{General Notes}
+
+\begin{itemize}
+\item Coupling types visualization:
+
+	\begin{itemize}
+	\item Order of rows: Domain, Quality, Infrastructure, Security
+	\item Empty boxes: Explain! (List is not exhaustive – but other types were not part of the outcome of the workshop)
+	\item Cohesion instead of Cohesiveness? (Cohesion already has a meaning)
+	\item Goal: only one term in the final version
+	\end{itemize}
+
+\item Scoring
+
+	\begin{itemize}
+		\item -10 to 10 is a good range for human beings. Technically -1 to 1 would be at least as good.
+		\item Explain reasons why Fibonacci numbers were selected for the priorities. (Quote similar paper where Fibonacci were used for priorities or perform an A/B testing.)
+		\item Document sample with a few priorities and a second example with all/high priorities used.
+		\item Thoroughly document justify the scoring process.
+		\item The weights are opinions. Make configurable and document. 
+		\item Introduce all introduced terms such as variants, field groups, score, weight.
+		\item Find better term than “variant”.
+		\item Discussion: Data volumes, document why it should scale. Do tests.
+		\item Document defaults and make them configurable.
+	\end{itemize}
+
+\item Document the import and how it works in detail. Add defaults to CC cards?
+\item Document the trading example tests.
+\item Are CRC card similar to our output?
+\item \enquote{Parameters} instead of \enquote{Params}
+\item Document the different Algorithms.
+\item Document the value of the Service Cutter to an architect! Present some unexpected but good decompositions. Also educational aspects.
+\item Document the value of the Service Cutter in the process of going from a monolith to a service oriented architecture. 
+\item Add some kind of hint on whether the suggested cuts are good or not (traffic lights).
+\item Source code: Should not be embarrassing but does not have to be perfect. It still is a prototype.
+\item The tool should produce some kind of output.
+
+\end{itemize}
+
