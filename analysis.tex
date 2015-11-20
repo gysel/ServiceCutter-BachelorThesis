@@ -107,13 +107,13 @@ The coupling criteria can be classified in a grid as shown in Figure \ref{fig:cc
 The grid columns and rows represent the following partitions:
 
 \begin{description}
-	\item[Coupling Type / Distance] - The service should not contain different variants.
-	\item[Cohesiveness / Proximity] - The fields should be in the same service.
-	\item[Constraint] - The fields must be distributed amongst different services or the fields must form a service. (No fields are assigned to another service; no fields are added to this service.)
-	\item[Security] The fields involve security requirements.
-	\item[Quality] The fields involve quality characteristics.
-	\item[Resources] The fields are resources and require specific hardware to be operated.
+	\item[Cohesiveness] - The fields should be in the same service.	\item[Characteristics] - The service should not contain different styles of a characteristic. A style is concrete value of a characteristic. E.g. \enquote{High}, \enquote{Eventually}, and \enquote{Weak} are styles of the characteristic \enquote{Consistency}.
+	\item[Constraints] - The fields must be distributed amongst different services or the fields must form a service. (No fields are assigned to another service; no fields are added to this service.)
 	\item[Domain] The fields originate from the context of a a specific business domain.
+	\item[Quality] The fields involve quality attributes.
+	\item[Infrastructure] The fields are resources and require specific hardware to be operated.
+	\item[Security] The fields involve security requirements.
+
 \end{description}
 
 We specified all coupling criteria listed in the grid in the following \enquote{CC cards}. All cards share the following information:
@@ -122,7 +122,7 @@ We specified all coupling criteria listed in the grid in the following \enquote{
 \item[Description] Explains the coupling criteria in more details.
 \item[User Representation] Lists the familiar concepts that can be used to feed the coupling information into the Service Cutter.
 \item[Literature] References the coupling criteria to descriptions in existing literature.
-\item[Variants] Cards of type \enquote{Coupling Type / Distance} list different variants of a coupling criteria that should be separated.
+\item[Styles] Cards of type \enquote{characteristic} list different styles of a coupling criteria that should be separated.
 \item[Type] Denominates the algorithm that is used for decomposition. %TODO add reference to implementation chapter
 \end{description}
 
@@ -135,7 +135,7 @@ We specified all coupling criteria listed in the grid in the following \enquote{
 		\item[Description] #3
 		\item[User Representation] #4 %TODO source?
 		%\ifx #5\empty  #5 \fi
-		\ifthenelse{\equal{#5}{}}{}{\item[Variants] #5}
+		\ifthenelse{\equal{#5}{}}{}{\item[Styles] #5}
 		\item[Literature] #6
 		\item[Type] #7
 		\end{description}
@@ -143,36 +143,40 @@ We specified all coupling criteria listed in the grid in the following \enquote{
 	\end{framed}
 \end{minipage}
 }
-\ccCard{CC-1}{Identity \& Lifecycle Commonality}{Data that belongs to the same identity and therefore shares a common lifecycle.}{UML class diagrams (Same Class, Composition, Inheritance)}{}{Evans?\cite{evans2003domain}.}{Proximity}
+\ccCard{CC-1}{Identity \& Lifecycle Commonality}{Data that belongs to the same identity and therefore shares a common lifecycle.}{UML class diagrams (Same Class, Composition, Inheritance)}{}{Evans?\cite{evans2003domain}.}{Cohesiveness}
 
-\ccCard{CC-2}{Semantic Proximity}{Two fields are semantically when they have a natural connection. Semantic proximity originates from coherent field updates or aggregations in UML class diagram.}{Coherent field updates in Use Cases or User Stories. Aggregation or association relationships in UML class diagrams.}{}{Single Responsibility Priciple by Martin\cite{SRP}}{Proximity}
+\ccCard{CC-2}{Semantic Proximity}{Two fields are semantically when they have a natural connection. Semantic proximity originates from coherent field updates or aggregations in UML class diagram.}{Coherent field updates in Use Cases or User Stories. Aggregation or association relationships in UML class diagrams.}{}{Single Responsibility Priciple by Martin\cite{SRP}}{Cohesiveness}
 %todo literature based on use case driven services?
 
-\ccCard{CC-3}{Security Constraint}{Two fields are semantically related but must not reside in the same context. This restriction can be established by an external party such as a certification authority or an internal design team.}{A demilitarized zone, regulations, or certifications requiring separation of data.}{}{}{Separation}
+\ccCard{CC-3}{Security Constraint}{Two fields are semantically related but must not reside in the same context. This restriction can be established by an external party such as a certification authority or an internal design team.}{A demilitarized zone, regulations, or certifications requiring separation of data.}{}{}{Constraint}
 
-\ccCard{CC-4}{Security Criticality}{Criticality of a field in case of data loss or a privacy violation. Represents the reputational or financial risk when the data is disclosed unauthorized parties.}{}{High, Medium, Low}{}{Distance}
+\ccCard{CC-4}{Security Criticality}{Criticality of a field in case of data loss or a privacy violation. Represents the reputational or financial risk when the data is disclosed unauthorized parties.}{}{High, Medium, Low}{}{Characteristic}
 
-\ccCard{CC-5}{Resilience}{Data and their connected operations have varying availability constraints. Some parts are critical while others can be unavailable for some time.}{}{Critical, Normal, Low}{}{Distance}
+\ccCard{CC-5}{Resilience}{Data and their connected operations have varying availability constraints. Some parts are critical while others can be unavailable for some time.}{}{Critical, Normal, Low}{}{Characteristic}
 
-\ccCard{CC-6}{Volatility}{Data can be classified by its update frequency or volatility. }{Use Cases may be equipped with a frequency that can be mapped the underlying data. Another approach is to use the data types Master Data (regularly), Reference Data (rarely), Transaction Data (often), and Inventory Data (often) to determine the volatility.}{Often, Regularly, Rarely}{}{Distance}
+\ccCard{CC-6}{Volatility}{Data can be classified by its update frequency or volatility. }{Use Cases may be equipped with a frequency that can be mapped the underlying data. Another approach is to use the data types Master Data (regularly), Reference Data (rarely), Transaction Data (often), and Inventory Data (often) to determine the volatility.}{Often, Regularly, Rarely}{}{Characteristic}
 %TODO add literature (datentypen?)
 
-\ccCard{CC-7}{Consistency}{Some data loses its value if not kept consistent together while other data is more tolerant to inconsistencies.}{}{High, Eventually, Weak}{}{Consistency}
+\ccCard{CC-7}{Consistency}{Some data loses its value if not kept consistent together while other data is more tolerant to inconsistencies.}{}{High, Eventually, Weak}{}{Characteristic}
 
-\ccCard{CC-8}{Storage Similarity}{Storage that is required to persist all instances of a data field.}{}{Small (KB), Medium (MB), Large (GB), Huge (TB)}{}{Distance}
+\ccCard{CC-8}{Storage Similarity}{Storage that is required to persist all instances of a data field.}{}{Small (KB), Medium (MB), Large (GB), Huge (TB)}{}{Characteristic}
 
-\ccCard{CC-9}{Network Traffic Similarity}{Volume of data transferred on the network. This information is defined by how often an instance of a field is read or written, how many instances of the field exist and the size of the field.}{}{Low (1/d or small size), Medium (1/min or medium size), High (1/s or large size), Huge (100/s or huge size)}{}{Distance}
+\ccCard{CC-9}{Network Traffic Similarity}{Volume of data transferred on the network. This information is defined by how often an instance of a field is read or written, how many instances of the field exist and the size of the field.}{}{Low (1/d or small size), Medium (1/min or medium size), High (1/s or large size), Huge (100/s or huge size)}{}{Characteristic}
 
-\ccCard{CC-10}{Change Similarity}{How often Change Requests are going to be implemented in this area.}{}{Often (every month), Rarely (every year), Never}{}{Distance}
+\ccCard{CC-10}{Change Similarity}{How often Change Requests are going to be implemented in this area.}{}{Often (every month), Rarely (every year), Never}{}{Characteristic}
 
-\ccCard{CC-11}{Predefined Service Constraint}{There might be the following reasons why some parts forcefully needs to be modelled in the same service. Those may include technology optimizations, organizational reasons, or existing legacy services.}{}{}{}{Exclusive}
-%TODO quote conweys law
+\ccCard{CC-11}{Predefined Service Constraint}{There might be the following reasons why some parts forcefully needs to be modeled in the same service. Those may include technology optimizations, organizational reasons, or existing legacy services.}{}{}{}{Constraint}
+%TODO quote conweys law here or in CC-13
+
+\ccCard{CC-12}{Latency}{This group of fields share a common latency requirement and remote calls should be avoided. Therefore it is beneficial to model them in the same service.}{}{}{}{Cohesiveness}
+
+\ccCard{CC-13}{Responsibility}{The same role or department is responsible for this group of fields. Mixing services with diverging responsibilities increases the maintenance complexity.}{}{}{}{Cohesiveness}
+
+\ccCard{CC-14}{Security Contextuality}{The same role or department is allowed to see or process the fields. Mixing security contexts complicates authentication and authorization implementations.}{}{}{}{Cohesiveness}
 
 % \ccCard{CC-}{}{}{}{}{}{}
 
-%TODO Security Context Distinction
 %TODO mutability
-%TODO Responsibility 
 
 \subsection{What is a good Decomposition Solution?}
 \label{sec:decompositionRequirements}
