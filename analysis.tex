@@ -142,7 +142,7 @@ We specified all coupling criteria listed in the grid as \enquote{CC cards} like
 	\end{framed}
 \end{minipage}
 }
-\ccCard{CC-1}{Identity \& Lifecycle Commonality}{Nanoentities that belongs to the same identity and therefore share a common lifecycle. }{- UML class diagrams (Same Class, Composition, Inheritance) \newline - Domain-Driven Design entities.}{Entity definition in Domain-Driven Design: \newline \textit{Some objects are not defined primarily by their attributes. They represent a thread of identity that	runs through time and often across distinct representations.}\cite{evans2003domain}}{Cohesiveness}{Domain}{}
+\ccCard{CC-1}{Identity \& Lifecycle Commonality}{Nanoentities that belong to the same identity and therefore share a common lifecycle. }{- UML class diagrams (Same Class, Composition, Inheritance) \newline - Domain-Driven Design entities.}{Entity definition in Domain-Driven Design: \newline \textit{Some objects are not defined primarily by their attributes. They represent a thread of identity that	runs through time and often across distinct representations.}\cite{evans2003domain}}{Cohesiveness}{Domain}{}
 
 
 Cards share the following information:
@@ -165,7 +165,7 @@ Cards share the following information:
 
 \ccCard{CC-5}{Latency}{Groups of nanoentities with high performance requirements for a specific user request. These nanoentities should be modelled within the same service to avoid remote calls.}{Use cases with high performance requirements. All nanoentities read or written by the use case belong a group. A nanoentity can belong to multiple groups.}{Design guidelines for application performance by Microsoft: \newline \textit{Minimize round trips to reduce call latency. For example, batch calls together and design coarse-grained services that allow you to perform a single logical operation by using a single round trip.}\cite{performance}}{Cohesiveness}{Quality}{}
 
-\ccCard{CC-6}{Consistency}{Some data loses its value if not kept consistent together while other data is more tolerant to inconsistencies.}{Classification of nanoentities in styles.}{Werner Vogel on consistency requirements: \newline  
+\ccCard{CC-6}{Consistency}{Some data loses its value when not kept consistent together while other data is more tolerant to inconsistencies.}{Classification of nanoentities in styles.}{Werner Vogel on consistency requirements: \newline  
 \textit{\textbf{Strong consistency}: After the update completes, any subsequent access (by A, B, or C) will return the updated value. \newline \textbf{Weak consistency}: The system does not guarantee that subsequent accesses will return the updated value. A number of conditions need to be met before the value will be returned. The period between the update and the moment when it is guaranteed that any observer will always see the updated value is dubbed the inconsistency window.}\cite{consistency}}{Characteristic}{Quality}{High consistency, eventual consistency, weak consistency}
 %TODO: only High & Weak?
 
@@ -185,7 +185,7 @@ Cards share the following information:
 
 \ccCard{CC-13}{Network Traffic Similarity}{Service decomposition has a significant impact on network traffic, depending on which nanoentities are shared between services and how often. Small and less frequently accessed nanoentities are better suited to be shared between services.}{Use cases define the frequency of access on nanoentities. The size of each entity can be determined by CC-11: Storage Similarty}{}{Communication}{Infrastructure}{}
 
-\ccCard{CC-14}{Security Contextuality}{A security role is allowed to see or process a group of nanoentities. Mixing security contexts in one service complicates authentication and authorization implementations.}{User defined security roles with each containing a group of nanoentities. A nanoentity can only be associated to multiple groups.}{}{Cohesiveness}{Security}{}
+\ccCard{CC-14}{Security Contextuality}{A security role is allowed to see or process a group of nanoentities. Mixing security contexts in one service complicates authentication and authorization implementations.}{User defined security roles with each containing a group of nanoentities. A nanoentity can be associated to multiple groups.}{}{Cohesiveness}{Security}{}
 
 \ccCard{CC-15}{Security Criticality}{Criticality of an nanoentity in case of data loss or a privacy violation. Represents the reputational or financial damage when the information is disclosed to unauthorized parties. As high security criticality comes at a cost, nanoentities classified as different styles should not be composed in the same service. }{Classification of nanoentities in styles}{}{Characteristic}{Security}{Critical, Internal, Public}
 
