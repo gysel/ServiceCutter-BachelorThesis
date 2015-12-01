@@ -72,7 +72,7 @@ Figure \ref{fig:clusteringBooking} demonstrates the result of the MCL algorithm 
 	\label{fig:clusteringBooking}
 \end{figure}
 
-Obviously this is not the expected result. The requirement that a data field should be once and only once grouped to a Service is not met and the meaning of each Service can't be interpreted. %TODO noch etwas holprig...
+Obviously this is not the expected result. The service clusters are formed with fields belonging to several clusters at the same time. Therefore the MCL algorithm cannot be used for our application.
 
 
 \subsubsection{Discussion}
