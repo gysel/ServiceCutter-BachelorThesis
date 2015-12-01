@@ -237,6 +237,7 @@ Negative scores are not represented on the graph. Negative scores request a sepa
 
 \begin{minipage}[t]{0.5\textwidth}
 
+%TODO: sinnvolere defaults definieren? XS for security constraint ist wohl nicht so gut. 
 One problem the scoring system has is that the sum in step 3 adds together positive and negative scores. If the amount of criterion give negative scores is high, the likelihood to reach a negative final score gets bigger. While analyzing test systems documented in Appendix \ref{testSystems}, we found default priorities as shown in Figure \ref{fig:priorities} provide reasonable results.
 \newline \newline
 Default priorities:
@@ -256,9 +257,142 @@ Constraint criteria: XS\newline
 	\end{figure}
 \end{minipage}
 
-
-
 \subsection{Scoring Logic}
+
+This section documents how each coupling criterion calculates its criterion score from $-10$ to $10$. 
+
+Figure \ref{fig:scorer} shows the CriterionScorer interface used to calculate criterion scores. 
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.7]{diagrams/scorer.pdf}
+		\caption{CriterionScorer Interface and its implementations}
+		\label{fig:scorer}
+	\end{center}
+\end{figure}
+
+Currently there are four CriterionScorer implementations for different coupling criteria. Not all criteria have a suitable implementation yet, as we prioritized the criteria during the project as there was not enough time to implement the scoring for all criteria. Table \ref{tab:scorer} outlines which implementation is used for which coupling criterion.
+
+\begin{table}[H]
+	\centering
+	\caption{Coupling Criteria and their Scorer Implementation}
+	\label{tab:scorer}
+	\begin{tabular}{|p{170pt}|p{200pt}|}
+		\hline	
+		\textbf{Scorer Implementation} & \textbf{Coupling Criteria}  \\
+		\hline
+		CohesiveGroupCriteriaScorer & Consistency Constraint \newline Identity \& Lifecycle Commonality   \\
+		\hline
+		SeparationCriteriaScorer & Security Constraint  \\
+		\hline
+		SemanticProximityCriterionScorer & Semantic Proximity \\
+		\hline
+		CharacteristicsCriteriaScorer & Change Similarty \newline Consistency \newline Resilience \newline Volatility \newline Storage Similarty \newline Security Criticality  \\
+		\hline
+		No Implementation & Mutability \newline Network Traffic Suitability \newline Responsibility \newline Latency \newline Security Contextuality \newline Predefined Service Constraint  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsubsection{CohesiveGroupCriteriaScorer}
+
+A CohesiveGroupCriteriaScorer is used for the criteria \textit{Consistency Constraint} and \textit{Identity \& Lifecycle Commonality}. These criteria define one or more groups of nanoentities that for some reason should be kept together in one service.
+
+The implementation of this scorer is very simple. The scorer sets the maximum score of $10$ for every relation between nanoentities inside a group. 
+
+\subsubsection{SeparationCriteriaScorer}
+
+A SeparationCriteriaScorer is used for the criterion \textit{Security Constraint}. The criterion defines two or more groups of nanoentities which should clearly be separated into different services for security reasons. 
+
+The implementation sets a negative score of $-10$ from each nanoentity to all other nanoentities defined in other groups than the own one. 
+
+\subsubsection{SemanticProximityCriterionScorer}
+
+%TODO: name for UML diagram? 
+The SemanticProximityCriterionScorer is a more complex scoring implementation. It considers use cases and aggregations within a UML diagram. To calculate the score, the scorer uses an intermediate score summing up occurrences of the following conditions for the nanoentities $A$ and $B$:
+
+\begin{description}
+	\item [READ\_ACCESS] $A$ and $B$ are both read in the same use case.
+	\item [WRITE\_ACCESS] $A$ and $B$ are both written in the same use case.
+	\item [MIXED\_ACCESS] One of $A$ or $B$ is read and the other one written in the same use case.
+	\item [AGGREGATED\_ENTITY] $A$ belongs to an entity which has an aggregation to B's entity in UML diagram. 
+\end{description}
+
+For each occurrence a number is added to the intermediate score of the $AB$ relation. Currently the following numbers are implemented:
+
+SCORE\_WRITE\_ACCESS: 10 \newline
+SCORE\_READ\_ACCESS: 3  \newline
+SCORE\_MIXED\_ACCESS: 3 \newline 
+SCORE\_AGGREGATION: 1 \newline 
+
+These values are only used for the intermediate score and are not to be confound with the criterion score of $-10$ to $10$. More important than the actual numbers are the relative differences to each other which define the importance of the occurrences. Our defaults listed above put a strong emphasis on mutual write access. 
+
+To reduce the intermediate score to the criterion score, the following rules apply:
+
+\begin{itemize}
+	\item The top 10\% of all relations with the highest intermediate score receive a criterion score of 10.
+	\item The lowest intermediate score of the top 10\% defines the reference intermediate score. The other 90\% are calculated relatively to that reference and receive a criterion score between 0 and 10.
+\end{itemize}
+
+The calculation for the lower 90\% works as following:
+
+\begin{equation}
+\frac{referenceIntermediateScore}{x} = 10
+\end{equation}
+\begin{equation}
+x = \frac{referenceIntermediateScore}{10}
+\end{equation}
+\begin{equation}
+criterionScore_{AB} = \frac{intermediateScore_{AB}}{X}
+\end{equation}
+
+Both, the numbers counted for access or aggregation occurrences and the reduction to the criterion score have been experimental evaluated. The algorithm documented here has proven go produce reasonable results for the example systems tested but might require further investigations for other systems. 
+
+\subsubsection{CharacteristicsCriteriaScorer}
+%TODO styles?
+
+Each coupling criterion of type characteristics defines multiple characteristics. The idea of these criteria is to create services with as homogeneous nanoentities as possible. The scorer therefore sets negative scores for a relation between two nanoentities having different characteristics. 
+
+As an example, the criterion \textit{Change Similarty} describes how often change requests need to be implemented affecting a nanoentity. A nanoentity can have the characteristic \textit{often, normal} or \textit{rarely}. Each characteristic has a number between $0$ and $10$ assigned:
+
+Often: $10$ \newline
+Normal: $4$ \textit{(default)} \newline
+Rarely: $0$ \newline
+
+Two nanoentities with different characteristics receive a negative score with the difference between the numbers. As an example, a nanoentity $A$ with characteristic \textit{often} and a nanoentity $B$ with characteristic \textit{normal} receive a criterion score of $-6$. 
+
+It is important that the highest and lowest number have a difference of $10$ to fully use the range a criterion has to rate a relation. \newline In this case there is an intermediate value of $4$ for the \textit{normal} characteristic. In our experience the often changing nanoentities are the most interesting and have the highest impact on service decomposition. With using the number $4$ instead of $5$ for \textit{normal} we put an emphasis on \textit{often} as the differences to this characteristics become bigger. 
+
+To improve usability we introduced default values so that a user does not need to define characteristics of all criteria for all nanoentities. 
+
+Table \ref{tab:characteristics} outlines characteristics of all criteria with their values and defaults. Both, the numbers and defaults are configurable for advanced users to better suit a systems requirements. 
+
+\begin{table}[H]
+	\centering
+	\caption{Criteria Characteristics with values and defaults}
+	\label{tab:characteristics}
+	\begin{tabular}{|p{100pt}|p{80pt}|p{60pt}|}
+		\hline	
+		\textbf Criterion & Characteristics & Default\\
+		\hline
+		Change Similarity & Often 10 \newline Normal 4 \newline Rarely 0 & Normal\\
+		\hline
+		Consistency & High 10 \newline Eventually 3 \newline Weak 0 & High\\
+		\hline
+		Resilience & Critical 10 \newline Normal 4 \newline Low 0 & Normal\\
+		\hline
+		Volatility & Often 10 \newline Regularly 5 \newline Rarely 0 & Regularly \\
+		\hline
+		Storage Similarity & Huge 10 \newline Normal 3 \newline Tiny 0 & Normal\\
+		\hline
+		Security Criticality & Critical 10 \newline Internal 3 \newline Public 0 & Internal\\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+
+
 
 \section{Prototype} 
 
