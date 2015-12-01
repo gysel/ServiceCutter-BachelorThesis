@@ -128,3 +128,48 @@ From our experience we expect the Service Cutter to decompose the Trading System
 	\caption{Trading System expected service cuts}
 	\label{fig:tradingCuts}
 \end{figure}
+
+The following reasons led us to this decision.
+\begin{itemize}
+	\item The service \textit{Order} encapsulated many use cases and contains several entities that need to be processed with high consistency (Order, Position).
+	\item The high volatility of the entity price led to the isolation of this part into an own service \textit{Price}.
+	\item News images require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service allowing an optimized storage technology.
+	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions.
+	\item Security restrictions requires all \gls{PII} to be separated from other data. Extracting it into a \textit{Customer} service allows the architect to protect this data with additional measures.
+\end{itemize}
+
+Figure \ref{fig:tradingCutsTool} is the suggested cut as calculated by the Service Cutter. 
+
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{images/trading_service_cut.png}
+	\caption{Trading System actual service cuts}
+	\label{fig:tradingCutsTool}
+\end{figure}
+
+The parameters that produce a cut as seen in \ref{fig:tradingCutsTool} are the following:
+
+\begin{itemize}
+\item Coupling Criteria priorities: M for all criteria
+\item Algorithm: Girvan-Newman
+\item Number of clusters: 5
+\end{itemize}
+
+Leung produces varying suggested cuts as it is not a deterministic algorithm. We have observed the following variations:
+
+\begin{enumerate}
+\item Account.number, ParmentInfo.cashAccount and Position.balance are separated into a service.
+\item PaymentInfo.cashAccount is separated into a service.
+\item News are incorporated into the main \textit{Order} service.
+\end{enumerate}
+
+However fairly stable results matching the expectations have been tested with the following priorities:
+
+\begin{itemize}
+\item Coupling Criteria priorities:
+	\begin{itemize}
+	\item L for \enquote{Identity \& Lifecycle Commonality} and \enquote{Semantic Proximity}
+	\item M for all others
+	\end{itemize}
+\end{itemize}
+
+In conclusion we can say that the Service Cutter did suggest the Trading System service cuts we expected.
