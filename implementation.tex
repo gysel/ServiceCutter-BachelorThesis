@@ -2,7 +2,7 @@
 \chapter{Design and Implementation}
 \label{cha:implementation}
 
-Exponential values for priorities, check http://www.yakyma.com/2012/05/why-progressive-estimation-scale-is-so.html
+intro...
 
 
 \section{Decomposition Algorithm}
@@ -143,6 +143,122 @@ Idee: Snapshots machen von Status bevor eine Gewichtung angepasst wird.
 Idee: Am Anfang 5 Minuten durchlaufen, 10 Vorschläge ausarbeiten und dann den user entscheiden lassen auf welchen er weiter optimieren will (?) Evtl. kann auch der Algorithmus entscheiden indem er die lösungen vergleicht? 
 
 Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decomposition mode? Kann der Algorithmus in zwei Schritten geschehen? Bzw. lösen wir eigentlich 2 Probleme (Logisch \& Physisch) auf einmal?
+
+
+\section{Scoring}
+
+The scoring process rates the relation of two nanoentities with a score. A higher positive score states that these entities should be modeled in the same service while a negative score asks for a separation of the nanoentities into different services.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=1]{diagrams/scoring_example.pdf}
+		\caption{Simple Scoring Example}
+		\label{fig:scoringExample}
+	\end{center}
+\end{figure}
+
+Figure \ref{fig:scoringExample} shows three nanoentities from the Trading System (see Appendix \ref{sec:tradingSystem}) and their scores to each other. The relation $Position.balance$ to $Account.number$ has a high score as these nanoentities are often accessed in the same use cases and therefore get a high score from the $Semantic Proximity$ criterion. $News.description$ to $Account.number$ has a negative score. These nanoentities do not have common use cases and do not belong to the same entity, so the positive scores from $cohesiveness$ criteria are low or zero. Different characteristic like $low$ resilience requirements for $News.description$ and $critical$ resilience requirements for $Account.number$ lead to a negative score. 
+
+In this simple example, the Service Cutter would most probably suggest two services, one with $Account.number$ and $Position.balance$ and another one with the $News.description$.
+
+To determine the final score between two nanoentities three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Last the prioritized scores of all criteria are summed up to a final score.
+
+\subsection{Step 1: Score by Coupling Criterion}
+
+Every coupling criterion calculates a score between $-10$ and $10$ for each nanoentity relation $AB$. 
+
+\begin{displaymath}
+criteria[i].score_{AB} = -10 ... 10
+\end{displaymath}
+
+A score of $10$ implies that \enquote{From the view of coupling criterion $i$, the nanoentities $A$ and $B$ should definitly reside in the same service.} A score of $-10$ implies that \enquote{From the view of coupling criterion $i$, the nanoentities $A$ and $B$ should definitly \textbf{not} reside in the same service.} 
+
+The range from $-10$ to  $10$ was chosen to be able to compare scores of different coupling criterion with each other. A fixed range guarantees that not one criterion receives more importance than another one due to its scoring logic. Other ranges like $-1.00$ to $1.00$ would have worked as well, but in our opinion integer numbers are easier to understand for users than rational numbers. 
+
+It is important to notice that not every criterion has to use the full possible range. Coupling criteria of type \textit{cohesiveness} tend to score only positive values, as they describe why nanoentities should be composed in the same service. Criteria of type \textit{characteristics} oder \textit{constraints} on the other hand tend to score negative, as they describe reasons to split nanoentities into different services.
+
+\subsection{Step 2: Prioritized Coupling Criteria}
+
+In the second step, the coupling criteria are prioritized relatively to each other. Table \ref{tab:priorities} outlines all possible priorities.
+
+\begin{table}[H]
+	\centering
+	\caption{Coupling Criterion Priorities}
+	\label{tab:priorities}
+	\begin{tabular}{|p{70pt}|p{30pt}|}
+		\hline	
+		Representation & Value  \\
+		\hline
+		IGNORE & 0  \\
+		\hline
+		XS & 0.5  \\
+		\hline
+		S & 1  \\
+		\hline
+		M & 3  \\
+		\hline
+		L & 5  \\
+		\hline
+		XL & 8  \\
+		\hline
+		XXL & 13  \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of Zühlke and inspired by agile estimation scales \footnote{Alex Yakyma wrote an interesting paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
+
+Having very high values allows analyzing a system in the Service Cutter with focus on one or two coupling criteria only as giving a criterion the priority XXL quickly makes it more important than many of the other criteria together. With progressive values we obtain this ability while still keeping the number of priorities small in order to make it simpler to map each criterion to a priority. 
+
+The priority of each criterion is multiplied with all scores given by that criterion. 
+\begin{displaymath}
+	criteria[i].prioritizedScore_{AB} = criteria[i].score_{AB} * criteria[i].priorityValue
+\end{displaymath}
+
+It is important to distinct between a criterion score (step 1) and a prioritized score (step 2). A criterion score is a statement on the relation of two nanoentities per coupling criterion where each coupling criterion has the same importance ($-10$ to $10$). The prioritized score multiplies this statement by the importance of the criterion in the analyzed system. Priorities are very context sensitive. Priorities of a real-time entertainment system will have for example very different priorities than a system handling financial transactions. 
+
+\subsection{Step 3: Final Relation Score}
+
+The final relation score between two nanoentities is the sum of all prioritized scores per coupling criterion: 
+
+\begin{displaymath}
+finalScore_{AB} = \sum\limits_{i=1}^n criteria[i].score_{AB} * criteria[i].priorityValue_{AB}
+\end{displaymath}
+
+The undirected weighted graph is then build with each vertex representing a nanoentity. Nanoentity relations with a positive score are connected by an weighted edge:
+
+\begin{displaymath}
+edgeWeight_{AB} = max(0, finalScore_{AB})	
+\end{displaymath}
+
+Negative scores are not represented on the graph. Negative scores request a separation of nanoentities in different services. This information is lost in the graph based approach. Nevertheless, we have not encountered actual problems from this as clustering algorithms are unlikely to put two vertices in one cluster that do not have a connecting edge.
+	
+\subsection{Default Priorities}
+
+\begin{minipage}[t]{0.5\textwidth}
+
+One problem the scoring system has is that the sum in step 3 adds together positive and negative scores. If the amount of criterion give negative scores is high, the likelihood to reach a negative final score gets bigger. While analyzing test systems documented in Appendix \ref{testSystems}, we found default priorities as shown in Figure \ref{fig:priorities} provide reasonable results.
+\newline \newline
+Default priorities:
+
+Cohesiveness criteria: M\newline
+Characteristics criteria: XS\newline 
+Constraint criteria: XS\newline
+
+\end{minipage}
+\begin{minipage}[t]{0.6\textwidth}
+	\begin{figure}[H]
+		\begin{center}
+			\includegraphics[scale=0.5]{images/priorities.png}
+			\caption{Screenshot of Default Priorities in Service Cutter}
+			\label{fig:priorities}
+		\end{center}
+	\end{figure}
+\end{minipage}
+
+
+
+\subsection{Scoring Logic}
 
 \section{Prototype} 
 
