@@ -17,6 +17,7 @@ Our first approach to solve the decomposition problem was a clustering or commun
 Every data field in the model is represented by a node. Edges define a relationship between two data fields. The weight on each edge shows how \textit{close} or \textit{cohesive} two fields are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
 
 \begin{minipage}[t]{0.5\textwidth}
+\setlength{\parskip}{5pt plus 0.1pt}
 	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations such as class diagrams or use cases are imported. The \textit{importer} component extracts the data fields and the occurences of coupling, called Coupling Criteria Instances, in this model and stores this information into the database.
 	
 	The \textit{Solver} then creates all vertices from the data fields and builds edges between them according to the stored Coupling Criteria instances. This task is complex for the following reasons:
@@ -314,11 +315,12 @@ Negative scores are not represented on the graph. Negative scores request a sepa
 \subsection{Default Priorities}
 
 \begin{minipage}[t]{0.5\textwidth}
+\setlength{\parskip}{5pt plus 0.1pt}
 
-%TODO: sinnvolere defaults definieren? XS for security constraint ist wohl nicht so gut. 
+%TODO: sinnvollere defaults definieren? XS for security constraint ist wohl nicht so gut. 
 One problem the scoring system has is that the sum in step 3 adds together positive and negative scores. If the amount of criterion give negative scores is high, the likelihood to reach a negative final score gets bigger. While analyzing test systems documented in Appendix \ref{testSystems}, we found default priorities as shown in Figure \ref{fig:priorities} provide reasonable results.
 
-\newline \newline
+
 Default priorities:
 Cohesiveness criteria: M\newline
 Characteristics criteria: XS\newline 
@@ -496,6 +498,7 @@ For the reasons listed above, we implemented the web application component using
 
 
 \begin{minipage}[t]{0.5\textwidth}
+\setlength{\parskip}{5pt plus 0.1pt}
 	The Service Cutter is implemented as a three tier application.
 	
 	The first tier is the web \textit{browser} of the user. The single-page application is based on AngularJS\cite{angularjs} and uses a template based on Bootstrap\cite{bootstrap}. A REST API provides access to the Editor tier.
