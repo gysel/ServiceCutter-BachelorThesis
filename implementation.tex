@@ -239,7 +239,7 @@ Figure \ref{fig:scoringExample} shows three nanoentities from the Trading System
 
 In this simple example, the Service Cutter would most probably suggest two services, one with $Account.number$ and $Position.balance$ and another one with the $News.description$.
 
-To determine the final score between two nanoentities three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Last the prioritized scores of all criteria are summed up to a final score.
+To determine the final score between two nanoentities three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Finally the prioritized scores of all criteria are summed up to a final score.
 
 \subsection{Step 1: Score by Coupling Criterion}
 
@@ -253,7 +253,7 @@ A score of $10$ implies that \enquote{From the view of coupling criterion $i$, t
 
 The range from $-10$ to  $10$ was chosen to be able to compare scores of different coupling criterion with each other. A fixed range guarantees that not one criterion receives more importance than another one due to its scoring logic. Other ranges like $-1.00$ to $1.00$ would have worked as well, but in our opinion integer numbers are easier to understand for users than rational numbers. 
 
-It is important to notice that not every criterion has to use the full possible range. Coupling criteria of type \textit{cohesiveness} tend to score only positive values, as they describe why nanoentities should be composed in the same service. Criteria of type \textit{characteristics} oder \textit{constraints} on the other hand tend to score negative, as they describe reasons to split nanoentities into different services.
+It is important to notice that not every criterion has to use the full possible range. Coupling criteria of type \textit{cohesiveness} tend to score only positive values, as they describe why nanoentities should be composed in the same service. Criteria of type \textit{characteristics} or \textit{constraints} on the other hand tend to score negative, as they describe reasons to split nanoentities into different services.
 
 \subsection{Step 2: Prioritized Coupling Criteria}
 
@@ -284,7 +284,7 @@ In the second step, the coupling criteria are prioritized relatively to each oth
 	\end{tabular}
 \end{table}
 
-The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of Zühlke and inspired by agile estimation scales \footnote{Alex Yakyma wrote an interesting paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
+The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of Zühlke and inspired by agile estimation scales\footnote{Alex Yakyma wrote an interesting paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
 
 Having very high values allows analyzing a system in the Service Cutter with focus on one or two coupling criteria only as giving a criterion the priority XXL quickly makes it more important than many of the other criteria together. With progressive values we obtain this ability while still keeping the number of priorities small in order to make it simpler to map each criterion to a priority. 
 
@@ -303,7 +303,7 @@ The final relation score between two nanoentities is the sum of all prioritized 
 finalScore_{AB} = \sum\limits_{i=1}^n criteria[i].score_{AB} * criteria[i].priorityValue_{AB}
 \end{displaymath}
 
-The undirected weighted graph is then build with each vertex representing a nanoentity. Nanoentity relations with a positive score are connected by an weighted edge:
+The undirected weighted graph is then built with each vertex representing a nanoentity. Nanoentity relations with a positive score are connected by an weighted edge:
 
 \begin{displaymath}
 edgeWeight_{AB} = max(0, finalScore_{AB})	
@@ -317,9 +317,9 @@ Negative scores are not represented on the graph. Negative scores request a sepa
 
 %TODO: sinnvolere defaults definieren? XS for security constraint ist wohl nicht so gut. 
 One problem the scoring system has is that the sum in step 3 adds together positive and negative scores. If the amount of criterion give negative scores is high, the likelihood to reach a negative final score gets bigger. While analyzing test systems documented in Appendix \ref{testSystems}, we found default priorities as shown in Figure \ref{fig:priorities} provide reasonable results.
+
 \newline \newline
 Default priorities:
-
 Cohesiveness criteria: M\newline
 Characteristics criteria: XS\newline 
 Constraint criteria: XS\newline
@@ -329,7 +329,7 @@ Constraint criteria: XS\newline
 	\begin{figure}[H]
 		\begin{center}
 			\includegraphics[scale=0.5]{images/priorities.png}
-			\caption{Screenshot of Default Priorities in Service Cutter}
+			\caption{Screenshot of Default Priorities in the Service Cutter}
 			\label{fig:priorities}
 		\end{center}
 	\end{figure}
@@ -351,6 +351,7 @@ Figure \ref{fig:scorer} shows the CriterionScorer interface used to calculate cr
 
 Currently there are four CriterionScorer implementations for different coupling criteria. Not all criteria have a suitable implementation yet, as we prioritized the criteria during the project as there was not enough time to implement the scoring for all criteria. Table \ref{tab:scorer} outlines which implementation is used for which coupling criterion.
 
+%TODO spalten tauschen?
 \begin{table}[H]
 	\centering
 	\caption{Coupling Criteria and their Scorer Implementation}
@@ -405,7 +406,7 @@ SCORE\_AGGREGATION: 1 \newline
 
 These values are only used for the intermediate score and are not to be confound with the criterion score of $-10$ to $10$. More important than the actual numbers are the relative differences to each other which define the importance of the occurrences. Our defaults listed above put a strong emphasis on mutual write access. 
 
-To reduce the intermediate score to the criterion score, the following rules apply:
+To reduce the intermediate score to the criterion score, the following rules are applied:
 
 \begin{itemize}
 	\item The top 10\% of all relations with the highest intermediate score receive a criterion score of 10.
@@ -413,6 +414,8 @@ To reduce the intermediate score to the criterion score, the following rules app
 \end{itemize}
 
 The calculation for the lower 90\% works as following:
+
+%TODO Michi: verstehe ich nicht!
 
 \begin{equation}
 \frac{referenceIntermediateScore}{x} = 10
@@ -424,14 +427,14 @@ x = \frac{referenceIntermediateScore}{10}
 criterionScore_{AB} = \frac{intermediateScore_{AB}}{X}
 \end{equation}
 
-Both, the numbers counted for access or aggregation occurrences and the reduction to the criterion score have been experimental evaluated. The algorithm documented here has proven go produce reasonable results for the example systems tested but might require further investigations for other systems. 
+Both, the numbers counted for access or aggregation occurrences and the reduction to the criterion score have been experimental evaluated. The algorithm documented here has proven to produce reasonable results for the example systems tested but might require further investigations for other systems. 
 
 \subsubsection{CharacteristicsCriteriaScorer}
 %TODO styles?
 
 Each coupling criterion of type characteristics defines multiple characteristics. The idea of these criteria is to create services with as homogeneous nanoentities as possible. The scorer therefore sets negative scores for a relation between two nanoentities having different characteristics. 
 
-As an example, the criterion \textit{Change Similarty} describes how often change requests need to be implemented affecting a nanoentity. A nanoentity can have the characteristic \textit{often, normal} or \textit{rarely}. Each characteristic has a number between $0$ and $10$ assigned:
+As an example, the criterion \textit{Change Similarity} describes how often change requests need to be implemented that affect a nanoentity. A nanoentity can have the characteristic \textit{often, normal} or \textit{rarely}. Each characteristic has a number between $0$ and $10$ assigned:
 
 Often: $10$ \newline
 Normal: $4$ \textit{(default)} \newline
@@ -467,9 +470,6 @@ Table \ref{tab:characteristics} outlines characteristics of all criteria with th
 		\hline
 	\end{tabular}
 \end{table}
-
-
-
 
 
 \section{Prototype} 
