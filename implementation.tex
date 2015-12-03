@@ -5,7 +5,7 @@
 intro...
 
 
-\section{Decomposition Algorithm}
+\section{Decomposition Approach}
 
 Decomposition describes the task of grouping data fields into services. Achieving a good solution according to the defined Coupling Criteria as described in \ref{sec:decompositionRequirements} requires a non trivial algorithm. This section documents the evaluation process for such an algorithm.
 
@@ -47,7 +47,7 @@ Every data field in the model is represented by a node. Edges define a relations
 	\end{figure}
 \end{minipage}
 
-A detailed evaluation of clustering algorithms is document in Appendix \ref{appendix:graphClustering}. We decided to do a first assessment of this approach using the MCL\cite{mcl} and Girvan-Newman\cite{girvanNewman} algorithms. Both algorithms are implemented as plugins of the Gephi\cite{gephi} platform and can be extracted as \gls{JAR} files.
+A detailed evaluation of clustering algorithms is document in Appendix \ref{appendix:graphClustering}. We decided to do a first assessment of this approach using the \gls{MCL}\cite{markovCluster} and Girvan-Newman\cite{girvan} algorithms. Both algorithms are implemented as plugins of the Gephi\cite{gephi} platform and can be extracted as \gls{JAR} files.
 
 \subsubsection{Practical Assessment of the Graph Clustering Approach}
 
@@ -76,7 +76,47 @@ Obviously this is not the expected result. The service clusters are formed with 
 
 
 \subsubsection{Discussion}
-Theoretical assessment %TODO
+
+As proven with the first graph samples based on entity and use case relationships, the problem can be mapped to a graph. This allows to leverage existing graph clustering algorithms.
+
+We identified two conceptional challenges of the graph approach. Firstly the theoretical number of nodes may cause performance problems and secondly a separation constraint can not directly modeled on a graph. The following paragraphs cover those problems.
+
+A weighted graph can only describe how close two nanoservices are. This includes all coupling criteria of type cohesiveness. Coupling that describes separation or characterization, where different styles should be separated, can only be mapped to the graph indirectly as negative scores. %TODO müssen die positiven scores grösser sein als die penalties?
+
+The maximum number of edged in a graph can be described using a formula: A graph of $n$ nodes, where every node is connected to all other nodes, has $e$ edges.
+
+\begin{displaymath}
+e = \frac{n(n-1)}{2}
+\end{displaymath}
+
+The number of edges grows almost quadratically as shown in Table \ref{tab:edgesCount}.
+
+\begin{table}[H]
+	\centering
+	\caption{Maximum number of edges in an undirected graph}
+	\label{tab:edgesCount}
+	\begin{tabular}{|r|r|}
+	\hline \textbf{Nodes} $n$ & \textbf{Edges} $e$ \\ 
+	\hline 2 & 1 \\ 
+	\hline 3 & 3 \\ 
+	\hline 20 & 190 \\ 
+	\hline 50 & 1'225 \\ 
+	\hline 100 & 4'950 \\ 
+	\hline 2000 & 1'999'999 \\ 
+	\hline 
+	\end{tabular} 
+\end{table}
+
+Our implementation however will unlikely have anything close to the theoretical number of edges as:
+\begin{itemize}
+\item Coupling of type \textit{Cohesiveness} only adds edges where nanoservices are in a relationship with each other.
+\item Coupling of type \textit{Characterization} only adds a negative score (penalty) to existing relationships.
+\item Coupling of type \textit{Constraint} only removes existing edges.
+%todo communication
+\end{itemize}
+
+The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoservices which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
+
 
 
 \subsection{Approach \#2: Rating of possible Service Cuts}
@@ -144,6 +184,44 @@ Idee: Am Anfang 5 Minuten durchlaufen, 10 Vorschläge ausarbeiten und dann den u
 
 Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decomposition mode? Kann der Algorithmus in zwei Schritten geschehen? Bzw. lösen wir eigentlich 2 Probleme (Logisch \& Physisch) auf einmal?
 
+
+\section{Clustering Algorithm}
+
+We decided to use the clustering algorithms Girvan-Newman and Leung. Both provide the required functionality and should support on clusters with up to 2000 nodes. %TODO is leung a bit faster? test!
+
+The \gls{MCL} algorithm according to the paper\cite{markovCluster} supports the desired functionality. However we did not find a stable Java implementation of it and therefore did not test it in detail.
+
+A full comparison of the evaluated algorithms is attached in Appendix \ref{appendix:graphClusteringAlgs}.
+
+\subsection{Girvan-Newman}
+
+M. E. J. Newman and M. Girvan\cite{girvan} proposed to use a divise approach to graph clustering. This approach repeatedly finds the least connected pair of nodes and removes the edges between them. This process divides the graph into smaller and smaller components and can be stopped at any time to select the components at this time to be the graph clusters.
+
+In the ordered graph in Figure \ref{fig:girvan-newman-process} Girvan-Newman would remove the edges in ascending order. The graph is split into 4 clusters after 4 iterations.
+
+Girvan-Newman stops as soon as the desired number of clusters has been reached.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.45]{diagrams/Girvan-Newman-Process.pdf}
+	\end{center}
+	\caption{Girvan-Newman forms clusters by removing edges iteratively}
+	\label{fig:girvan-newman-process}
+\end{figure}
+
+As this algorithm does not include random elements, the proposed clusters are always identical.
+
+\subsection{Leung}
+
+In 2009 Leung \textit{et al}\cite{leung} refined the \enquote{Epidemic Label Propagation} algorithm as proposed by Raghavan \textit{et al}\cite{raghavan} in 2007. 
+
+Raghvan described the algorithm as follows: \enquote{Each node in the network chooses to
+join the community to which the maximum number of its neighbors belong to, with ties broken uniformly randomly. We initialize every node with unique labels and let the labels propagate through the network. As the labels propagate, densely connected groups of nodes quickly reach a consensus on a unique label.}\cite[p. 4]{raghavan}.
+
+Leung further refined the algorithm by adding a \enquote{Hop Attenuation Factor} $\delta$ to prevent labels from spreading across two clusters. He explains: \enquote{The value $\delta$ governs how far a particular label can spread as a function of the geodesic distance from its origin. This additional parameter adds in extra uncertainties
+to the algorithm but may encourage a stronger local community to form before a large cluster start to dominate.}
+
+Leung does not specify an order in which nodes are to be processed. Therefore the labels may spread differently in repeated runs. We witnessed varying clusters while testing the Service Cutter. %TODO add reference to ddd sample chapter
 
 \section{Scoring}
 
