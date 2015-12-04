@@ -79,11 +79,12 @@ Decomposition --- the craft of splitting a system into smaller parts --- has bee
 and \textit{cohesion} as software design metrics appeared as part of the Structured Design technique\cite{structuredDesign}:
 
 \begin{description}
-	\item[Loose Coupling] In computing and systems design a loosely coupled system is one in which each of its components has, or makes use of, little or no knowledge of the definitions of other separate components.\cite{looseCoupling}
-	\item[High Cohesion] In object-oriented programming, if the methods that serve a class tend to be similar in many aspects, then the class is said to have high cohesion. In a highly cohesive system, code readability and reusability is increased, while complexity is kept manageable.\cite{highCohesion}
+	\item[Coupling] A measure of how closely connected two routines or modules are.\newline In	software design, a measure of the interdependence among modules in a computer program \textcopyright  2011 IEEE\cite{softwareVocabulary}.
+	\item[Cohesion] The manner and degree to which the tasks performed by a single software module are related to one another. \newline 
+	In software design, a measure of the strength of association of the elements within a module\textcopyright  2011 IEEE\cite{softwareVocabulary}.
 \end{description}
 
-Robert Martin later described a general principle to achieve loose coupling and high cohesion:
+Software architects commonly started to use this metrics to define good architectures as having high cohesion within and low coupling between its parts. R. C. Martin later described a general principle to achieve loose coupling and high cohesion:
 
 \begin{description}
 	\item[Single Responsibility Principle] Gather together the things that change for the same reasons. Separate those things that change for different reasons.\cite{SRP}

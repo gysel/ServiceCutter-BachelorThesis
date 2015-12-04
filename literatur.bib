@@ -8,11 +8,11 @@
 	urldate = {2015-10-12},
 	url = {http://projects.spring.io/spring-boot/},
 }
+
 @book{evans2003domain,
   title={Domain-Driven Design: Tackling Complexity in the Heart of Software},
   author={Evans, E.},
   isbn={9780132181273},
-  url={https://books.google.ch/books?id=hHBf4YxMnWMC},
   year={2003},
   publisher={Pearson Education}
 }
@@ -20,7 +20,6 @@
   title={Domain-Driven Design Reference: Definitions and Pattern Summaries},
   author={Evans, E.},
   isbn={9781457501197},
-  url={https://books.google.ch/books?id=ccRsBgAAQBAJ},
   year={2014},
   publisher={Dog Ear Publishing}
 }
@@ -28,19 +27,18 @@
 	title={Software Systems Architecture: Working with Stakeholders Using Viewpoints and Perspectives},
 	author={Rozanski, N. and Woods, E.},
 	isbn={9780132906128},
-	url={https://books.google.ch/books?id=nXRF77-gxRkC},
 	year={2011},
 	publisher={Pearson Education}
 }
-
-@online{risk,
-	author = {Arnuphaptrairong, Tharwon},
-	title = {Top Ten Lists of Software Project Risks},
-	date = {2011-03},
-	url = {http://www.uio.no/studier/emner/matnat/ifi/INF5181/h14/pensumliste/microsoft-word---iaeng-top-ten-lists-of-software-project-risk1---imecs2011_pp732-737.pdf},
-	language = {English},
-	urldate = {2015-03-09},
+@inproceedings{arnuphaptrairong2011top,
+	title={Top ten lists of software project risks: Evidence from the literature survey},
+	author={Arnuphaptrairong, T.},
+	booktitle={Proceedings of the International MultiConference of Engineers and Computer Scientists},
+	volume={1},
+	pages={16--18},
+	year={2011}
 }
+
 @online {eclipsemars,
 	title = {Eclipse Mars},
 	subtitle = {An integrated development environment for Java},
@@ -59,76 +57,91 @@
 	urldate = {2015-11-19},
 	url = {https://docs.docker.com/compose/},
 }
-@online {fourPlusOne,
-	author = {Kruchten, P.},
-	title = {The “4+1” View	Model of Software Architecture},
-	urldate = {2015-10-22},
-	url = {http://www.cs.ubc.ca/~gregor/teaching/papers/4+1view-architecture.pdf},
+@article{fourPlusOne,
+	title={The 4+ 1 view model of architecture},
+	author={{Kruchten}, P.~B.},
+	journal={Software, IEEE},
+	volume={12},
+	number={6},
+	pages={42--50},
+	year={1995},
+	publisher={IEEE}
 }
-@online {serviceDefinitionDahan,
+
+@misc {serviceDefinitionDahan,
 	author = {Dahan, U.},
 	title = {The known unknowns of SOA},
 	urldate = {2015-10-22},
 	url = {http://udidahan.com/2010/11/15/the-known-unknowns-of-soa/},
 }
-@online {fowlerIoC,
+@misc {fowlerIoC,
 	author = {Fowler, M.},
 	title = {Service Definition by Martin Fowler in his article about Inversion of Control},
 	urldate = {2015-10-22},
 	url = {http://www.martinfowler.com/articles/injection.html},
 }
-@online {fowlerMicroservice,
+@misc {fowlerMicroservice,
 	author = {Fowler, M.},
 	title = {Microservices},
 	urldate = {2015-10-22},
 	url = {http://martinfowler.com/articles/microservices.html},
 }
-@online {SRP,
-	author = {Martin, R.~C.},
-	title = {Single Responsibility Principle},
-	urldate = {2015-10-22},
-	url = {https://blog.8thlight.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html},
+
+@book{SRP,
+	title={Agile software development: principles, patterns, and practices},
+	author={{Martin}, R~.C.},
+	year={2003},
+	publisher={Prentice Hall PTR}
 }
-@online {parnaDecomposing,
-	author = {Parnas, D.~L.},
-	title = {On the Criteria To Be Used in Decomposing Systems into Modules},
-	urldate = {2015-10-22},
-	url = {https://www.cs.umd.edu/class/spring2003/cmsc838p/Design/criteria.pdf},
+@article{parnaDecomposing,
+	title={On the criteria to be used in decomposing systems into modules},
+	author={Parnas, D.~L.},
+	journal={Communications of the ACM},
+	volume={15},
+	number={12},
+	pages={1053--1058},
+	year={1972},
+	publisher={ACm}
 }
-@online {highCohesion,
-	title = {High Cohesion},
-	urldate = {2015-10-23},
-	url = {https://en.wikipedia.org/wiki/Cohesion_(computer_science)},
+@ARTICLE{softwareVocabulary, 
+	journal={IEEE Std. 24765-2010}, 
+	title={Systems and software engineering -- Vocabulary}, 
+	year={2010}, 
+	isbn={978-0-7381-6205-8},
+	doi={10.1109/IEEESTD.2010.5733835}
 }
-@online {looseCoupling,
-	title = {Loose Coupling},
-	urldate = {2015-10-23},
-	url = {https://en.wikipedia.org/wiki/Loose_coupling},
-}
-@online {structuredDesign,
-	author = {Stevens, W.P. and Myers, G.J. and Constantine, L.L.},
-	title = {Structured Design - IBM Systems Journal},
-	urldate = {2015-10-23},
-	url = {https://dx.doi.org/10.1147%2Fsj.132.0115},
+@article{structuredDesign,
+	title={Structured design},
+	author={Stevens, W.P. and Myers, G.J. and Constantine, L.L.},
+	journal={IBM Systems Journal},
+	volume={13},
+	number={2},
+	pages={115--139},
+	year={1974},
+	publisher={IBM}
 }
 @online {swagger,
 	title = {Swagger.io - Swagger is a specification and complete web application framework implementation for describing, producing, consuming, and visualizing RESTful web APIs.},
 	urldate = {2015-10-23},
 	url = {http://swagger.io/},
 }
-@online {nanoservice,
+@misc {nanoservice,
 	author = {Rotem-Gal-Oz, A.},
 	title = {Services, Microservices, Nanoservices},
 	urldate = {2015-10-28},
 	url = {http://arnon.me/2014/03/services-microservices-nanoservices/},
 }
-@online {zioAD,
-	author = {Zimmermann, O.},
-	title = {Architectural Decisions as Reusable Design Assets},
-	urldate = {2015-10-28},
-	url = {http://www.infoq.com/articles/ieee-arch-decisions},
+
+@article{zioAD,
+	title={Architectural decisions as reusable design assets},
+	author={Zimmermann, Olaf},
+	journal={IEEE software},
+	number={1},
+	pages={64--69},
+	year={2011},
+	publisher={IEEE}
 }
-@online{y-template,
+@misc{y-template,
 	title = {Making Architectural Knowledge Sustainable: The Y-Approach},
 	subtitle = {SATURN Conference. Software Engineering Institute CMU},
 	urldate = {2015-10-28},
@@ -148,15 +161,21 @@
 	urldate = {2015-09-23},
 	url = {http://gephi.github.io},
 }
-@online{hcs,
-	title = {HCS clustering algorithm},
-	urldate = {2015-09-23},
-	url = {https://en.wikipedia.org/wiki/HCS\_clustering\_algorithm},
+@article{hcs,
+	title={A clustering algorithm based on graph connectivity},
+	author={{Hartuv}, E. and {Shamir}, R.},
+	journal={Information processing letters},
+	volume={76},
+	number={4},
+	year={2000},
+	publisher={Elsevier}
 }
-@online{kmeans,
-	title = {k-means clustering},
-	urldate = {2015-09-23},
-	surl = {https://en.wikipedia.org/wiki/K-means\_clustering},
+@article{kmeans,
+	title={Algorithm AS 136: A k-means clustering algorithm},
+	author={{Hartigan}, J.~A. and {Wong}, M.~A.},
+	journal={Applied statistics},
+	year={1979},
+	publisher={JSTOR}
 }
 @online{apiacoa,
 	title = {Apiacoa},
@@ -170,10 +189,12 @@
 	urldate = {2015-09-23},
 	url = {http://jung.sourceforge.net},
 }
-@online{partitionOfASet,
-	title = {Partition of a Set - Wikipedia Article},
-	urldate = {2015-10-21},
-	url = {https://en.wikipedia.org/wiki/Partition_of_a_set},
+
+@book{partitionOfASet,
+	title={Naive set theory},
+	author={{Halmos}, P.~R.},
+	year={1960},
+	publisher={Springer Science \& Business Media}
 }
 @online{bootstrap,
 	title = {Bootstrap. A front end framework based on HTML, CSS and Java Script},
@@ -205,41 +226,50 @@
 	urldate = {2015-11-19},
 	url = {http://www.postgresql.org/},
 }
-@online{conway,
-	title = {How Do Committees Invent?},
-	urldate = {2015-11-29},
-	author = {Conway, M.~E.},
-	url = {http://www.melconway.com/Home/Committees_Paper.html}
+
+@article{conway,
+	title={How do committees invent},
+	author={{Conway}, M.~E.},
+	journal={Datamation},
+	volume={14},
+	number={4},
+	pages={28--31},
+	year={1968}
 }
-@online{microserviceIntro,
+@misc{microserviceIntro,
 	title = {Microservices: Decomposing Applications for Deployability and Scalability},
 	urldate = {2015-11-29},
+	author = {Richardson, C.},
 	url = {http://www.infoq.com/articles/microservices-intro}
 }
-@online{performance,
+@misc{performance,
 	title = {Design Guidelines for Application Performance},
 	urldate = {2015-11-29},
+	author = {{Meier}, J.~D. and {Vasireddy}, S. and {Babbar}, A. and {Mariani}, R. and {Mackman}, A.},
 	url = {https://msdn.microsoft.com/en-us/library/ff647801.aspx}	
 }
-@online{consistency,
+@misc{consistency,
 	title = {Eventually Consistent - Revisited},
+	author = {Vogels, W.},
 	urldate = {2015-11-29},
 	url = {http://www.allthingsdistributed.com/2008/12/eventually_consistent.html}
 }
-@online{udiConsistency,
+@misc{udiConsistency,
 	title = {InfoQ - Udi Dahan on Defining Service Boundaries},
 	urlddate = {2015-11-29},
 	author = {Avram, A.},
 	url = {http://www.infoq.com/news/2015/02/service-boundaries-healthcare}
 }
-@online{mutability,
-	title = {Finding Service Boundaries – illustrated in healthcare by Udi Dahan (Video: 1:05 - 1:07},
+@misc{mutability,
+	title = {Finding Service Boundaries – illustrated in healthcare (Video: 1:05 - 1:07},
 	urldate = {2015-11-29},
+	author = {Dahan, U.},
 	url = {https://vimeo.com/113515335}	
 }
-@online{estimation,
+@misc{estimation,
 	title = {Why Progressive Estimation Scale Is So Efficient For Teams},
 	urldate = {2015-12-01},
+	author = {Yakyma, A.},
 	url = {http://www.yakyma.com/2012/05/why-progressive-estimation-scale-is-so.html}	
 }
 @phdthesis{markovCluster,
@@ -247,6 +277,7 @@
 	school = {University of Utrecht},
 	author = {van Dongen, S.},
 	year = {2000},
+	publisher={University of Utrecht},
 	url = {http://micans.org/mcl/}
 }
 @article{raghavan,
