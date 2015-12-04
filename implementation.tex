@@ -236,9 +236,9 @@ The scoring process rates the relation of two nanoentities with a score. A highe
 	\end{center}
 \end{figure}
 
-Figure \ref{fig:scoringExample} shows three nanoentities from the Trading System (see Appendix \ref{sec:tradingSystem}) and their scores to each other. The relation $Position.balance$ to $Account.number$ has a high score as these nanoentities are often accessed in the same use cases and therefore get a high score from the $Semantic Proximity$ criterion. $News.description$ to $Account.number$ has a negative score. These nanoentities do not have common use cases and do not belong to the same entity, so the positive scores from $cohesiveness$ criteria are low or zero. Different characteristic like $low$ resilience requirements for $News.description$ and $critical$ resilience requirements for $Account.number$ lead to a negative score. 
+Figure \ref{fig:scoringExample} shows three nanoentities from the Trading System (see Appendix \ref{sec:tradingSystem}) and their scores to each other. The relation \textit{Position.balance} to \textit{Account.number} has a high score as these nanoentities are often accessed in the same use cases and therefore get a high score from the \textit{Semantic Proximity} criterion. \textit{News.description} to \textit{Account.number} has a negative score. These nanoentities do not have common use cases and do not belong to the same entity, so the positive scores from \textit{cohesiveness} criteria are low or zero. Different characteristic like \textit{low} resilience requirements for \textit{News.description} and \textit{critical} resilience requirements for \textit{Account.number} lead to a negative score. 
 
-In this simple example, the Service Cutter would most probably suggest two services, one with $Account.number$ and $Position.balance$ and another one with the $News.description$.
+In this simple example, the Service Cutter would most probably suggest two services, one with \textit{Account.number} and \textit{Position.balance} and another one with the \textit{News.description}.
 
 To determine the final score between two nanoentities three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Finally the prioritized scores of all criteria are summed up to a final score.
 
@@ -321,7 +321,7 @@ Negative scores are not represented on the graph. Negative scores request a sepa
 One problem the scoring system has is that the sum in step 3 adds together positive and negative scores. If the amount of criterion give negative scores is high, the likelihood to reach a negative final score gets bigger. While analyzing test systems documented in Appendix \ref{testSystems}, we found default priorities as shown in Figure \ref{fig:priorities} provide reasonable results.
 
 
-Default priorities:
+Default priorities: \newline
 Cohesiveness criteria: M\newline
 Characteristics criteria: XS\newline 
 Constraint criteria: XS\newline
@@ -353,24 +353,23 @@ Figure \ref{fig:scorer} shows the CriterionScorer interface used to calculate cr
 
 Currently there are four CriterionScorer implementations for different coupling criteria. Not all criteria have a suitable implementation yet, as we prioritized the criteria during the project as there was not enough time to implement the scoring for all criteria. Table \ref{tab:scorer} outlines which implementation is used for which coupling criterion.
 
-%TODO spalten tauschen?
 \begin{table}[H]
 	\centering
 	\caption{Coupling Criteria and their Scorer Implementation}
 	\label{tab:scorer}
 	\begin{tabular}{|p{170pt}|p{200pt}|}
 		\hline	
-		\textbf{Scorer Implementation} & \textbf{Coupling Criteria}  \\
+		\textbf{Coupling Criteria} & \textbf{Scorer Implementation}  \\
 		\hline
-		CohesiveGroupCriteriaScorer & Consistency Constraint \newline Identity \& Lifecycle Commonality \newline Responsibility  \\
+		Consistency Constraint \newline Identity \& Lifecycle Commonality \newline Responsibility & CohesiveGroupCriteriaScorer \\
 		\hline
-		SeparationCriteriaScorer & Security Constraint  \\
+		Security Constraint & SeparationCriteriaScorer \\
 		\hline
-		SemanticProximityCriterionScorer & Semantic Proximity \\
+		Semantic Proximity & SemanticProximityCriterionScorer \\
 		\hline
-		CharacteristicsCriteriaScorer & Change Similarty \newline Consistency \newline Resilience \newline Volatility \newline Storage Similarty \newline Security Criticality  \\
+		Change Similarty \newline Consistency \newline Resilience \newline Volatility \newline Storage Similarty \newline Security Criticality & CharacteristicsCriteriaScorer  \\
 		\hline
-		No Implementation & Mutability \newline Network Traffic Suitability \newline Latency \newline Security Contextuality \newline Predefined Service Constraint  \\
+		Mutability \newline Network Traffic Suitability \newline Latency \newline Security Contextuality \newline Predefined Service Constraint & No Implementation  \\
 		\hline
 	\end{tabular}
 \end{table}
