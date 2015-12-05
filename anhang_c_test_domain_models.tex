@@ -1,20 +1,34 @@
-\chapter{Test Domain Models}
+\chapter{Service Cutter Assessment}
 \label{testSystems}
 
-% TODO: not domain model, systems
-We used two domain models to test the Service Cutter. Both domain models are presented in this chapter.
+We used two example systems to test the Service Cutter. After defining the input used to describe the systems we discussed and documented our expectations on how service decomposition of the systems would make sense from our experience. In order to rate the candidate service cuts provided by the service cutter we defined three categories of cuts:
+
+\begin{description}
+	\item[Expected Service Cut] The cut is exactly the way we expected it. 
+	\item[Reasonable Service Cut] The cut is not the way we expected it but we find reasons why the cut could make sense from an architects perspective.
+	\item[Unreasonable Service Cut] The cut is not as we expected it and we do not find reasons why the cut would provide any benefits to a systems architecture. 
+\end{description}
+
+To assess the Service Cutter's output the following language is used:
+
+\begin{itemize}
+	\item An \textit{good} output contains zero unreasonable service cuts.
+	\item An \textit{acceptable} output contains at most one unreasonable service cut.
+	\item A \textit{bad} output contains two or more unreasonable service cuts.
+\end{itemize}
+
 
 \section{Trading System}
 \label{sec:tradingSystem}
 
-The Trading System was developed by us and its goal is to include various different coupling aspects in a rather small domain model.
+We developed the Trading System as a fictional example based on personal experience with similar systems. Its goal is to include various different coupling aspects in a rather small model.
 
 The Trading System is an application one might find in a typical swiss private bank offering its customers the ability to manage their stocks portfolio.
 
 \begin{itemize}
 \item The main focus is to buy or sell \textit{stocks} at a specific price (\textit{Order.triggerPrice}) using an \textit{order}.
-\item \textit{Prices} are frequently imported from an market data provider and upon import of a price, all orders are checked for orders that can be triggered.
-\item When an order is executed, an instruction is sent to the market to purchase or sell the stocks. The \textit{payment info} contains all necessary information to do so. 
+\item \textit{Prices} are frequently imported from a market data provider and upon import of a price, all orders are checked for orders that can be triggered.
+\item When an order is executed, an instruction is sent to the market to purchase or sell the stocks. The \textit{PaymentInfo} contains all necessary information to do so. 
 \item \textit{News} are imported from an external provider and are linked to a specific stock. They provide valuable, contextual information when using the system. However traders and customers can easily fall back to any online source should this information not be available.
 \item \textit{Recommendations} are suggested to the user of the system based on his existing portfolio.
 \end{itemize}
@@ -87,8 +101,8 @@ In addition to the use cases, we defined the following characteristics.
 \textbf{Security Criticality}
 
 \begin{itemize}
-\item \textbf{Public}: Stock.identifier,Stock.stockName, Price.dateTime, Price.price, Price.currency, News.title, News.text, News.image
 \item \textbf{Critical}: AccountOwner.address, NaturalPerson.name, Company.companyName
+\item \textbf{Public}: Stock.identifier,Stock.stockName, Price.dateTime, Price.price, Price.currency, News.title, News.text, News.image
 \end{itemize} 
 
 \textbf{Volatility}
@@ -122,9 +136,11 @@ In addition to the use cases, we defined the following characteristics.
 \item \textbf{Low}: News.title, News.text, News.image, Recommendation.description
 \end{itemize}
 
-Furthermore all default styles of characteristics as documented in Section \ref{sec:couplingCriteria} are taken into account.
+Furthermore all default characteristics as documented in Section \ref{sec:couplingCriteria} are taken into account.
 
-From our experience we expect the Service Cutter to decompose the Trading System into the services presented in Figure \ref{fig:tradingCuts}.
+\subsection{Expected Service Cuts}
+
+From our experience in software architecture we expect the Service Cutter to decompose the Trading System into the services presented in Figure \ref{fig:tradingCuts}.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{diagrams/TradingSystem-ServiceCut.pdf}
@@ -136,12 +152,15 @@ The following reasons led us to this decision.
 \begin{itemize}
 	\item The service \textit{Order} encapsulated many use cases and contains several entities that need to be processed with high consistency (Order, Position).
 	\item The high volatility of the entity price led to the isolation of this part into an own service \textit{Price}.
-	\item News images require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service allowing an optimized storage technology.
-	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions.
-	\item Security restrictions requires all \gls{PII} to be separated from other data. Extracting it into a \textit{Customer} service allows the architect to protect this data with additional measures.
+	\item News are not part of the core operations and therefore require lower resilience and security criticality. News images furthermore require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service.
+	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions. Moreover recommendations are, like the news, not part of the core operations and require lower resilience. 
+	\item Security restrictions requires all \gls{PII} to be separated from other data. Extracting it into a \textit{Customer} service allows the architect to protect this data with additional measures. 
 \end{itemize}
 
-Figure \ref{fig:tradingCutsTool} is the suggested cut as calculated by the Service Cutter. 
+
+\subsection{Girvan-Newman Algorithm Assessment}
+
+Figure \ref{fig:tradingCutsTool} is the suggested cut as calculated by the Service Cutter with the Girvan-Newman algorithm. 
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{images/trading_service_cut.png}
@@ -152,10 +171,56 @@ Figure \ref{fig:tradingCutsTool} is the suggested cut as calculated by the Servi
 The parameters that produce a cut as seen in \ref{fig:tradingCutsTool} are the following:
 
 \begin{itemize}
-\item Coupling Criteria priorities: M for all criteria
-\item Algorithm: Girvan-Newman
-\item Number of clusters: 5
+\item Coupling Criteria priorities: Defaults as defined in \ref{sec:defaultPriorities}
+\item Number of services: 5
 \end{itemize}
+
+The presented candidate service cuts match exactly the expected services and are therefore considered a good result.
+
+\subsubsection{Priorities Sensitivity}
+
+The candidate service cuts are very stable when changing the priorities. Changing the two relevant cohesiveness parameters \textit{Identity \& Lifecycle Commonality} and \textit{Semantic Proximity} to any combination between \textit{XS} and \textit{L} only affects the result when both set to \textit{L}. With these priorities the Service Cutter suggests an own service for \textit{Stock.stockName} and \textit{Stock.identifier} instead of \textit{Recommendation.description}.
+
+An own service for stocks is reasonable as these nanoentities can be categorized as master data and not transaction data like most of the other nanoentities in the order service. Requesting 6 number of services with these priorities creates cuts for both the recommendation and the stock service. 
+
+Changing the priority of compatibility or constraint criteria to any value between \textit{XS} and \textit{L} does not affect the resulting cuts. However the possibility to request a small number of services gets lost as too many relations between nanoentites are cut if criteria scoring negative values receive a high priority. 
+
+\subsubsection{Number of Services}
+
+As Girvan-Newman receives a number of services parameter we can analyze how a monolithic architecture would be split up step by step. The resulting services by each parameter are listed in Table \ref{tab:tradingNumberOfServices}.
+
+\begin{table}[H]
+	\centering
+	\caption{Girvan-Newman cuts of trading system with different number of services}
+	\label{tab:tradingNumberOfServices}
+	\begin{tabular}{|p{60pt}|p{200pt}|}
+		\hline	
+		\textbf{Number of services} & \textbf{Services}  \\
+		\hline
+		1 & Monolith \\
+		\hline
+		2 & Customer Service extracted \\
+		\hline
+		3 & Price Service extracted  \\
+		\hline
+		4 & News Service extracted  \\
+		\hline
+		5 & Recommendation Service extracted  \\
+		\hline
+		6 & Not supported\\
+		\hline
+		7 & Payment Service and Instruction Service extracted \\
+		\hline
+		8 & Stock Service extracted \\
+		\hline
+		9 & Stock Service splitted in \textit{Stock.name} and \textit{Stock.identifier} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+Reasonable cuts are presented for up to 8 different services. The results produced by Girvan-Newman with the Trading System example are very satisfying as \textit{good} results are presented with almost all combinations of parameters. 
+
+\subsection{Leung Algorithm Assessment}
 
 Leung produces varying suggested cuts as it is not a deterministic algorithm. We have observed the following variations:
 

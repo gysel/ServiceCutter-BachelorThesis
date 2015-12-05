@@ -111,12 +111,12 @@ The number of edges grows almost quadratically as shown in Table \ref{tab:edgesC
 Our implementation however will unlikely have anything close to the theoretical number of edges as:
 \begin{itemize}
 \item Coupling of type \textit{Cohesiveness} only adds edges where nanoservices are in a relationship with each other.
-\item Coupling of type \textit{Characterization} only adds a negative score (penalty) to existing relationships.
+\item Coupling of type \textit{Compatibility} only adds a negative score (penalty) to existing relationships.
 \item Coupling of type \textit{Constraint} only removes existing edges.
 %todo communication
 \end{itemize}
 
-The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoservices which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
+The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoentities which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
 
 
 
@@ -313,6 +313,7 @@ edgeWeight_{AB} = max(0, finalScore_{AB})
 Negative scores are not represented on the graph. Negative scores request a separation of nanoentities in different services. This information is lost in the graph based approach. Nevertheless, we have not encountered actual problems from this as clustering algorithms are unlikely to put two vertices in one cluster that do not have a connecting edge.
 	
 \subsection{Default Priorities}
+\label{sec:defaultPriorities}
 
 \begin{minipage}[t]{0.5\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
@@ -323,8 +324,8 @@ One problem the scoring system has is that the sum in step 3 adds together posit
 
 Default priorities: \newline
 Cohesiveness criteria: M\newline
-Characteristics criteria: XS\newline 
-Constraint criteria: XS\newline
+Compatibility criteria: XS\newline 
+Constraints criteria: M\newline
 
 \end{minipage}
 \begin{minipage}[t]{0.6\textwidth}
