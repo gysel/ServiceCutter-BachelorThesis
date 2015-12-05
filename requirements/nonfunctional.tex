@@ -11,15 +11,15 @@ The user gets well introduced to the important concepts of the Service Cutter. T
 
 \begin{enumerate}
 	\item A Service and service decomposition
-	\item A system's model (data fields)
+	\item A system's model (nanoentities)
 	\item Coupling Criteria, their meaning and decomposition impact
 	\item User representations and their impact on Coupling Criteria
-	\item Variant weights, Coupling Criteria priorities and final ratings.
+	\item Characteristics values, Coupling Criteria priorities and final ratings.
 \end{enumerate}
 
 Often used configuration like Coupling Criteria priorities should be shown directly to the user to encourage its usage. More advanced configuration like the weights of Coupling Criteria variants should be accessible for the user but do not need to be shown directly in a standard workflow. 
 
-Up to 2000 data fields and 200 entities need to be manageable without losing track.
+Up to 2000 nanoentities and 200 entities need to be manageable without losing track.
 
 \subsection{Simplicity}
 
@@ -29,7 +29,7 @@ A simple workflow can be achieved with a few clicks. All steps are provided with
 
 All regular user interactions should not take more than one second.
 
-Calculations of service cuts should meet the following conditions assuming a data set of 100 entities and 2000 data fields.
+Calculations of service cuts should meet the following conditions assuming a data set of 100 entities and 2000 nanoentities.
 
 \begin{itemize}
 \item Calculations that are used once per day should take less than 10 minutes.
@@ -52,7 +52,7 @@ In case of a success the prototype might be the basis for further development or
 
 \begin{enumerate}
 	\item Internal representation of Coupling Criteria
-	\item Data of a users system (data fields, use case definition etc.) 
+	\item Data of a users system (nanoentities, use case definition etc.) 
 	\item Decomposition algorithm (Solver)
 	\item User interface
 \end{enumerate}

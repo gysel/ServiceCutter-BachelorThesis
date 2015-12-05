@@ -7,31 +7,31 @@ section.
 
 \subsection{Service Cutter Process}
 
-The Service Cutter's analysis and suggestions is based on data fields. In a first step, data fields are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the data fields and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions of how the data fields could be split into Services. He finally analyzes the suggestion and compares it with his own expectations. 
+The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into Services. He finally analyzes the suggestion and compares it with his own expectations. 
 
 \subsubsection{Step 1: Model Initialization}
 
-In this step a model representing a system to be analyzed is created within the Service Cutter. The user defines all data fields relevant in his domain. 
+In this step a model representing a system to be analyzed is created within the Service Cutter. The user defines all nanoentities relevant in his domain. 
 
-In a first approach, defining these data fields should be possible either as a list of fields or parsed from an \gls{ERM} defined in a self defined JSON representation.
+In a first approach, defining these nanoentities should be possible either as a list of nanoentities or parsed from an \gls{ERM} defined in a self defined JSON representation.
 
 \subsubsection{Step 2: Describing the System based on Coupling Criteria}
 
-Almost all data fields are related in some way to other fields. The concept of a Coupling Criterion described in section \ref{sec:couplingCriteria} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the data fields' characteristics and relations to each other. 
+Almost all nanoentities are related in some way to other nanoentities. The concept of a Coupling Criterion described in section \ref{sec:couplingCriteria} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the nanoentities' characteristics and relations to each other. 
 
 To achieve better usability, the user does not need to now the exact definitions of the Coupling Criteria or their internal structure. He can use well known concepts called \textit{user representations} to describe his system, from which the relevant Coupling Criteria data will be extracted by the Service Cutter. At least the following User Representation should be supported by the system:
 
 \begin{description}
-	\item[Use Case] containing at least information about all fields read or written within the particular case. 
+	\item[Use Case] containing at least information about all nanoentities read or written within the particular case. 
 		\item[Entity Relationship Diagram] containing \glspl{entity} and their relations to each other. 
-	\item[Categorization] of the fields in different categories per coupling criteria variants. 
+	\item[Categorization] of the nanoentities in different characteristics per compatibility coupling criteria. 
 \end{description}
 
 Importing the user representation should either be done over a RESTful HTTP API in a self defined JSON format or using a wizard within the Service Cutter's \gls{UI}.
 
 \subsubsection{Step 3: Decomposition}
 
-Once the user has added all data fields and Coupling Criteria he can start the decomposition process. An algorithm groups fields in a way that a good decomposition solution as described in \ref{sec:decompositionRequirements} is found. 
+Once the user has added all nanoentities and Coupling Criteria he can start the decomposition process. An algorithm groups nanoentities in a way that a good decomposition solution as described in \ref{sec:decompositionRequirements} is found. 
 
 The algorithm will then present one or multiple solution suggestions to the user.
 
@@ -51,11 +51,11 @@ It is important that the calculated data is presented to the user in a way for h
 
 \subsubsection{Visualize Published Language}
 
-If relevant user input (e.g. use case definitions) is available, the Service Cutter is able to tell which Service depends on which data fields of other Services. This dependencies need to be visualized in the solution presentation. All fields together that have dependencies from external Services make up the published language of the system and should be visualized as such.
+If relevant user input (e.g. use case definitions) is available, the Service Cutter is able to tell which Service depends on which nanoentities of other Services. This dependencies need to be visualized in the solution presentation. All nanoentities together that have dependencies from external Services make up the published language of the system and should be visualized as such.
 
 \subsubsection{Adjust Suggested Solutions}
 
-The architect is able to adjust the solution by moving a field from one to another Service. He instantly sees the impact of his adjustment by the rating of each Coupling Criteria.
+The architect is able to adjust the solution by moving a nanoentity from one to another Service. He instantly sees the impact of his adjustment by the rating of each Coupling Criteria.
 
 \subsubsection{Identify hard Architectural Decisions}
 
@@ -77,25 +77,25 @@ Documenting architectural decisions is a significant documentation artifact of e
 
 \subsubsection{Use Solution as Fundament for Working Software}
 
-If the solution is good enough to be used as an initial architecture of a system, it can be used to built the suggested Services. As the Service Cutter has sophisticated information about the usage of data fields in use cases, it is able to generate the APIs used to communicate between Services. 
+If the solution is good enough to be used as an initial architecture of a system, it can be used to built the suggested Services. As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between Services. 
 
 Depending on the communication layer used to communicate between Services these APIs look differently. In a messaging based system the Service Cutter generates a set of messages or events needed to communicate between Services. When Services interact by RESTful HTTP interfaces, the Service Cutter generates Swagger\cite{swagger} API definitions for the resources which need to be part of the published language\cite[p.375]{evans2003domain} of the system. 
 
 
 \subsection{Algorithm Parametrization}
 
-The algorithm uses numbers to quantify variants of a Coupling Criteria. An example for such variants is:
+The algorithm uses numbers to quantify characteristics of a compatibility Coupling Criteria. An example for such characteristics is:
 
 TODO: Screenshot Resilience doc from web
 
-Every variant has a number from which the Service Cutter calculates distances which are used to apply a penalty to a solution that puts fields with different variants in the same Service. 
+Every characteristic has a number from which the Service Cutter calculates distances which are used to apply a penalty to a solution that puts nanoentities with different charcteristics in the same Service. 
 
-For a normal usage, the Service Cutter provides reasonable defaults which have been tested with at least three example projects. For advanced usage the Service Cutter provides an interface to change these internal weights in order to adjust the algorithm interpretation of the input to a systems characteristics. 
+For a normal usage, the Service Cutter provides reasonable defaults which have been tested with example projects. For advanced usage the Service Cutter provides an interface to change these internal weights in order to adjust the algorithm interpretation of the input to a systems characteristics. 
 
-\subsection{Relationships between Coupling Criteria Variants}
+\subsection{Relationships between Coupling Criteria}
 
 To keep the decomposition simple, relationships between Coupling Criteria are not taken into account. Nevertheless a relationship like the following has significant impact on how a system is modeled:
 
-\textit{Data fields with high security criticality should not be placed in the same service as data fields with low consistency requirements.}
+\textit{Nanoentities with high security criticality should not be placed in the same service as nanoentities with low consistency requirements.}
 
 Even if these relationships are not considered during decomposition, the Service Cutter should present a warning to the user whenever a critical relationship in a solution appears.

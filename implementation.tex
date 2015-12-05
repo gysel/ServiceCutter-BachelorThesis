@@ -7,20 +7,20 @@ intro...
 
 \section{Decomposition Approach}
 
-Decomposition describes the task of grouping data fields into services. Achieving a good solution according to the defined Coupling Criteria as described in \ref{sec:decompositionRequirements} requires a non trivial algorithm. This section documents the evaluation process for such an algorithm.
+Decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined Coupling Criteria as described in \ref{sec:decompositionRequirements} requires a non trivial algorithm. This section documents the evaluation process for such an algorithm.
 
 \subsection{Approach \#1: Clustering of a Weighted Undirected Graph}
 \label{subsec:approach1_graph}
 
 Our first approach to solve the decomposition problem was a clustering or community algorithm applied on a weighted, undirected graph.
 
-Every data field in the model is represented by a node. Edges define a relationship between two data fields. The weight on each edge shows how \textit{close} or \textit{cohesive} two fields are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
+Every nanoentity in the model is represented by a node. Edges define a relationship between two nanoentities. The weight on each edge shows how \textit{close} or \textit{cohesive} two nanoentities are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
 
 \begin{minipage}[t]{0.5\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
-	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations such as class diagrams or use cases are imported. The \textit{importer} component extracts the data fields and the occurences of coupling, called Coupling Criteria Instances, in this model and stores this information into the database.
+	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations such as class diagrams or use cases are imported. The \textit{importer} component extracts the nanoentities and the occurences of coupling, called Coupling Criteria Instances, in this model and stores this information into the database.
 	
-	The \textit{Solver} then creates all vertices from the data fields and builds edges between them according to the stored Coupling Criteria instances. This task is complex for the following reasons:
+	The \textit{Solver} then creates all vertices from the nanoentities and builds edges between them according to the stored Coupling Criteria instances. This task is complex for the following reasons:
 	
 	\begin{enumerate}
 		\item Coupling Criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaTypes}. 
@@ -31,7 +31,7 @@ Every data field in the model is represented by a node. Edges define a relations
 		\item To allow the user to define the specific requirements of his system, priorities per Coupling Criteria can optionally be defined to influence the weights of each Coupling Criteria instance.
 	\end{enumerate}
 	
-	The \textit{Clustering Algorithm} then analyzes the graph and creates clusters of data fields so that as few edges as possible need to be cut.
+	The \textit{Clustering Algorithm} then analyzes the graph and creates clusters of nanoentities so that as few edges as possible need to be cut.
 	
 	\begin{figure}[H]
 		\includegraphics[scale=1.0]{diagrams/weighted_graph.pdf}
@@ -73,7 +73,7 @@ Figure \ref{fig:clusteringBooking} demonstrates the result of the MCL algorithm 
 	\label{fig:clusteringBooking}
 \end{figure}
 
-Obviously this is not the expected result. The service clusters are formed with fields belonging to several clusters at the same time. Therefore the MCL algorithm cannot be used for our application.
+Obviously this is not the expected result. The service clusters are formed with nanoentities belonging to several clusters at the same time. Therefore the MCL algorithm cannot be used for our application.
 
 
 \subsubsection{Discussion}
@@ -135,7 +135,7 @@ During sprint 2 we conducted a feasibility assessment with a professor of mathem
 This approach is processed in three steps:
 
 \begin{description}
-	\item[Partitioning] Based on the data fields, a set of all possible candidate service cuts is calculated. This includes every theoretically possible service cut for every number of services. For practical usage, this step needs to be optimized. 
+	\item[Partitioning] Based on the nanoentities, a set of all possible candidate service cuts is calculated. This includes every theoretically possible service cut for every number of services. For practical usage, this step needs to be optimized. 
 	\item[Assessment] For all Coupling Criteria a processor assesses all service cuts with a score describing how well the criteria's requirements are met. The score is a number between 0 and 10, while 10 means that all requirements are perfectly satisfied. 
 	\item[Evaluation] The user optionally defines priorities how important each Criteria is for his system. The priorities are defined with approximately exponential numbers like the Fibonacci sequence. These priorities are applied on the service cut scores. The resulting best candidate cut is then presented to the user.
 \end{description}
@@ -144,14 +144,14 @@ This approach is processed in three steps:
 
 An advantage of this approach is that each relevant step is clearly separated and can thus be analyzed, debugged and visualized better than in the graph based approach. The assessment and score calculation is done separately for every cut and for every Coupling Criteria. Each Criteria processor needs to score candidate cuts with a uniform scoring range. 
 
-The weak point is the partitioning process. Theoretically every possible set of services where each data field is contained in one and only one Service is a candidate cut. In mathematics this is described as the \textit{partition of a set}\cite{partitionOfASet} problem. The Bell number $B_n$ defines the amount of possible partitions: 
+The weak point is the partitioning process. Theoretically every possible set of services where each nanoentity is contained in one and only one Service is a candidate cut. In mathematics this is described as the \textit{partition of a set}\cite{partitionOfASet} problem. The Bell number $B_n$ defines the amount of possible partitions: 
 
 
 \begin{displaymath}
 B_{n+1}=\sum_{j=0}^n {n\choose j} B_j
 \end{displaymath}
 
-For the Service Cutter $n$ is the number of data fields, so the number of possible service cuts for $n=20$ data fields is $51'724'158'235'372$\footnote{We don't show the number for the required $2000$ data fields for lack of space in the document.}.
+For the Service Cutter $n$ is the number of nanoentities, so the number of possible service cuts for $n=20$ nanoentities is $51'724'158'235'372$\footnote{We don't show the number for the required $2000$ nanoentities for lack of space in the document.}.
 
 The Bell number includes cuts for $1 - n$ number of Services. In the context of a software system only certain numbers of Services are realistic. The \textit{Stirling numbers of the second kind} calculate the Bell number for a given number of sets $k$:
 
@@ -159,11 +159,11 @@ The Bell number includes cuts for $1 - n$ number of Services. In the context of 
 \left\{ {n \atop k}\right\} = \frac{1}{k!}\sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^n
 \end{displaymath}
 
-For $n=20$ data fields and $k=4$ Services the equation results in $45'232'115'901$ possible cuts. For $k=6$ its already $4'306'078'895'384$.
+For $n=20$ nanoentities and $k=4$ Services the equation results in $45'232'115'901$ possible cuts. For $k=6$ its already $4'306'078'895'384$.
 
-During a discussion with our industry partner and supervisor documented in Appendix \ref{sec:status22102015}, we decided that the Service Cutter should be able to process system models with up to 2000 data fields. We therefore concluded in the same meeting that this approach is not practicable without a heuristic approach of finding a small set of relevant candidate cuts. 
+During a discussion with our industry partner and supervisor documented in Appendix \ref{sec:status22102015}, we decided that the Service Cutter should be able to process system models with up to 2000 nanoentities. We therefore concluded in the same meeting that this approach is not practicable without a heuristic approach of finding a small set of relevant candidate cuts. 
 
-A possible heuristic approach is to take one or a few Coupling Criteria information about the system into account for finding Service Candidates. A simple example would be to only analyze cuts where data fields of the same entity are not split across services so that only entities and not it's data fields need to be considered.
+A possible heuristic approach is to take one or a few Coupling Criteria information about the system into account for finding Service Candidates. A simple example would be to only analyze cuts where nanoentities of the same entity are not split across services so that only entities and not it's nanoentities need to be considered.
 
 As we tried to find a heuristic approach to calculate candidate cuts, we discovered a new idea for the composition algorithm described in the next approach. 
 
