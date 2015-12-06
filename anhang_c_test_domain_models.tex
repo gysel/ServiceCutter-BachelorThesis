@@ -33,7 +33,7 @@ The Trading System is an application one might find in a typical swiss private b
 \item \textit{Recommendations} are suggested to the user of the system based on his existing portfolio.
 \end{itemize}
 
-Figure \ref{fig:tradingClasses} shows a class diagram of the Trading System.
+Figure \ref{fig:tradingClasses} shows a domain model of the Trading System.
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{diagrams/TradingSystem.pdf}
@@ -41,7 +41,7 @@ Figure \ref{fig:tradingClasses} shows a class diagram of the Trading System.
 	\label{fig:tradingClasses}
 \end{figure}
 
-The following ten Use Cases describe the supported functionality of the application.
+The following ten use cases describe the supported functionality of the application.
 
 \begin{enumerate}
 \item Post Order
@@ -150,7 +150,7 @@ From our experience in software architecture we expect the Service Cutter to dec
 
 The following reasons led us to this decision.
 \begin{itemize}
-	\item The service \textit{Order} encapsulated many use cases and contains several entities that need to be processed with high consistency (Order, Position).
+	\item The service \textit{Order} encapsulates many use cases and contains several entities that need to be processed with high consistency (Order, Position).
 	\item The high volatility of the entity price led to the isolation of this part into an own service \textit{Price}.
 	\item News are not part of the core operations and therefore require lower resilience and security criticality. News images furthermore require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service.
 	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions. Moreover recommendations are, like the news, not part of the core operations and require lower resilience. 
@@ -253,8 +253,21 @@ In conclusion we can say that the Service Cutter did suggest the Trading System 
 
 The tests furthermore show the advantages and disadvantages of a deterministic algorithm. Girvan-Newman produced very stable results and nicely shows the path from a monolith to a more service oriented architecture. Leung on the other hand is harder to analyze but provided us more reasonable candidate service cuts we have not considered before. Leung also suggests a reasonable number of services while this consideration completely lies in the responsibility of the user when using Girvan-Newman.
 
-\section{Cargo Tracking - Domain-Driven Design Sample}
+\section{Cargo Tracking System - Domain-Driven Design Sample}
 \label{sec:dddSample}
+
+The Cargo Tracking System is a well known software project created to illustrate the concepts and patterns described in the \gls{DDD} book by E. Evans\cite{evans2003domain}. The DDDSample is hosted on Github\cite{dddGithub} and a short screencast on Youtube\cite{dddScreencast} outlines its functionality. 
+
+The Cargo Tracking System provides a domain with a suitable complexity and, unlike the Trading System, comes with a already implemented and well reasoned architecture. With reverse engineering we extracted the domain model, use cases and some characteristics from the code. The Cargo Tracking implements the following functionalities:
+
+\begin{itemize}
+	\item The main focus is to transport a \textit{Cargo} from \textit{Location} A to \textit{Location} B. \textit{Cargos} are created with a \textit{TrackingId} and specified with a \textit{RouteSpecification}. Once created, one of multiple suitable \textit{Itinerarys} is as assigned.
+	\item The system calculates suitable \textit{Itinerarys} for a \textit{Cargo} from existing \textit{Voyages} each containing a list of \textit{CarrierMovements}.
+	\item Once a \textit{Cargo} is routed, \textit{HandlingEvents} track the process of each \textit{Cargos} \textit{Itinerary}. A \textit{HandlingEvent} contains information about the event and references to which \textit{Cargo} on which \textit{Voyage} is handled in which \textit{Location}. 
+	\item The \textit{Delivery} of a \textit{Cargo} informs about its state, estimated arrival time and contains information whether the \textit{Cargo} is on track or not.
+\end{itemize}
+
+The extracted domain model is not a one-to-one copy of the domain classes in the code. The domain classes contain some calculated and therefore redundant information which have been merged into single nanoentities in the domain model shown in Figure \ref{fig:dddSampleAggregates}. 
 
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{diagrams/ddd_sample_aggregates.pdf}
@@ -262,10 +275,120 @@ The tests furthermore show the advantages and disadvantages of a deterministic a
 	\label{fig:dddSampleAggregates}
 \end{figure}
 
+Figure \ref{fig:dddSampleAggregates} additionally outlines the package and aggregate structure provided by the DDDSample which is a first indication about service decomposition. 
+
+The following use cases describe the supported functionality of the application.
+
+\begin{enumerate}
+	\item ViewTracking
+	\begin{itemize}
+		\item Nanoentities written: -
+		\item Nanoentities read: Cargo.trackingId, HandlingEvent.type, HandlingEvent.location, HandlingEvent.completionTime, Delivery.transportStatus, Delivery.estimatedArrivalTime, Delivery.misdirected, Voyage.voyageNumber, RouteSpecification.destination, Stock.stockName
+	\end{itemize}
+	
+	\item ViewCargos
+	\begin{itemize}
+		\item Nanoentities written: -
+		\item Nanoentities read: Cargo.trackingId, RouteSpecification.destination, RouteSpecification.arrivalDeadline, Delivery.routingStatus, Itinerary.itineraryNumber
+	\end{itemize}
+	
+	\item BookCargo
+	\begin{itemize}
+		\item Nanoentities written: Cargo.trackingId, RouteSpecification.origin, RouteSpecification.arrivalDeadline, RouteSpecification.destination
+		\item Nanoentities read: Location.unLocode
+	\end{itemize}
+	
+	\item ChangeCargoDestination
+	\begin{itemize}
+		\item Nanoentities written: RouteSpecification.destination
+		\item Nanoentities read: Cargo.trackingId, RouteSpecification.destination
+	\end{itemize}
+	
+	\item RouteCargo
+	\begin{itemize}
+		\item Nanoentities written: Itinerary.itineraryNumber, Leg.loadLocation, Leg.unloadLocation, Leg.loadTime, Leg.unloadTime
+		\item Nanoentities read: Cargo.trackingId, RouteSpecification.destination, RouteSpecification.origin, RouteSpecification.arrivalDeadline, Location.unLocode, Voyage.voyageNumber, CarrierMovement.departureLocation, CarrierMovement.arrivalLocation, CarrierMovement.departureTime, CarrierMovement.arrivalTime
+	\end{itemize}
+	
+	\item Create Location
+	\begin{itemize}
+		\item Nanoentities written: Location.unLocode, Location.name
+		\item Nanoentities read: -
+	\end{itemize}
+
+	\item Create Voyage
+	\begin{itemize}
+		\item Nanoentities written: Voyage.voyageNumber
+		\item Nanoentities read: -
+	\end{itemize}
+	
+	\item Add CarrierMovement
+	\begin{itemize}
+		\item Nanoentities written: CarrierMovement.departureLocation, CarrierMovement.arrivalLocation, CarrierMovement.departureTime, CarrierMovement.arrivalTime
+		\item Nanoentities read: Voyage.voyageNumber
+	\end{itemize}
+	
+	\item Handle Cargo Event
+	\begin{itemize}
+		\item Nanoentities written: HandlingEvent.type, HandlingEvent.completionTime, HandlingEvent.registrationTime, HandlingEvent.location, Delivery.transportStatus, Delivery.misdirected, Delivery.estimatedArrivalTime, Delivery.isUnloadedAtDestination, Delivery.routingStatus
+		\item Nanoentities read: Voyage.voyageNumber, Cargo.trackingId
+	\end{itemize}
+\end{enumerate}
+
+In addition to the use cases, we identified the following characteristics.
+
+\textbf{Volatility}
+
+\begin{itemize}
+	\item \textbf{Often}: HandlingEvent.type, HandlingEvent.completionTime, HandlingEvent.registrationTime, HandlingEvent.location, Delivery.transportStatus 
+	\item \textbf{Rarely}: Location.unLocode, Location.name
+\end{itemize} 
+
+\textbf{Change Similarity}
+
+\begin{itemize}
+	\item \textbf{Rarely}: Location.unLocode, Location.name
+\end{itemize}
+
+Furthermore all default characteristics as documented in Section \ref{sec:couplingCriteria} are taken into account.
+
+The DDDSample provides multiple interfaces depending on the user's role. The main interface provides tracking information, the administration panel offers means to create cargos and plan their itinerary and an additional interface is used to inform about handling events. Out of these distinction by the \gls{UI} we defined responsibility areas listed in Table \ref{tab:dddResponsibilites} each containing a group of nanoentities a user role is responsible for.
+
+\begin{table}[H]
+	\centering
+	\caption{Responsibility Areas in DDDSample}
+	\label{tab:dddResponsibilites}
+	\begin{tabular}{|p{90pt}|p{200pt}|}
+		\hline	
+		\textbf{Responsibility Area} & \textbf{Nanoentities}  \\
+		\hline
+		Cargoplaner & Cargo.trackingId \newline RouteSpecification.origin\newline RouteSpecification.destination\newline RouteSpecification.arrivalDeadline\newline Itinerary.itineraryNumber\newline Leg.loadLocation\newline Leg.unloadLocation\newline Leg.loadTime\newline Leg.unloadTime\newline Delivery.estimatedArrivalTime\newline Delivery.routingStatus  \\
+		\hline
+		CargoTracker & HandlingEvent.type\newline HandlingEvent.completionTime\newline HandlingEvent.registrationTime\newline HandlingEvent.location\newline Delivery.transportStatus\newline Delivery.misdirected\newline Delivery.isUnloadedAtDestination  \\
+		\hline
+		VoyageManager & Voyage.voyageNumber\newline CarrierMovement.departureLocation\newline CarrierMovement.arrivalLocation\newline CarrierMovement.departureTime\newline CarrierMovement.arrivalTime \\
+		\hline
+		Admin & Location.name, Location.unLocode \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsection{Expected Service Cuts}
+
+From our experience in software architecture we expect the Service Cutter to decompose the Cargo Tracking System into the services presented in Figure \ref{fig:dddSampleServices}.
+
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{diagrams/ddd_sample_services.pdf}
 	\caption{DDD Sample with expected services}
 	\label{fig:dddSampleServices}
 \end{figure}
 
+As there are not many compatibility criteria defined, the main reasons for our decomposition solution are responsibilities and semantic proximity by use cases:
+
+\begin{itemize}
+	\item The \textit{Voyage Service} contains all nanoentities regarding actual voyages and their movements, regardless of any cargo. 
+	\item The \textit{Location Service} is separated as a consequence of the low volatility and change similarity of these nanoentities. Locations are used and referred from almost all entities but very rarely written. This service could be categorized as master data service.
+	\item The \textit{Planning Service} handles all nanoentities regarding cargos and their itinerary. 
+	\item The \textit{Tracking Service} is responsible to track the actual events of a cargo. The aggregates defined in the DDDSample assign the delivery to the Planning Service. In our opinion the nanoentities \textit{transportStatus}, \textit{misdirected} and \textit{isUnloadedAtLocation} are better assigned to the Tracking Service as they are defined as a consequence of handling events.
+\end{itemize}
 
