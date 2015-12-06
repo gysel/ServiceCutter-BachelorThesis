@@ -392,3 +392,38 @@ As there are not many compatibility criteria defined, the main reasons for our d
 	\item The \textit{Tracking Service} is responsible to track the actual events of a cargo. The aggregates defined in the DDDSample assign the delivery to the Planning Service. In our opinion the nanoentities \textit{transportStatus}, \textit{misdirected} and \textit{isUnloadedAtLocation} are better assigned to the Tracking Service as they are defined as a consequence of handling events.
 \end{itemize}
 
+\subsection{Girvan-Newman Algorithm Assessemnt}
+
+As not many characteristics resulting in negative scores have been defined for the Cargo Tracking System, the priorities for the criteria \textit{Volatility} and \textit{Change Similarty} have been adjusted from their default value \textit{XS} to \textit{S}. The resulting candidate service cuts by the Girvan-Newman algorithm for 4 services are shown in Figure \ref{fig:dddGirvanNewman}.
+
+\begin{figure}[H]
+	\includegraphics[scale=0.7]{images/ddd_girvan_4.png}
+	\caption{Cargo Tracking System Service Cuts by Girvan-Newman}
+	\label{fig:dddGirvanNewman}
+\end{figure}
+
+Surprisingly, the location has been split to Service D and Service C. Service C contains the carrierMovement nanoentities but misses the voyageNumber which is closely related to the carrierMovement through responsibilities and use cases. Service B represents the handling aggregate as defined by the DDDSample but does not contain delivery nanoentites as expected by us. 
+
+None of the service contains the nanoentities as expected by us and only Service B can be categorized as reasonable service cut. We rate this a \textit{bad} result. 
+
+The split of location might be due to the fact that in most use cases only Location.unLocode is used and not Location.name. We changed the priority for \textit{Semantic Proximity} from \textit{M} to \textit{S} which resulted in the candidate service cuts shown in Figure \ref{fig:dddGirvanNewmanS}
+
+\begin{figure}[H]
+	\includegraphics[scale=0.7]{images/ddd_girvan_4_proximity_s.png}
+	\caption{Semantic Proximity with Priority S instead of M}
+	\label{fig:dddGirvanNewmanS}
+\end{figure}
+
+Location has now an own service as expected. This improves the result a little but still not enough to consider it \textit{accebtable}.
+
+\subsubsection{Priorities Sensitivity}
+
+Changing priorities of the relevant coupling criteria to values between \textit{XS} and \textit{L} results in minor changes. The following alternations have been produced:
+
+\begin{itemize}
+	\item Delivery.transportStatus is assigned to the service containing handling events if \textit{Identity \&Lifecycle Commonality} is set to \textit{XS}. This is closer to our expectation of a tracking service.
+	\item Increasing the priority of \textit{Semantic Proximity} to \textit{L} produces an unreasonable service containing Cargo, Voyage and RouteSpecification nanoentities.
+\end{itemize}
+
+We were not able to produce \textit{acceptable} or \textit{good} results for the Cargo Tracking System with Girvan-Newman. The sensitivity of the results on priority changes seems acceptable. 
+
