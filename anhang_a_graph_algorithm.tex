@@ -62,6 +62,7 @@ The algorithms listed in Table \ref{tab:algorithmEvaluation} are the result of a
 		\hline
 		%TODO: what is maximal modularity clusterni?	
 		%TODO: replace wikipedia with original sources		
+		%TODO: add leung here
 	\end{tabular}
 \end{table}
 
@@ -83,10 +84,10 @@ Author              & Stijn van Dongen\cite{markovCluster} & U. N. Raghavan\cite
 Year                & 2000                       & 2007/2009                         & \multicolumn{1}{l|}{2003}                       \\ \hline
 Name                & Markov Cluster Algorithm   & Epidemic Label Propagation        & \multicolumn{1}{l|}{Girvan–Newman}              \\ \hline
 Approach            & Random walks               & Labels spread to their neighbours & Edge betweenness, based on shortest-paths       \\ \hline
-Performance         & $O (N k^2)$                & $O( E )$                          & $O ( E N )$       \\ \hline
-Java Implementation & Plugin of Gephi\cite{gephiMarkov} & Available\cite{leungGraphstream} & Plugin of Gephi\cite{leungGraphstream} \\ \hline
+Performance \newline \textit{N: Nodes} \newline \textit{E: Edges}         & $O (N k^2)$ \newline \textit{k: pruning constant} \cite[p.126]{markovCluster} & $O( E N )$ \cite[p.3]{leung}                         & $O ( N^3 )$\cite[p.14]{girvan}       \\ \hline
+Java Implementation & Plugin of Gephi\cite{gephiMarkov} & GraphStream project\cite{leungGraphstream} & Plugin of Gephi\cite{girvanGraphstream} \\ \hline
 Test result         & Bugs                       & Good                              & \multicolumn{1}{l|}{Good}                       \\ \hline
-Advantages & - & Does not require the number of cluster as a parameter & Provides stable results \\
+Advantages & - & Does not require the number of clusters as a parameter & Provides stable results \\
  \hline
 \end{tabular}
 \end{table}
