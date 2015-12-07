@@ -1,0 +1,57 @@
+\chapter{Future Work}
+
+* Caching (Data Redundancy) as a way to reduce temporary reduce coupling between services could be a further suggestions of the Service Cutter
+
+* Create a Questionnary similar to JHipster to find out the importance of criteria for a specfic system. What questions do we need to ask to find out the characterstics of a system? 
+
+\subsubsection{Use Solution as Fundament for Working Software}
+
+If the solution is good enough to be used as an initial architecture of a system, it can be used to built the suggested services. As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between services. 
+
+Depending on the communication layer used to communicate between services these APIs look differently. In a messaging based system the Service Cutter generates a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter generates Swagger\cite{swagger} API definitions for the resources which need to be part of the published language\cite[p.375]{evans2003domain} of the system. 
+
+
+\subsubsection{Document Architectural Decisions}
+
+\begin{quote}
+	Architectural decisions capture key design issues and the rationale behind chosen solutions.\cite{zioAD}
+\end{quote}
+
+Documenting architectural decisions is a significant documentation artifact of every long-term software project. In order to retrace architectural decisions taken with help of the Service Cutter, important solutions enhanced with discussion notes can be saved persistently. These notes could have one of the following forms:
+
+\begin{enumerate}
+	\item Free text
+	\item Y-Template\cite{y-template}
+	\item ...
+\end{enumerate}
+
+\subsection{Configurations for Advanced Users}
+
+- characteristics values
+- algorithm parameters
+
+(For a normal usage, the Service Cutter provides reasonable defaults which have been tested with example projects. For advanced usage the Service Cutter provides an interface to change these internal weights in order to adjust the algorithm interpretation of the input to a systems characteristics.) 
+
+
+\subsection{Relationships between Coupling Criteria}
+
+A relationship between coupling criteria like the following might have significant impact on service decomposition:
+
+\textit{Nanoentities with high security criticality should not be placed in the same service as nanoentities with low consistency requirements.}
+
+Such relationship should be incorporated in the Service Cutter's decomposition algorithm. Another way of integration would be to present a warning to the user whenever a critical relationship in a solution appears.
+
+
+\subsubsection{Traceability of User Representations}
+
+It is important that the calculated data is presented to the user in a way for him to understand why the candidate service cuts have been selected. By visualizing user representations like use cases, the user gets a better understanding of how his input and definitions affect the suggested architecture. 
+
+\subsubsection{Adjust Suggested Solutions}
+
+The architect is able to adjust the solution by moving a nanoentity from one to another service. He instantly sees the impact of his adjustment by the rating of each coupling criteria.
+
+\subsubsection{Identify hard Architectural Decisions}
+
+The rating of two solutions might be similar so that is not clear which variant is the better one according to the users priorities. Such cases indicate difficult design decisions the architect has to take. Presenting these cases and the impact they have on each coupling criteria, the Service Cutter provides great support for the architect in identifying and taking architectural decisions.
+
+\subsection{Implement Criteria of Type Communication}

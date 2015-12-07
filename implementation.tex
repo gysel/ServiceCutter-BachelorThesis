@@ -5,6 +5,37 @@
 intro...
 
 
+\section{Service Cutter Process}
+
+The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes the suggestion and compares it with his own expectations. 
+
+\subsection{Step 1: Model Initialization}
+
+In this step a model representing a system to be analyzed is created within the Service Cutter. The user defines all nanoentities relevant in his domain. 
+
+In a first approach, defining these nanoentities should be possible either as a list of nanoentities or parsed from an \gls{ERM} defined in a self defined JSON representation.
+
+\subsection{Step 2: Describing the System based on Coupling Criteria}
+
+Almost all nanoentities are related in some way to other nanoentities. The concept of a coupling criterion described in Section \ref{sec:couplingCriteria} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the nanoentities' characteristics and relations to each other. 
+
+Importing the user representation should either be done over a RESTful HTTP API in a self defined JSON format or using a wizard within the Service Cutter's \gls{UI}.
+
+\subsection{Step 3: Decomposition}
+
+Once the user has added all nanoentities and coupling criteria he can start the decomposition process. An algorithm groups nanoentities in a way that a good decomposition solution as described in \ref{sec:decompositionRequirements} is found. 
+
+The algorithm will then present one or multiple solution suggestions to the user.
+
+
+\subsubsection{Step 4: Working with Solution Suggestions}
+
+(this might not be in scope of this thesis, should we describe this in requirements or in future work?)
+
+Once solution suggestions have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project:
+
+
+
 \section{Decomposition Approach}
 
 Decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined coupling criteria as described in \ref{sec:decompositionRequirements} requires a non trivial algorithm. This section documents the evaluation process for such an algorithm.
