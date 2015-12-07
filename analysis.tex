@@ -9,7 +9,7 @@ introduction sentence
 
 The term \textit{service} is one of the most used words in the field of software architecture and has been differently defined in many papers, books, and blog posts in numerous ways and various contexts. 
 
-The \enquote{4+1 View Model of Software Architecture} by Philippe Kruchten\cite{fourPlusOne} describes software architecture using multiple views like a \mbox{Logical-}, \mbox{Physical-}, \mbox{Development-} or  \mbox{Process-}View. During the research for this thesis we discovered that the difficulty to clearly define the word Service lies in the fact that different definitions focus on contrasting views. For this thesis we use multiple definitions for the word Service depending if we talk about the \textit{logical} or the \textit{technical} view of a service.
+The \enquote{4+1 View Model of Software Architecture} by Philippe Kruchten\cite{fourPlusOne} describes software architecture using multiple views like a \mbox{Logical-}, \mbox{Physical-}, \mbox{Development-} or  \mbox{Process-}View. During the research for this thesis we discovered that the difficulty to clearly define the word service lies in the fact that different definitions focus on contrasting views. For this thesis we use multiple definitions for the word service depending if we talk about the \textit{logical} or the \textit{physical} view of a service.
 
 \subsection{Logical Service}
 
@@ -17,50 +17,50 @@ The \enquote{4+1 View Model of Software Architecture} by Philippe Kruchten\cite{
 A service is the technical authority for a specific business capability --- Udi Dahan\cite{serviceDefinitionDahan}
 \end{quotation}
    
-This definition focuses more on the logical or business view of a service than its technical representation. All data and rules required to fulfill a business specification are owned by one and only one Service. 
+This definition focuses more on the logical or business view of a service than its technical representation. All data and rules required to fulfill a business specification are owned by one and only one service. 
 
-Udi Dahan implies that a Service is not restricted to a specific application, process, technology or layer. In fact it contains required layers itself, including databases, logic, and \gls{UI} code.
+Udi Dahan implies that a service is not restricted to a specific application, process, technology or layer. In fact it contains required layers itself, including databases, logic, and \gls{UI} code.
 
 A logical service is autonomous and composed from many processes, webservices or databases, but keeps a clear boundary and interface against the outer world. Communication with other parts of the system only happens on a well defined interface on a common communication channel.
 
 \subsubsection{Bounded Context}
 
-Another concept describing logical Services is the bounded context as defined in the Domain-Driven Design:\cite{evans2014domain}
+Another concept describing logical services is the bounded context as defined in the Domain-Driven Design:\cite{evans2014domain}
 
 \begin{quotation}
 	A description of a boundary (typically a subsystem, or the work of a particular team) within which a particular model is defined and applicable.
 \end{quotation}
 
-A model only used within one bounded context is defined and visible only in that context. Accordingly a model used in multiple Services needs to have a globally shared definition, defined as \textit{Published Language} in the context of \gls{DDD}\cite{evans2014domain}:
+A model only used within one bounded context is defined and visible only in that context. Accordingly a model used in multiple services needs to have a globally shared definition, defined as \textit{Published Language} in the context of \gls{DDD}\cite{evans2014domain}:
 
 \begin{quotation}
 	The translation between the models of two bounded contexts requires a common Language.
 \end{quotation}
 
-The process of Service decomposition as done by the Service Cutter automatically defines the published language of the system. 
+The process of service decomposition as done by the Service Cutter automatically defines the published language of the system. 
 
-\subsection{Technical Service}
+\subsection{Physical Service}
 
-Martin Fowler describes a Service as following:
+Martin Fowler describes a service as following:
 
 \begin{quotation}
 	A service will be used remotely through some remote interface, either synchronous or asynchronous.\cite{fowlerIoC}
 \end{quotation}
 
-This definition by Martin Fowler is much more technically oriented and is close to what recently has been advertised as a \textit{Microservice}:
+This definition by Martin Fowler is much more physical oriented and is close to what recently has been advertised as a \textit{Microservice}:
 
 \begin{quotation}
 	In short, the microservice architectural style is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API.\cite{fowlerMicroservice}
 \end{quotation}
 
 
-A process providing a remote API might provide business logic, pure technical functionality or a data store, of which the latest is often seen nowadays wrapped by a RESTful HTTP API. A technical Service might be congruent with a logical Service but very often more complex cases split logical Services in multiple technical Services. 
+A process providing a remote API might provide business logic, pure technical functionality or a data store, of which the latest is often seen nowadays wrapped by a RESTful HTTP API. A physical service might be congruent with a logical service but very often more complex cases split logical services in multiple physical services. 
 
-\subsection{Should the Service Cutter produce Logical or Technical Service Candidates?}
+\subsection{Should the Service Cutter produce Logical or Physical Service Candidates?}
 
-While every logical reason to define Service boundaries applies to logical and technical Services, technical reasons like technology constraints might define additional technical Service boundaries. We do not strictly define what kind of Services the Service Cutter suggests. But given that the Service Cutter mostly focuses on logical criteria it could well be that a suggested Service needs to be further decomposed due to technological reasons.
+While every logical reason to define service boundaries applies to logical and physical services, technical reasons like technology constraints might define additional physical service boundaries. We do not strictly define what kind of services the Service Cutter suggests. But given that the Service Cutter mostly focuses on logical criteria it could well be that a suggested service needs to be further decomposed due to technological reasons.
 
-The factors driving the decomposition of a system into Services are discussed in more detail in the next section.
+The factors driving the decomposition of a system into services are discussed in more detail in the next section.
 
 \section{Driving Factors for Service Decomposition}
 
@@ -68,7 +68,7 @@ Well experienced software architects decompose systems by reason of multiple fac
 
 \subsection{Decomposition within the Service Cutter}
 
-The Service Cutter is based on nanoentities. Therefore Service decomposition for the Service Cutter is simply the act of grouping nanoentities into containers. If a nanoentity is assigned to a Service, the Service becomes the owner and is the only instance allowed to create, update or delete instances of the nanoentities.
+The Service Cutter is based on nanoentities. Therefore service decomposition for the Service Cutter is simply the act of grouping nanoentities into containers. If a nanoentity is assigned to service, the service becomes the owner and is the only instance allowed to create, update or delete instances of the nanoentities.
 
 %TODO: is "logic" in scope of the thesis? Sometimes a bounded context might depend on a lot of nanoentities of another BC, but in the ends all it want's is a single processed result of this number that could be served by the other BC. How do we handle this? => Could this be modelled as a nanoentity itself with a new kind of coupling criteria "calculated by"?
 
@@ -209,10 +209,10 @@ Based on the Coupling Criteria described above, we define a good decomposition s
 	\item Putting as few nanoentities together which have different characteristics as possible.
 	\item Each service should depend on as few nanoentities of other services as possible (A use case should cross as few service boundaries as possible).
 	\item Nanoentities that are part of a published language between services should be suitable for inter service communication (not too big in size, immutable favored over mutable information).
-	\item The amount of nanoentities a Service depends on should be similar for all Services.
+	\item The amount of nanoentities a service depends on should be similar for all services.
 	%TODO: This is a cite by Udi Dahan internal workshop material, how can we cite this?
-	\item Not too many Services which leads to the nanoservice antipattern\cite{nanoservice}.
-	\item Not too few Services, which leads to a monolithic architecture.
+	\item Not too many services which leads to the nanoservice antipattern\cite{nanoservice}.
+	\item Not too few services, which leads to a monolithic architecture.
 \end{enumerate}
 
 \section{Existing Decomposition Solutions}

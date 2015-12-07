@@ -7,7 +7,7 @@ section.
 
 \subsection{Service Cutter Process}
 
-The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into Services. He finally analyzes the suggestion and compares it with his own expectations. 
+The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes the suggestion and compares it with his own expectations. 
 
 \subsubsection{Step 1: Model Initialization}
 
@@ -77,9 +77,9 @@ Documenting architectural decisions is a significant documentation artifact of e
 
 \subsubsection{Use Solution as Fundament for Working Software}
 
-If the solution is good enough to be used as an initial architecture of a system, it can be used to built the suggested Services. As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between Services. 
+If the solution is good enough to be used as an initial architecture of a system, it can be used to built the suggested services. As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between services. 
 
-Depending on the communication layer used to communicate between Services these APIs look differently. In a messaging based system the Service Cutter generates a set of messages or events needed to communicate between Services. When Services interact by RESTful HTTP interfaces, the Service Cutter generates Swagger\cite{swagger} API definitions for the resources which need to be part of the published language\cite[p.375]{evans2003domain} of the system. 
+Depending on the communication layer used to communicate between services these APIs look differently. In a messaging based system the Service Cutter generates a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter generates Swagger\cite{swagger} API definitions for the resources which need to be part of the published language\cite[p.375]{evans2003domain} of the system. 
 
 
 \subsection{Algorithm Parametrization}
@@ -88,7 +88,7 @@ The algorithm uses numbers to quantify characteristics of a compatibility Coupli
 
 TODO: Screenshot Resilience doc from web
 
-Every characteristic has a number from which the Service Cutter calculates distances which are used to apply a penalty to a solution that puts nanoentities with different charcteristics in the same Service. 
+Every characteristic has a number from which the Service Cutter calculates distances which are used to apply a penalty to a solution that puts nanoentities with different charcteristics in the same service. 
 
 For a normal usage, the Service Cutter provides reasonable defaults which have been tested with example projects. For advanced usage the Service Cutter provides an interface to change these internal weights in order to adjust the algorithm interpretation of the input to a systems characteristics. 
 
