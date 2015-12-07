@@ -2,16 +2,16 @@
 \chapter{Service Cutter Implementation}
 \label{cha:implementation}
 
-intro...
+intro... %TODO
 
 
 \section{Service Cutter Process}
 
-The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes the suggestion and compares it with his own expectations. 
+The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines metadata on the nanoentities and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions on how the nanoentities could be split into services. He finally analyzes the suggestion and compares it with his own expectations. 
 
 \subsection{Step 1: Model Initialization}
 
-In this step a model representing a system to be analyzed is created within the Service Cutter. The user defines all nanoentities relevant in his domain. 
+In this step a model representing a system to be analyzed is created in the Service Cutter. The user defines all nanoentities relevant for his domain. 
 
 In a first approach, defining these nanoentities should be possible either as a list of nanoentities or parsed from an \gls{ERM} defined in a self defined JSON representation.
 
@@ -27,12 +27,11 @@ Once the user has added all nanoentities and coupling criteria he can start the 
 
 The algorithm will then present one or multiple solution suggestions to the user.
 
+\subsection{Step 4: Working with Solution Suggestions}
 
-\subsubsection{Step 4: Working with Solution Suggestions}
+(this might not be in scope of this thesis, should we describe this in requirements or in future work?) %TODO
 
-(this might not be in scope of this thesis, should we describe this in requirements or in future work?)
-
-Once solution suggestions have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project:
+Once solution suggestions have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project.
 
 
 
@@ -104,7 +103,7 @@ Figure \ref{fig:clusteringBooking} demonstrates the result of the MCL algorithm 
 	\label{fig:clusteringBooking}
 \end{figure}
 
-Obviously this is not the expected result. The service clusters are formed with nanoentities belonging to several clusters at the same time. Therefore the MCL algorithm cannot be used for our application.
+Obviously this is not the expected result. The service clusters are formed with nanoentities belonging to several clusters at the same time. Therefore this implementation of the MCL algorithm cannot be used for our application.
 
 
 \subsubsection{Discussion}
