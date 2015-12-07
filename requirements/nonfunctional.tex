@@ -5,7 +5,7 @@ The following non-functional requirements should be satisfied by the Service Cut
 \subsection{Usability}
 \label{sec:usability}
 
-A software architect should be able to use the software without any training. All controls are clearly named and, where appropriate, documented using an inline user manual.
+A software architect should be able to use the software without any training. All controls are clearly named and, where appropriate, documented using an inline user manual including representative samples.
 
 The user gets well introduced to the important concepts of the Service Cutter. These concepts include:
 
@@ -23,7 +23,7 @@ Up to 2000 nanoentities and 200 entities need to be manageable without losing tr
 
 \subsection{Simplicity}
 
-A simple workflow can be achieved with a few clicks. All steps are provided with useful defaults that can be changed.
+A simple system analysis can be achieved with not more than 5 clicks. All steps are provided with useful defaults that can be changed.
 
 \subsection{Performance}
 
@@ -38,7 +38,12 @@ Calculations of service cuts should meet the following conditions assuming a dat
 
 \subsection{Monitoring, Logging, Deployment, Availability}
 
-The scope of this thesis is to prototypically implement the Service Cutter. Operational aspects do therefore not need to be covered. 
+The scope of this thesis is to prototypically implement the Service Cutter. Operational aspects only need to be covered on a basic level:
+
+\begin{itemize}
+	\item Log files should be written using SLF4J\cite{slf4j}.
+	\item Deployment should be provided with Docker\cite{docker} containers.
+\end{itemize} 
 
 \subsection{Fault Tolerance}
 
@@ -46,7 +51,7 @@ As the prototype does not need to handle ever possible use case or unexpected in
 
 \subsection{Maintainability}
 
-In case of a success the prototype might be the basis for further development or other thesis' projects. It therefore should be built in clearly separated modules (or even remote services) to ensure good maintainability. At least the following modules need to be clearly separated:
+In case of a success the prototype might be the basis for further development or other thesis projects. It should be built in clearly separated modules (or even remote services) to ensure good maintainability. At least the following modules need to be clearly separated:
 
 %TODO thesis plural
 
@@ -57,6 +62,8 @@ In case of a success the prototype might be the basis for further development or
 	\item User interface
 \end{enumerate}
 
+If one or multiple of the modules are implemented as physical services the remote \gls{API} needs to be implemented as RESTful HTTP interface. 
+
 The application should leverage existing open source frameworks or libraries wherever possible to ensure a minimal maintenance effort.
 
 \subsection{State-of-the-Art Technology}
@@ -64,10 +71,10 @@ The application should leverage existing open source frameworks or libraries whe
 To support further development of the Service Cutter the prototype needs to be implemented in state-of-the-art technology. Our industry partner Z\"uhlke has suggested the following technology stack:
 
 \begin{enumerate}
-	\item Java Spring as a base framework. 
-	\item JHipster with Spring Boot for project setup.
-	\item AngularJS and Bootstrap for the user interface.
-	\item Docker for container and deployment configuration and handling. 
+	\item Java Spring\cite{spring} as a base framework. 
+	\item JHipster\cite{jhipster} with Spring Boot\cite{springboot} for project setup.
+	\item AngularJS\cite{angularjs} and Bootstrap\cite{bootstrap} for the user interface.
+	\item Docker\cite{docker} for container and deployment configuration and handling. 
 \end{enumerate}
 
 \subsection{License}
