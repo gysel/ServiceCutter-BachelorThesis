@@ -17,9 +17,9 @@ In a first approach, defining these nanoentities should be possible either as a 
 
 \subsubsection{Step 2: Describing the System based on Coupling Criteria}
 
-Almost all nanoentities are related in some way to other nanoentities. The concept of a Coupling Criterion described in section \ref{sec:couplingCriteria} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the nanoentities' characteristics and relations to each other. 
+Almost all nanoentities are related in some way to other nanoentities. The concept of a coupling criterion described in section \ref{sec:couplingCriteria} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the nanoentities' characteristics and relations to each other. 
 
-To achieve better usability, the user does not need to now the exact definitions of the Coupling Criteria or their internal structure. He can use well known concepts called \textit{user representations} to describe his system, from which the relevant Coupling Criteria data will be extracted by the Service Cutter. At least the following User Representation should be supported by the system:
+To achieve better usability, the user does not need to now the exact definitions of the coupling criteria or their internal structure. He can use well known concepts called \textit{user representations} to describe his system, from which the relevant coupling criteria data will be extracted by the Service Cutter. At least the following User Representation should be supported by the system:
 
 \begin{description}
 	\item[Use Case] containing at least information about all nanoentities read or written within the particular case. 
@@ -31,11 +31,11 @@ Importing the user representation should either be done over a RESTful HTTP API 
 
 \subsubsection{Step 3: Decomposition}
 
-Once the user has added all nanoentities and Coupling Criteria he can start the decomposition process. An algorithm groups nanoentities in a way that a good decomposition solution as described in \ref{sec:decompositionRequirements} is found. 
+Once the user has added all nanoentities and coupling criteria he can start the decomposition process. An algorithm groups nanoentities in a way that a good decomposition solution as described in \ref{sec:decompositionRequirements} is found. 
 
 The algorithm will then present one or multiple solution suggestions to the user.
 
-The calculation can be parametrized using priorities assigned to Coupling Criteria. In this way different service boundaries can be calculated for different requirements. For example in an application processing financial data, security might be more important than network traffic. In a different context, e.g. for an application that needs to support high volumes of data, volatility and resilience might be a primary focus.
+The calculation can be parametrized using priorities assigned to coupling criteria. In this way different service boundaries can be calculated for different requirements. For example in an application processing financial data, security might be more important than network traffic. In a different context, e.g. for an application that needs to support high volumes of data, volatility and resilience might be a primary focus.
 
 A deterministic algorithm should be favored as it allows reproducibility of the result. For a given data set the Service Cutter should always suggest the same candidate cuts. A non deterministic algorithm may be chosen if it produces noticeably better results.
 
@@ -51,15 +51,15 @@ It is important that the calculated data is presented to the user in a way for h
 
 \subsubsection{Visualize Published Language}
 
-If relevant user input (e.g. use case definitions) is available, the Service Cutter is able to tell which Service depends on which nanoentities of other Services. This dependencies need to be visualized in the solution presentation. All nanoentities together that have dependencies from external Services make up the published language of the system and should be visualized as such.
+If relevant user input (e.g. use case definitions) is available, the Service Cutter is able to tell which service depends on which nanoentities of other services. This dependencies need to be visualized in the solution presentation. All nanoentities together that have dependencies from external services make up the published language of the system and should be visualized as such.
 
 \subsubsection{Adjust Suggested Solutions}
 
-The architect is able to adjust the solution by moving a nanoentity from one to another Service. He instantly sees the impact of his adjustment by the rating of each Coupling Criteria.
+The architect is able to adjust the solution by moving a nanoentity from one to another service. He instantly sees the impact of his adjustment by the rating of each coupling criteria.
 
 \subsubsection{Identify hard Architectural Decisions}
 
-The rating of two solutions might be similar so that is not clear which variant is the better one according to the users priorities. Such cases indicate difficult design decisions the architect has to take. Presenting these cases and the impact they have on each Coupling Criteria, the Service Cutter provides great support for the architect in identifying and taking architectural decisions.
+The rating of two solutions might be similar so that is not clear which variant is the better one according to the users priorities. Such cases indicate difficult design decisions the architect has to take. Presenting these cases and the impact they have on each coupling criteria, the Service Cutter provides great support for the architect in identifying and taking architectural decisions.
 
 \subsubsection{Document Architectural Decisions}
 
@@ -84,7 +84,7 @@ Depending on the communication layer used to communicate between services these 
 
 \subsection{Algorithm Parametrization}
 
-The algorithm uses numbers to quantify characteristics of a compatibility Coupling Criteria. An example for such characteristics is:
+The algorithm uses numbers to quantify characteristics of a compatibility coupling criteria. An example for such characteristics is:
 
 TODO: Screenshot Resilience doc from web
 
@@ -94,7 +94,7 @@ For a normal usage, the Service Cutter provides reasonable defaults which have b
 
 \subsection{Relationships between Coupling Criteria}
 
-To keep the decomposition simple, relationships between Coupling Criteria are not taken into account. Nevertheless a relationship like the following has significant impact on how a system is modeled:
+To keep the decomposition simple, relationships between coupling criteria are not taken into account. Nevertheless a relationship like the following has significant impact on how a system is modeled:
 
 \textit{Nanoentities with high security criticality should not be placed in the same service as nanoentities with low consistency requirements.}
 
