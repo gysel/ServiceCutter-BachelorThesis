@@ -1,5 +1,5 @@
 
-\chapter{Design and Implementation}
+\chapter{Service Cutter Implementation}
 \label{cha:implementation}
 
 intro...
@@ -52,7 +52,7 @@ A detailed evaluation of clustering algorithms is document in Appendix \ref{appe
 
 \subsubsection{Practical Assessment of the Graph Clustering Approach}
 
-To assess the graph approach we use a simple booking domain model. In Figure \ref{fig:clusteringBookingSimple} the MCL algorithm was tested using the booking model with all coupling criteria priorities set to zero except the \textit{Identity \& Lifecycle Commonality} Criteria. Consequently the visualized services contain one entity each. The entities can be identified as \textit{Customer}, \textit{Article} and \textit{Booking}.
+To assess the graph approach we use a simple booking domain model. In Figure \ref{fig:clusteringBookingSimple} the MCL algorithm was tested using the booking model with all coupling criteria priorities set to zero except the \textit{Identity \& Lifecycle Commonality} criteria. Consequently the visualized services contain one entity each. The entities can be identified as \textit{Customer}, \textit{Article} and \textit{Booking}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -137,7 +137,7 @@ This approach is processed in three steps:
 \begin{description}
 	\item[Partitioning] Based on the nanoentities, a set of all possible candidate service cuts is calculated. This includes every theoretically possible service cut for every number of services. For practical usage, this step needs to be optimized. 
 	\item[Assessment] For all coupling criteria a processor assesses all service cuts with a score describing how well the criteria's requirements are met. The score is a number between 0 and 10, while 10 means that all requirements are perfectly satisfied. 
-	\item[Evaluation] The user optionally defines priorities how important each Criteria is for his system. The priorities are defined with approximately exponential numbers like the Fibonacci sequence. These priorities are applied on the service cut scores. The resulting best candidate cut is then presented to the user.
+	\item[Evaluation] The user optionally defines priorities how important each criteria is for his system. The priorities are defined with approximately exponential numbers like the Fibonacci sequence. These priorities are applied on the service cut scores. The resulting best candidate cut is then presented to the user.
 \end{description}
 
 \subsubsection{Discussion}
