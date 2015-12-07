@@ -45,36 +45,33 @@ The algorithms listed in Table \ref{tab:algorithmEvaluation} are the result of a
 	\centering
 	\caption{Algorithm Evaluation}
 	\label{tab:algorithmEvaluation}
-	\begin{tabular}{|p{80pt}|p{180pt}|p{130pt}|}
+	\begin{tabular}{|p{60pt}|p{140pt}|p{130pt}|p{70pt}|}
 		\hline	
-		\textbf{Name} & \textbf{Description} & \textbf{Implementation} \\
+		\textbf{Name} & \textbf{Description} & \textbf{Implementation} & \textbf{Assessment} \\ 
 		\hline
-		MCL - Markov Cluster Algorithm\cite{markovCluster} & A clustering algorithm working on weighted undirected graphs. MCL is based on Random Walks with Markov Chains. & Implementations of MCL are available in R and in Java as a plugin of the Gephi\cite{gephi} platform.  \\
+		MCL - Markov Cluster Algorithm\cite{markovCluster} & A clustering algorithm working on weighted undirected graphs. MCL is based on Random Walks with Markov Chains. & Implementations of MCL are available in R and in Java as a plugin of the Gephi\cite{gephi} platform. & Positive \\
 		\hline
-		HCS - Highly Connected Subgraphs\cite{hcs} & A clustering algorithm working on unweighted undirected graphs. The CLICK clustering algorithm enhances HCS for weighted edges. & Implementations only available in R.  \\
-		%TODO: check CLICK algorithm again
+		HCS - Highly Connected Subgraphs\cite{hcs} & A clustering algorithm working on unweighted undirected graphs. The CLICK clustering algorithm enhances HCS for weighted edges. & Implementations only available in R. & No Java implementation  \\
 		\hline
-		Girvan–\newline Newman\cite{girvan} & A clustering algorithm working on weighted undirected graphs based on Edge-Betweenness \footnote{The amount of shortest paths between nodes going through a specific edge.}. & Java implementations exist as part of the Jung\cite{jung} framework (only unweighted graphs) and as a plugin of the Gephi\cite{gephi} platform. \\
+		Girvan–\newline Newman\cite{girvan} & A clustering algorithm working on weighted undirected graphs based on Edge-Betweenness \footnote{The amount of shortest paths between nodes going through a specific edge.}. & Java implementations exist as part of the Jung\cite{jung} framework (only unweighted graphs) and as a plugin of the Gephi\cite{gephi} platform. & Positive \\
 		\hline	
-		K-means\cite{kmeans} & A clustering algorithm working with vectors in an n-dimensional space. & Multiple implementations, for example as part of the Spark\cite{spark} framework, are available. \\
+		K-means\cite{kmeans} & A clustering algorithm working with vectors in an n-dimensional space. & Multiple implementations, for example as part of the Spark\cite{spark} framework, are available. & No simple way to transform the problem from a graph to vector based representation found. \\
 		\hline
-		Apiacoa\cite{apiacoa} & A clustering algorithm working on unweighted undirected graphs. This algorithm is based on maximal modularity clustering. & Apiacoa.org provides an implementation of the algorithm in Java. \\
+		Apiacoa\cite{apiacoa} & A clustering algorithm working on unweighted undirected graphs. This algorithm is based on maximal modularity clustering. & Apiacoa.org provides an implementation of the algorithm in Java. & No support for weighted edges\\
 		\hline
-		Epidemic Label Propagation & A clustering algorithm working on weighted (un-)directed graphs. This algorithm was suggested by Raghavan\cite{raghavan} and refined by Leung\cite{leung}. & GraphStream\cite{leungGraphstream} provides an implementation of the algorithm in Java. \\
+		Epidemic Label Propagation & A clustering algorithm working on weighted (un-)directed graphs. This algorithm was suggested by Raghavan\cite{raghavan} and refined by Leung\cite{leung}. & GraphStream\cite{leungGraphstream} provides an implementation of the algorithm in Java as part of their \texttt{gs-algo} package. & Positive \\
 		\hline
 		%TODO: what is maximal modularity clusterni?
-		%TODO: replace wikipedia with original sources
 	\end{tabular}
 \end{table}
 
-We did not find a simple way to transform the problem from a graph to vector based representation in order to use k-means as a solution. We  decided to try the Gephi implementations of Girvan-Newman and MCL as Apiacoa does not support weighted edges and no Java implementation for HCS was found. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The two algorithms are provided by Gephi plugins, from which the algorithm implementations can be extracted as \gls{JAR} files.
+The remaining three algorithms are Girvan-Newman, MCL, and Leung. Leung is provided by the GraphStream project. Girvan-Newman and MCL are implemented as Gephi plugins. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The platform provides a toolkit to use its functionality without \gls{UI}.  The algorithms code can be extracted from the plugins as \gls{JAR} using the UnpackNBM tool\cite{unpackNBM}.
 
-The GraphStream project provides an implementation of the Epidemic Label Propagation clustering algorithm as part of their \texttt{gs-algo} package.
 
 \section{Detailed Algorithm Evaluation}
 \label{appendix:graphClusteringAlgs}
 
-Table \ref{tab:clusterAlgorithms} introduces all evaluated algorithms. The \gls{MCL} algorithm in theory could be used to calculate the clusters. However we found the Java implementation not to be mature enough as the output contains overlaps or misses nodes. Leung and Girvan-Newman are used in the Service Cutter and both provide good results.
+Table \ref{tab:clusterAlgorithms} documents the detailed evaluation of the three candidate algorithms. The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. However we found the Java implementation not to be mature enough as the output contains overlapping or missing nodes so that the \textit{distinct clusters} requirement is not met. Leung and Girvan-Newman are used in the Service Cutter and both provide good results.
 
 \begin{table}[H]
 \centering
@@ -88,7 +85,7 @@ Year                & 2000                       & 2007/2009                    
 Name                & Markov Cluster Algorithm   & Epidemic Label Propagation        & \multicolumn{1}{l|}{Girvan–Newman}              \\ \hline
 Approach            & Random walks               & Labels spread to their neighbours & Edge betweenness, based on shortest-paths       \\ \hline
 Performance \newline \textit{N: Nodes} \newline \textit{E: Edges}         & $O (N k^2)$ \newline \textit{k: pruning constant} \cite[p.126]{markovCluster} & $O( E N )$ \cite[p.3]{leung}                         & $O ( N^3 )$\cite[p.14]{girvan}       \\ \hline
-Java Implementation & Plugin of Gephi\cite{gephiMarkov} & GraphStream project\cite{leungGraphstream} & Plugin of Gephi\cite{girvanGraphstream} \\ \hline
+Java Implementation & Plugin of Gephi\cite{gephiMarkov} & GraphStream project\cite{leungGraphstream} & Plugin of Gephi\cite{gephiMarkov} \\ \hline
 Test result         & Bugs                       & Good                              & \multicolumn{1}{l|}{Good}                       \\ \hline
 Advantages & - & Does not require the number of clusters as a parameter & Provides stable results \\
  \hline

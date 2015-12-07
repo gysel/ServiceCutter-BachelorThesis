@@ -56,7 +56,7 @@ Decomposition describes the task of grouping nanoentities into services. Achievi
 \end{minipage}
 \begin{minipage}[t]{0.4\textwidth}
 
-	%TODO: change Field to Nanoentity
+
 	\begin{figure}[H]
 		\includegraphics[scale=0.8]{diagrams/weighted_graph.pdf}
 		\caption{Example of a Weighted Graph}
@@ -82,8 +82,7 @@ Decomposition describes the task of grouping nanoentities into services. Achievi
 		\item To allow the user to define the specific requirements of his system, priorities per coupling criteria can optionally be defined to influence the weights of each coupling criteria instance.
 	\end{enumerate}
 	
-	The \textit{Clustering Algorithm} then analyzes the graph and creates clusters of nanoentities so that as few edges as possible need to be cut.
-	
+	The \textit{Clustering Algorithm} then analyzes the graph and creates clusters of nanoentities so that as few edges as possible need to be cut.	
 
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
@@ -95,31 +94,6 @@ Decomposition describes the task of grouping nanoentities into services. Achievi
 \end{minipage}
 
 A detailed evaluation of clustering algorithms is document in Appendix \ref{appendix:graphClustering}. We decided to do a first assessment of this approach using the \gls{MCL}\cite{markovCluster} and Girvan-Newman\cite{girvan} algorithms. Both algorithms are implemented as plugins of the Gephi\cite{gephi} platform and can be extracted as \gls{JAR} files.
-
-\subsubsection{Practical Assessment of the Graph Clustering Approach}
-
-To assess the graph approach we use a simple booking domain model. In Figure \ref{fig:clusteringBookingSimple} the MCL algorithm was tested using the booking model with all coupling criteria priorities set to zero except the \textit{Identity \& Lifecycle Commonality} criteria. Consequently the visualized services contain one entity each. The entities can be identified as \textit{Customer}, \textit{Article} and \textit{Booking}.
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.7]{images/booking_entities.png}
-	\end{center}
-	\caption{Clustering of a simple Booking example.}
-	\label{fig:clusteringBookingSimple}
-\end{figure}
-
-
-Figure \ref{fig:clusteringBooking} demonstrates the result of the MCL algorithm with user stories of the Booking domain added. 
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.7]{images/booking_entities_mcl.png}
-	\end{center}
-	\caption{Booking Example enhanced with User Stories.}
-	\label{fig:clusteringBooking}
-\end{figure}
-
-Obviously this is not the expected result. The service clusters are formed with nanoentities belonging to several clusters at the same time. Therefore this implementation of the MCL algorithm cannot be used for our application.
 
 TODO: this part needs to be reviewed and enhanced with results from the second run 
 
