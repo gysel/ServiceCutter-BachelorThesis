@@ -10,6 +10,7 @@ A coupling criterion describes a reason why two nanoentities should or should no
 The coupling criteria in this thesis are a product of literature research and a workshop assembling the collective software architect experience of our thesis advisor Prof. Dr. O. Zimmermann, our industry partner W. Giersche, a seasoned architect of Zühlke Engineering, and us. we transformed the resulting ideas into the following structured catalog.
 
 \subsection{Criteria Catalog Overview}
+\label{subsec:couplingCriteriaOverview}
 
 The coupling criteria can be classified in a grid as shown in Figure \ref{fig:cc_grid}.
 
@@ -22,7 +23,7 @@ The coupling criteria can be classified in a grid as shown in Figure \ref{fig:cc
 The grid columns and rows represent the following partitions:
 
 \begin{description}
-	\item[Cohesiveness] - Criteria describing the cohesivness of nanoentities and  therefore why they should belong to the same service. 
+	\item[Cohesiveness] - Criteria describing the cohesiveness of nanoentities and therefore why they should belong to the same service. 
 	\item[Compatibility] - Criteria describing the incompatible characteristics of nanoentities. The service should not contain nanoentities with different characteristics. Examples for incompatible characteristics are \enquote{High}, \enquote{Eventually}, and \enquote{Weak} for the criterion \enquote{Consistency}.
 	\item[Constraints] - Criteria describing constraints which enforce that group of nanoentities must be distributed amongst different services or form a service by itself. (No entities are assigned to another service; no entities are added to this service.)
 	\item[Communication] - Criteria describing which nanoentities are suitable to be used as part of the published language shared between services. 

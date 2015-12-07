@@ -7,17 +7,23 @@ intro... %TODO
 
 \section{Service Cutter Process}
 
-The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines metadata on the nanoentities and their relations in a second step. In the third step, the user runs the decomposition process to receive suggestions on how the nanoentities could be split into services. He finally analyzes the suggestion and compares it with his own expectations. 
+The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. During the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes the suggestion and compares it with his own expectations. 
 
-\subsection{Step 1: Model Initialization}
+\subsubsection{Step 1: Model Initialization}
 
 In this step a model representing a system to be analyzed is created in the Service Cutter. The user defines all nanoentities relevant for his domain. 
 
-In a first approach, defining these nanoentities should be possible either as a list of nanoentities or parsed from an \gls{ERM} defined in a self defined JSON representation.
+Importing these nanoentities is possible either as a list of nanoentities or parsed from an \gls{ERM} defined in a self defined JSON representation.
 
-\subsection{Step 2: Describing the System based on Coupling Criteria}
+%TODO add REST URI?
 
-Almost all nanoentities are related in some way to other nanoentities. The concept of a coupling criterion described in Section \ref{sec:couplingCriteria} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the nanoentities' characteristics and relations to each other. 
+\subsubsection{Step 2: Model Description}
+
+In the second step the model is described with meta data that is used by the Service Cutter to calculate coupling between nanoentities for each coupling criteria. This meta data is imported using user representations in a self defined JSON representation.
+
+%TODO document REST URIs and JSON formats 	
+
+Almost all nanoentities are related in some way to other nanoentities. The concept of a coupling criterion described in Section \ref{sec:couplingCriteria} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the nanoentities' characteristics and relations to each other. To improve usability well known concepts like use cases are defined as user representation which can be used to enhance the model. 
 
 Importing the user representation should either be done over a RESTful HTTP API in a self defined JSON format or using a wizard within the Service Cutter's \gls{UI}.
 
@@ -37,37 +43,47 @@ Once solution suggestions have been presented, the user needs to interpret them 
 
 \section{Decomposition Approach}
 
-Decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined coupling criteria as described in \ref{sec:decompositionRequirements} requires a non trivial algorithm. This section documents the evaluation process for such an algorithm.
+Decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined coupling criteria as described in Section \ref{sec:decompositionRequirements} requires a non trivial algorithm. This Section documents the evaluation process for such an algorithm.
 
 \subsection{Approach \#1: Clustering of a Weighted Undirected Graph}
 \label{subsec:approach1_graph}
 
-Our first approach to solve the decomposition problem was a clustering or community algorithm applied on a weighted, undirected graph.
+\begin{minipage}[t]{0.6\textwidth}
+	\setlength{\parskip}{5pt plus 0.1pt}
+	Our first approach to solve the decomposition problem was a clustering or community algorithm applied on a weighted, undirected graph.
+	
+	Every nanoentity in the model is represented by a node. Edges define a relationship between two nanoentities. The weight on each edge shows how \textit{close} or \textit{cohesive} two nanoentities are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
+\end{minipage}
+\begin{minipage}[t]{0.4\textwidth}
 
-Every nanoentity in the model is represented by a node. Edges define a relationship between two nanoentities. The weight on each edge shows how \textit{close} or \textit{cohesive} two nanoentities are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
+	%TODO: change Field to Nanoentity
+	\begin{figure}[H]
+		\includegraphics[scale=0.8]{diagrams/weighted_graph.pdf}
+		\caption{Example of a Weighted Graph}
+		\label{fig:weighted_graph}
+	\end{figure}
+
+\end{minipage}
+
+%TODO: update image from dataFields to nanoEntites
+%TODO: Candidate Service Cuts instead of Decomposition Solutions
 
 \begin{minipage}[t]{0.5\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
-	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations such as class diagrams or use cases are imported. The \textit{importer} component extracts the nanoentities and the occurences of coupling, called coupling criteria Instances, in this model and stores this information into the database.
+	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations like an \gls{ERM} or use cases are imported. The \textit{importer} component extracts the nanoentities and the coupling meta data stores this information in a database.
 	
-	The \textit{Solver} then creates all vertices from the nanoentities and builds edges between them according to the stored coupling criteria instances. This task is complex for the following reasons:
+	The \textit{Solver} then creates all vertices from the nanoentities and builds weighted edges between them according to the stored coupling criteria instances. This task is complex for the following reasons:
 	
 	\begin{enumerate}
-		\item Coupling criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaTypes}. 
-		%TODO: write first about types before completing this item. Mention distance, closeness and cumulative criteria
+		\item Coupling criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaOverview}. Cohesiveness criteria describe why nanoentities should belong to the same service while compatibility criteria ask for separation of nanoentities. Constraints criteria might require both while criteria of type communication need to be processed differently as they define which nanoentities are better suitable as for an \gls{API} between services. The information from all types needs to be represented with a single unit to define a number used as a weight of an edge.
 		
-		\item All coupling criteria information is reduced to a single number with one single unit of measurement. An increase of the weight for one criteria automatically changes the relative importance of that CC to others.
+		\item Using a single number with only one unit of measurement bears the risk of unintended change of relative importance between the coupling criteria. It is important to carefully assure that each coupling criteria uses the same range of numbers to allow comparison and priorizing of criteria.   
 		
 		\item To allow the user to define the specific requirements of his system, priorities per coupling criteria can optionally be defined to influence the weights of each coupling criteria instance.
 	\end{enumerate}
 	
 	The \textit{Clustering Algorithm} then analyzes the graph and creates clusters of nanoentities so that as few edges as possible need to be cut.
 	
-	\begin{figure}[H]
-		\includegraphics[scale=1.0]{diagrams/weighted_graph.pdf}
-		\caption{Example of a Weighted Graph}
-		\label{fig:weighted_graph}
-	\end{figure}
 
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
@@ -86,7 +102,7 @@ To assess the graph approach we use a simple booking domain model. In Figure \re
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[scale=0.8]{images/booking_entities.png}
+		\includegraphics[scale=0.7]{images/booking_entities.png}
 	\end{center}
 	\caption{Clustering of a simple Booking example.}
 	\label{fig:clusteringBookingSimple}
@@ -104,6 +120,8 @@ Figure \ref{fig:clusteringBooking} demonstrates the result of the MCL algorithm 
 \end{figure}
 
 Obviously this is not the expected result. The service clusters are formed with nanoentities belonging to several clusters at the same time. Therefore this implementation of the MCL algorithm cannot be used for our application.
+
+TODO: this part needs to be reviewed and enhanced with results from the second run 
 
 
 \subsubsection{Discussion}
