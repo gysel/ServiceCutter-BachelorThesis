@@ -243,9 +243,9 @@ Except of the last cut we find reasonable justifications for all cases. In fact,
 
 \subsubsection{Number of Services}
 
-The number of services suggested by Leung differ from 2 to 7 services. There is a tendency to a higher number of services if cohesiveness criteria are prioritized high and compatibility and constraints criteria are prioritized low. The same applies vice versa. 
+The number of services suggested by Leung vary between 2 and 7 services. There is a tendency towards a higher number of services when cohesiveness criteria are prioritized high and compatibility, and constraints criteria are prioritized low. The same applies vice versa. 
 
-With only small changes to the priorities Leung commonly suggests 4 or 5 services which matches with our expectation. 
+With only small changes to the priorities Leung commonly suggests 4 or 5 services which matches with our expectation. %TODO meistens?
 
 \subsection{Conclusion}
 
@@ -256,14 +256,14 @@ The tests furthermore show the advantages and disadvantages of a deterministic a
 \section{Cargo Tracking System - Domain-Driven Design Sample}
 \label{sec:dddSample}
 
-The Cargo Tracking System is a well known software project created to illustrate the concepts and patterns described in the \gls{DDD} book by E. Evans\cite{evans2003domain}. The DDDSample is hosted on Github\cite{dddGithub} and a short screencast on Youtube\cite{dddScreencast} outlines its functionality. 
+The Cargo Tracking System is a well known software project created to illustrate the concepts and patterns described in the \gls{DDD} book by E. Evans\cite{evans2003domain}. The DDDSample is hosted on Github\cite{dddGithub} and a short screencast on YouTube\cite{dddScreencast} outlines its functionality. 
 
 The Cargo Tracking System provides a domain with a suitable complexity and, unlike the Trading System, comes with a already implemented and well reasoned architecture. With reverse engineering we extracted the domain model, use cases and some characteristics from the code. The Cargo Tracking implements the following functionalities:
 
 \begin{itemize}
-	\item The main focus is to transport a \textit{Cargo} from \textit{Location} A to \textit{Location} B. \textit{Cargos} are created with a \textit{TrackingId} and specified with a \textit{RouteSpecification}. Once created, one of multiple suitable \textit{Itinerarys} is as assigned.
+	\item The main focus is to transport a \textit{Cargo} from \textit{Location} A to \textit{Location} B. \textit{Cargos} are created with a \textit{TrackingId} and specified with a \textit{RouteSpecification}. Once created, one of multiple suitable \textit{Itinerarys} is assigned.
 	\item The system calculates suitable \textit{Itinerarys} for a \textit{Cargo} from existing \textit{Voyages} each containing a list of \textit{CarrierMovements}.
-	\item Once a \textit{Cargo} is routed, \textit{HandlingEvents} track the process of each \textit{Cargos} \textit{Itinerary}. A \textit{HandlingEvent} contains information about the event and references to which \textit{Cargo} on which \textit{Voyage} is handled in which \textit{Location}. 
+	\item Once a \textit{Cargo} is routed, \textit{HandlingEvents} track the progress of each \textit{Cargo's} \textit{Itinerary}. A \textit{HandlingEvent} contains information about the event and references a \textit{Cargo} on a specific \textit{Voyage} and occurs in a particular \textit{Location}. 
 	\item The \textit{Delivery} of a \textit{Cargo} informs about its state, estimated arrival time and contains information whether the \textit{Cargo} is on track or not.
 \end{itemize}
 
@@ -387,7 +387,7 @@ As there are not many compatibility criteria defined, the main reasons for our d
 
 \begin{itemize}
 	\item The \textit{Voyage Service} contains all nanoentities regarding actual voyages and their movements, regardless of any cargo. 
-	\item The \textit{Location Service} is separated as a consequence of the low volatility and change similarity of these nanoentities. Locations are used and referred from almost all entities but very rarely written. This service could be categorized as master data service.
+	\item The \textit{Location Service} is separated as a consequence of the low volatility and change similarity of these nanoentities. Locations are used and referred from almost all entities but very rarely written. This service could be categorized as a master data service.
 	\item The \textit{Planning Service} handles all nanoentities regarding cargos and their itinerary. 
 	\item The \textit{Tracking Service} is responsible to track the actual events of a cargo. The aggregates defined in the DDDSample assign the delivery to the Planning Service. In our opinion the nanoentities \textit{transportStatus}, \textit{misdirected} and \textit{isUnloadedAtLocation} are better assigned to the Tracking Service as they are defined as a consequence of handling events.
 \end{itemize}
@@ -399,7 +399,7 @@ For the Cargo Tracking System the default priorities were adjusted to the follow
 \begin{itemize}
 	\item Volatility: \textit{S} instead of \textit{XS}
 	\item Change Similarity: \textit{S} instead of \textit{XS}
-	\item Responsibiltiy: \textit{L} instead of \textit{M}
+	\item Responsibility: \textit{L} instead of \textit{M}
 \end{itemize}
 
 The resulting candidate service cuts by the Girvan-Newman algorithm for 4 services are shown in Figure \ref{fig:dddGirvanNewman}.
@@ -422,7 +422,7 @@ The split of location might be due to the fact that in most use cases only Locat
 	\label{fig:dddGirvanNewmanS}
 \end{figure}
 
-Location has now an own service as expected. This improves the result a little but still not enough to consider it \textit{accebtable}.
+Location has now an own service as expected. This improves the result a little but still not enough to consider it \textit{acceptable}.
 
 \subsubsection{Priorities Sensitivity}
 

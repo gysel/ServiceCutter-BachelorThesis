@@ -45,28 +45,31 @@ The algorithms listed in Table \ref{tab:algorithmEvaluation} are the result of a
 	\centering
 	\caption{Algorithm Evaluation}
 	\label{tab:algorithmEvaluation}
-	\begin{tabular}{|p{90pt}|p{200pt}|p{130pt}|}
+	\begin{tabular}{|p{80pt}|p{180pt}|p{130pt}|}
 		\hline	
-		Name & Description & Implementation \\
+		\textbf{Name} & \textbf{Description} & \textbf{Implementation} \\
 		\hline
 		MCL - Markov Cluster Algorithm\cite{markovCluster} & A clustering algorithm working on weighted undirected graphs. MCL is based on Random Walks with Markov Chains. & Implementations of MCL are available in R and in Java as a plugin of the Gephi\cite{gephi} platform.  \\
 		\hline
 		HCS - Highly Connected Subgraphs\cite{hcs} & A clustering algorithm working on unweighted undirected graphs. The CLICK clustering algorithm enhances HCS for weighted edges. & Implementations only available in R.  \\
 		%TODO: check CLICK algorithm again
 		\hline
-		Girvan–Newman\cite{girvan} & A clustering algorithm working on weighted undirected graphs based on Edge-Betweenness \footnote{The amount of shortest paths between nodes going through a specific edge.}. & Java implementations exist as part of the Jung\cite{jung} framework (only unweighted graphs) and as a plugin of the Gephi\cite{gephi} platform. \\
+		Girvan–\newline Newman\cite{girvan} & A clustering algorithm working on weighted undirected graphs based on Edge-Betweenness \footnote{The amount of shortest paths between nodes going through a specific edge.}. & Java implementations exist as part of the Jung\cite{jung} framework (only unweighted graphs) and as a plugin of the Gephi\cite{gephi} platform. \\
 		\hline	
 		K-means\cite{kmeans} & A clustering algorithm working with vectors in an n-dimensional space. & Multiple implementations, for example as part of the Spark\cite{spark} framework, are available. \\
 		\hline
 		Apiacoa\cite{apiacoa} & A clustering algorithm working on unweighted undirected graphs. This algorithm is based on maximal modularity clustering. & Apiacoa.org provides an implementation of the algorithm in Java. \\
 		\hline
-		%TODO: what is maximal modularity clusterni?	
-		%TODO: replace wikipedia with original sources		
-		%TODO: add leung here
+		Epidemic Label Propagation\cite{apiacoa} & A clustering algorithm working on weighted (un-)directed graphs. This algorithm was suggested by Raghavan\cite{raghavan} and refined by Leung\cite{leung}. & GraphStream\cite{leungGraphstream} provides an implementation of the algorithm in Java. \\
+		\hline
+		%TODO: what is maximal modularity clusterni?
+		%TODO: replace wikipedia with original sources
 	\end{tabular}
 \end{table}
 
-We did not find a simple way to transform the problem from a graph to vector based representation in order to use k-means as a solution. We  decided to try the Gephi implementations of Girvan-Newman and MCL as Apiacoa does not support weighted edges and no Java implementation for HCS was found. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The two algorithms are provided by Gephi plugins, from which the algorithm implementations can be extracted as \gls{JAR} files. 
+We did not find a simple way to transform the problem from a graph to vector based representation in order to use k-means as a solution. We  decided to try the Gephi implementations of Girvan-Newman and MCL as Apiacoa does not support weighted edges and no Java implementation for HCS was found. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The two algorithms are provided by Gephi plugins, from which the algorithm implementations can be extracted as \gls{JAR} files.
+
+The GraphStream project provides an implementation of the Epidemic Label Propagation clustering algorithm as part of their \texttt{gs-algo} package.
 
 \section{Detailed Algorithm Evaluation}
 \label{appendix:graphClusteringAlgs}
