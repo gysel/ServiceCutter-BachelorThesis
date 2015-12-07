@@ -94,3 +94,15 @@ Advantages & - & Does not require the number of clusters as a parameter & Provid
  \hline
 \end{tabular}
 \end{table}
+
+\section{Monster clusters formed by the Leung algorithm}
+\label{sec:monsterclusters}
+
+The \enquote{Epidemic Label Propagation} algorithm by Raghavan \textit{et al} occasionally forms so called \enquote{monster} families as described by Leung \textit{et al} resulting in a drop of cohesion in a cluster. 
+
+\enquote{[\dots] certain communities do not form strong enough links to
+prevent a foreign \enquote{epidemic} to sweep through.}\cite[p. 5]{leung}
+
+Leung introduced the \enquote{hop attenuation factor} $\delta$ to the algorithm. This parameters decelerates the propagation of a cluster from its origin and therefore encourages a stronger local cluster to form before a large cluster starts to dominate.
+
+We observed monster clusters especially in the DDD sample and were able to reduce their likelyhood by increasing the hop attenuation factor to a value of $\delta \approx 0.55$ compared to a default of $ \delta = 0.1$ as provided by the GraphStream implementation. We decided to keep the value of $\delta = 0.55$ as the default of the Service Cutter.
