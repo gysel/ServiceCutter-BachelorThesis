@@ -1,7 +1,9 @@
 \chapter{Clustering Graph Evaluation}
 \label{appendix:graphClustering}
+\label{appendix:graphClusteringAlgs}
+%TODO: test if refs are correct
 
-To implement the graph approach described in Section \ref{subsec:approach1_graph}, a clustering algorithm is required to split the undirected, weighted graph into groups of nodes having as few connections between the groups as possible. 
+This Appendix documents the requirements and evaluation of clustering algorithms. 
 
 \section{Requirements}
 
@@ -37,9 +39,9 @@ The requirements listed in Table \ref{tab:requirementsAlgorithm} should be met b
 	\end{tabular}
 \end{table}
 
-\section{Market Overview}
+\section{Algorithms Assessment}
 
-The algorithms listed in Table \ref{tab:algorithmEvaluation} are the result of an online research on clustering and community algorithms.
+The algorithms listed in Table \ref{tab:algorithmEvaluation} were found by consulting clustering algorithm comparisons published by the Computer Science Review\cite{schaeffer2007graph} and the Physical Review E\cite{lancichinetti2009community}. Further Research using Google's search engine and the community driven question and answer platform Stackoverflow\cite{stackoverflowGraphClustering} were used to find applicable implementations of the algorithms. 
 
 \begin{table}[H]
 	\centering
@@ -65,41 +67,5 @@ The algorithms listed in Table \ref{tab:algorithmEvaluation} are the result of a
 	\end{tabular}
 \end{table}
 
-The remaining three algorithms are Girvan-Newman, MCL, and Leung. Leung is provided by the GraphStream project. Girvan-Newman and MCL are implemented as Gephi plugins. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The platform provides a toolkit to use its functionality without \gls{UI}.  The algorithms code can be extracted from the plugins as \gls{JAR} using the UnpackNBM tool\cite{unpackNBM}.
 
 
-\section{Detailed Algorithm Evaluation}
-\label{appendix:graphClusteringAlgs}
-
-Table \ref{tab:clusterAlgorithms} documents the detailed evaluation of the three candidate algorithms. The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. However we found the Java implementation not to be mature enough as the output contains overlapping or missing nodes so that the \textit{distinct clusters} requirement is not met. Leung and Girvan-Newman are used in the Service Cutter and both provide good results.
-
-\begin{table}[H]
-\centering
-\caption{Evaluation of cluster algorithms}
-\label{tab:clusterAlgorithms}
-\begin{tabular}{|p{2cm}|p{4cm}|p{4cm}|p{4cm}|}
-\hline
-                    & \textbf{MCL}               & \textbf{Leung}                    & \textbf{Girvan-Newman}  \\ \hline
-Author              & Stijn van Dongen\cite{markovCluster} & U. N. Raghavan\cite{raghavan}, Ian X.Y. Leung\cite{leung}    & M. E. J. Newman, M. Girvan\cite{girvan} \\ \hline
-Year                & 2000                       & 2007/2009                         & \multicolumn{1}{l|}{2003}                       \\ \hline
-Name                & Markov Cluster Algorithm   & Epidemic Label Propagation        & \multicolumn{1}{l|}{Girvan–Newman}              \\ \hline
-Approach            & Random walks               & Labels spread to their neighbours & Edge betweenness, based on shortest-paths       \\ \hline
-Performance \newline \textit{N: Nodes} \newline \textit{E: Edges}         & $O (N k^2)$ \newline \textit{k: pruning constant} \cite[p.126]{markovCluster} & $O( E N )$ \cite[p.3]{leung}                         & $O ( N^3 )$\cite[p.14]{girvan}       \\ \hline
-Java Implementation & Plugin of Gephi\cite{gephiMarkov} & GraphStream project\cite{leungGraphstream} & Plugin of Gephi\cite{gephiMarkov} \\ \hline
-Test result         & Bugs                       & Good                              & \multicolumn{1}{l|}{Good}                       \\ \hline
-Advantages & - & Does not require the number of clusters as a parameter & Provides stable results \\
- \hline
-\end{tabular}
-\end{table}
-
-\section{Monster clusters formed by the Leung algorithm}
-\label{sec:monsterclusters}
-
-The \enquote{Epidemic Label Propagation} algorithm by Raghavan \textit{et al} occasionally forms so called \enquote{monster} families as described by Leung \textit{et al} resulting in a drop of cohesion in a cluster. 
-
-\enquote{[\dots] certain communities do not form strong enough links to
-prevent a foreign \enquote{epidemic} to sweep through.}\cite[p. 5]{leung}
-
-Leung introduced the \enquote{hop attenuation factor} $\delta$ to the algorithm. This parameters decelerates the propagation of a cluster from its origin and therefore encourages a stronger local cluster to form before a large cluster starts to dominate.
-
-We observed monster clusters especially in the DDD sample and were able to reduce their likelyhood by increasing the hop attenuation factor to a value of $\delta \approx 0.55$ compared to a default of $ \delta = 0.1$ as provided by the GraphStream implementation. We decided to keep the value of $\delta = 0.55$ as the default of the Service Cutter.

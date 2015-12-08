@@ -65,9 +65,6 @@ Decomposition describes the task of grouping nanoentities into services. Achievi
 
 \end{minipage}
 
-%TODO: update image from dataFields to nanoEntites
-%TODO: Candidate Service Cuts instead of Decomposition Solutions
-
 \begin{minipage}[t]{0.5\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
 	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations like an \gls{ERM} or use cases are imported. The \textit{importer} component extracts the nanoentities and the coupling meta data stores this information in a database.
@@ -208,21 +205,44 @@ Idee: Am Anfang 5 Minuten durchlaufen, 10 Vorschläge ausarbeiten und dann den u
 Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decomposition mode? Kann der Algorithmus in zwei Schritten geschehen? Bzw. lösen wir eigentlich 2 Probleme (Logisch \& Physisch) auf einmal?
 
 
-\section{Clustering Algorithm}
+\section{Clustering Algorithms}
 
-We decided to use the clustering algorithms Girvan-Newman and Leung. Both provide the required functionality and should support on clusters with up to 2000 nodes. %TODO is leung a bit faster? test!
-
-The \gls{MCL} algorithm according to the paper\cite{markovCluster} supports the desired functionality. However we did not find a stable Java implementation of it and therefore did not test it in detail.
+To implement the graph approach described in Section \ref{subsec:approach1_graph}, a clustering algorithm is required to split the undirected, weighted graph into groups of nodes having as few connections between the clusters as possible. 
 
 A full comparison of the evaluated algorithms is attached in Appendix \ref{appendix:graphClusteringAlgs}.
 
+The remaining three algorithm candidates are Girvan-Newman, MCL, and Leung. Leung is provided by the GraphStream project. Girvan-Newman and MCL are implemented as Gephi plugins. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The platform provides a toolkit to use its functionality without \gls{UI}.  The algorithms code can be extracted from the plugins as \gls{JAR} using the UnpackNBM tool\cite{unpackNBM}.
+
+Table \ref{tab:clusterAlgorithms} documents the detailed evaluation of the three candidate algorithms. 
+
+\begin{table}[H]
+	\centering
+	\caption{Evaluation of cluster algorithms}
+	\label{tab:clusterAlgorithms}
+	\begin{tabular}{|p{2.2cm}|p{4cm}|p{4cm}|p{4cm}|}
+		\hline
+		& \textbf{MCL}               & \textbf{Leung}                    & \textbf{Girvan-Newman}  \\ \hline
+		Author              & Stijn van Dongen\cite{markovCluster} & U. N. Raghavan\cite{raghavan}, Ian X.Y. Leung\cite{leung}    & M. E. J. Newman, M. Girvan\cite{girvan} \\ \hline
+		Year                & 2000                       & 2007/2009                         & \multicolumn{1}{l|}{2003}                       \\ \hline
+		Name                & Markov Cluster Algorithm   & Epidemic Label Propagation        & \multicolumn{1}{l|}{Girvan–Newman}              \\ \hline
+		Approach            & Random walks               & Labels spread to their neighbours & Edge betweenness, based on shortest-paths       \\ \hline
+		Performance \newline \textit{N: Nodes} \newline \textit{E: Edges}         & $O (N k^2)$ \newline \textit{k: pruning constant} \cite[p.126]{markovCluster} & $O( E N )$ \cite[p.3]{leung}                         & $O ( N^3 )$\cite[p.14]{girvan}       \\ \hline
+		Java Implementation & Plugin of Gephi\cite{gephiMarkov} & GraphStream project\cite{leungGraphstream} & Plugin of Gephi\cite{gephiMarkov} \\ \hline
+		Test result         & Bugs                       & Good                              & \multicolumn{1}{l|}{Good}                       \\ \hline
+		Deterministic & No & No & Yes \\
+		\hline
+		Number of clusters parameter & No & No & Yes \\
+		\hline
+	\end{tabular}
+\end{table}
+
+The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. However we found the Java implementation not to be mature enough as the output contains overlapping or missing nodes so that the \textit{distinct clusters} requirement is not met. Leung and Girvan-Newman are used in the Service Cutter and both provide good results as documented in Appendix \ref{testSystems}.
+
 \subsection{Girvan-Newman}
 
-M. E. J. Newman and M. Girvan\cite{girvan} proposed to use a divisive approach to graph clustering. This approach repeatedly finds the least connected pair of nodes and removes the edges between them. This process divides the graph into smaller and smaller components and can be stopped at any time to select the components at this time to be the graph clusters.
+M. E. J. Newman and M. Girvan\cite{girvan} proposed to use a divisive approach to graph clustering. This approach repeatedly finds the least similar connected pair of vertices and removes the edges between them. The least similar connected pair is defined by \textit{edge betweennees} which can be calculated using different approaches as described by Girvan-Newman. The Gephi implementation used in the Service Cutter calculates edge betweenness as the number of shortest paths of any pair of vertices running through an edge. Edges with the highest edge betweenness are removed first. This process divides the graph into smaller and smaller components and can be stopped at any time to select the components at this time to be the graph clusters.
 
-In the ordered graph in Figure \ref{fig:girvan-newman-process} Girvan-Newman would remove the edges in ascending order. The graph is split into 4 clusters after 4 iterations.
-
-Girvan-Newman stops as soon as the desired number of clusters has been reached.
+In the ordered graph in Figure \ref{fig:girvan-newman-process} Girvan-Newman would remove the edges in ascending order. The graph is split into 4 clusters after 2 iterations.
 
 \begin{figure}[H]
 	\begin{center}
@@ -232,19 +252,53 @@ Girvan-Newman stops as soon as the desired number of clusters has been reached.
 	\label{fig:girvan-newman-process}
 \end{figure}
 
+Girvan-Newman receives the number of clusters as a parameter and stops as soon as the desired number has been reached. One iteration might remove multiple edges with the maximum edge betweenness. One iteration can therefore produce numerous new clusters so that the requested number of clusters can not be provided. In this case the gephi implementation looks for a result having the least difference in number of clusters. 
+
 As this algorithm does not include random elements, the proposed clusters are always identical.
 
 \subsection{Leung}
+\label{sec:monsterclusters}
 
 In 2009 Leung \textit{et al}\cite{leung} refined the \enquote{Epidemic Label Propagation} algorithm as proposed by Raghavan \textit{et al}\cite{raghavan} in 2007. 
 
 Raghvan described the algorithm as follows: \enquote{Each node in the network chooses to
 join the community to which the maximum number of its neighbors belong to, with ties broken uniformly randomly. We initialize every node with unique labels and let the labels propagate through the network. As the labels propagate, densely connected groups of nodes quickly reach a consensus on a unique label.}\cite[p. 4]{raghavan}.
 
-Leung further refined the algorithm by adding a \enquote{Hop Attenuation Factor} $\delta$ to prevent labels from spreading across two clusters. He explains: \enquote{The value $\delta$ governs how far a particular label can spread as a function of the geodesic distance from its origin. This additional parameter adds in extra uncertainties
+Leung does not specify an order in which nodes are to be processed. Therefore the labels may spread differently in repeated runs. We witnessed varying clusters while testing the Service Cutter as document in Appendix \ref{appendix:serviceCutterAssessment}.
+
+The algorithm occasionally forms so called \enquote{monster} families as described by Leung \textit{et al} resulting in a drop of cohesion in a cluster. 
+
+\enquote{[\dots] certain communities do not form strong enough links to prevent a foreign \enquote{epidemic} to sweep through.}\cite[p. 5]{leung}
+
+Leung therefore refined the algorithm by adding a \enquote{Hop Attenuation Factor} $\delta$ to prevent labels from spreading across two clusters. He explains: \enquote{The value $\delta$ governs how far a particular label can spread as a function of the geodesic distance from its origin. This additional parameter adds in extra uncertainties
 to the algorithm but may encourage a stronger local community to form before a large cluster start to dominate.}
 
-Leung does not specify an order in which nodes are to be processed. Therefore the labels may spread differently in repeated runs. We witnessed varying clusters while testing the Service Cutter. %TODO add reference to ddd sample chapter
+This parameters decelerates the propagation of a cluster from its origin and therefore encourages a stronger local cluster to form before a large cluster starts to dominate.
+
+We observed monster clusters especially in the DDDSample documented in Appendix \ref{sec:dddSample} and were able to reduce their likelyhood by increasing the hop attenuation factor to a value of $\delta \approx 0.55$ compared to a default of $ \delta = 0.1$ as provided by the GraphStream implementation. We decided to keep the value of $\delta = 0.55$ as the default of the Service Cutter.
+
+\subsection{Discussion}
+
+Two main differences between Leung and Girvan-Newman algorithms are determinism and the number of clusters parameter. This section discusses the advantages and disadvantages of each.
+
+\subsubsection{Determinism}
+
+Results of a deterministic algorithm like Girvan-Newman can be reproduced by running the algorithm again with the same input data. The influence of different input data, scoring values and priorities can therefore be analyzed as the algorithm itself does not contain a random element.
+
+A non-deterministic algorithm like Leung complicates analysis since changes in results can not clearly be identified as consequence of changes in input or randomness. Furthermore results always need to be safely persisted and reloaded since they can not be reliably reproduced. 
+
+Nevertheless, our industry partner Wolfgang Giersche accurately pointed out that an element of randomness is not only a disadvantage. Running multiple algorithm cycles presents different solutions and outlines where the difficult architectural decisions lie.
+
+\subsubsection{Number of Clusters Parameter}
+
+Providing the number of clusters as a parameter to the algorithm has the advantage of analyzing the service decomposition with any possible number of services. This feature can be used to better understand the structure and coupling between parts of the analyzed system by running analysis even with a number of services which is not optimal. Requesting a high number of service provides indications of how services internally might be further decomposed into modules. 
+
+Furthermore the parameter allows to help in the process of emerging from a monolithic architecture to service orientation as described in Section XXX.
+%TODO ref
+
+Nevertheless, algorithms requesting the number of services as a parameter hand over the responsibility to answer this critical question to the user instead of answering it itself. Wolfgang Giersche pointed out that architects are often prejudiced on the number of services their system should be decomposed. Having the Service Cutter providing not only the content of each service but also the number of services challenges the user to reassess his ideas against the candidate service cuts provided. 
+
+%TODO überleitung
 
 \section{Scoring}
 
@@ -340,8 +394,7 @@ Negative scores are not represented on the graph. Negative scores request a sepa
 \begin{minipage}[t]{0.5\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
 
-%TODO: sinnvollere defaults definieren? XS for security constraint ist wohl nicht so gut. 
-One problem the scoring system has is that the sum in step 3 adds together positive and negative scores. If the amount of criterion give negative scores is high, the likelihood to reach a negative final score gets bigger. While analyzing test systems documented in Appendix \ref{testSystems}, we found default priorities as shown in Figure \ref{fig:priorities} provide reasonable results.
+One problem the scoring system has is that the sum in step 3 adds together positive and negative scores. If the amount of criterion give negative scores is high, the likelihood to reach a negative final score gets bigger. While analyzing test systems documented in Appendix \ref{appendix:serviceCutterAssessment}, we found default priorities as shown in Figure \ref{fig:priorities} provide reasonable results.
 
 
 Default priorities: \newline
