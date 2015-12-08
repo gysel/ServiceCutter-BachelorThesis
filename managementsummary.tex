@@ -9,17 +9,17 @@ Several methodologies exist to guide a software architect when he designs servic
 
 \textbf{A Structured Approach to Decoupling}
 
-\begin{figure}
-	\includegraphics[scale=0.4]{diagrams/CouplingCatalog.pdf}
-	\caption{Coupling criteria catalog}
-	\label{fig:cc-catalog-mgmt-summary}
-\end{figure}
-
 When talking about cohesion and coupling we found that there is no extensive description in existing literature defining the actual factors thereof in distributed software systems. We therefore compiled a catalog of 14 coupling criteria that aims to form a comprehensive but not conclusive collection. 
 
 Those coupling criteria help a software architect to structure internal and external dependencies. 
 
 %TODO sollen wir die einzelnen kriterien hier auflisten?
+
+\begin{figure}[H]
+	\includegraphics[scale=0.4]{diagrams/CouplingCatalog.pdf}
+	\caption{Coupling criteria catalog}
+	\label{fig:cc-catalog-mgmt-summary}
+\end{figure}
 
 Complementary to the coupling we also described an approach to quantify the coupling in a software system. We set nanoentities in relation to each other and assign a score to each tuple where a coupling exists. A score is a number between -10 and 10 given for a specific coupling criteria representing the strength of the coupling.
 
@@ -29,13 +29,18 @@ All scores of coupling between nanoentities are collected and utilized to constr
 
 We implemented a tool called the \enquote{Service Cutter} as of a proof of concept of the scoring and decomposition approach.
 
+\begin{figure}[H]
+	\includegraphics[scale=0.65]{images/ServiceCutter.png}
+	\caption{Screenshot Service Cutter}
+	\label{fig:ServiceCutter-mgmt-summary}
+\end{figure}
+
 \textbf{Suggested Service Cuts}
 
 Once the graph is constructed, a graph clustering algorithm is used to calculate clusters so that as few edges as possible are cut. A cut edge equals with the coupling between the created services. This process produces candidate service cuts with high cohesion and low coupling.
 
 We utilized two different algorithms to calculate the clusters. Girvan-Newman is deterministic and requires the desired number of clusters to be specified. The \enquote{Epidemic Label Propagation} algorithm by Raghavan and Leung is non-deterministic and computes the optimal number of clusters by itself. The two algorithms seem to be complementary and provide reasonable candidate service cuts. 
 
-%TODO Screenshot Service Cutter
 
 \textbf{Discussion}
 
