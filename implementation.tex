@@ -6,6 +6,7 @@ intro... %TODO
 
 
 \section{Service Cutter Process}
+%TODO weglassen?
 
 The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. During the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes the suggestion and compares it with his own expectations. 
 
@@ -40,47 +41,42 @@ The algorithm will then present one or multiple solution suggestions to the user
 Once solution suggestions have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project.
 
 
-
-\section{Decomposition Approach}
-
-Decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined coupling criteria as described in Section \ref{sec:decompositionRequirements} requires a non trivial algorithm. This Section documents the evaluation process for such an algorithm.
-
-\subsection{Approach \#1: Clustering of a Weighted Undirected Graph}
+\section{Service Decomposition using a Weighted Undirected Graph}
 \label{subsec:approach1_graph}
 
+Service decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined coupling criteria as described in Section \ref{sec:decompositionRequirements} requires a non trivial algorithm. We approach this problem by using a weighted undirected graph and clustering algorithms as described in this Section. Other approaches have been evaluated but could not provide satisfying results as documented in Appendix \ref{appendix:decompositionAppraoches}.
+
 \begin{minipage}[t]{0.6\textwidth}
-	\setlength{\parskip}{5pt plus 0.1pt}
-	Our first approach to solve the decomposition problem was a clustering or community algorithm applied on a weighted, undirected graph.
-	
-	Every nanoentity in the model is represented by a node. Edges define a relationship between two nanoentities. The weight on each edge shows how \textit{close} or \textit{cohesive} two nanoentities are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
+	\setlength{\parskip}{5pt plus 0.1pt}	
+	To create a weighted undirected graph, every nanoentity in the model is represented by a node. Edges define a relationship between two nanoentities. The weight on each edge shows how \textit{close} or \textit{cohesive} two nanoentities are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
 \end{minipage}
 \begin{minipage}[t]{0.4\textwidth}
-
-
+	
+	
 	\begin{figure}[H]
 		\includegraphics[scale=0.8]{diagrams/weighted_graph.pdf}
 		\caption{Example of a Weighted Graph}
 		\label{fig:weighted_graph}
 	\end{figure}
-
+	
 \end{minipage}
 
 \begin{minipage}[t]{0.5\textwidth}
-\setlength{\parskip}{5pt plus 0.1pt}
+	\setlength{\parskip}{5pt plus 0.1pt}
 	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations like an \gls{ERM} or use cases are imported. The \textit{importer} component extracts the nanoentities and the coupling meta data stores this information in a database.
 	
 	The \textit{Solver} then creates all vertices from the nanoentities and builds weighted edges between them according to the stored coupling criteria instances. This task is complex for the following reasons:
 	
 	\begin{enumerate}
-		\item Coupling criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaOverview}. Cohesiveness criteria describe why nanoentities should belong to the same service while compatibility criteria ask for separation of nanoentities. Constraints criteria might require both while criteria of type communication need to be processed differently as they define which nanoentities are better suitable as for an \gls{API} between services. The information from all types needs to be represented with a single unit to define a number used as a weight of an edge.
+		\item Coupling criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaOverview}. Cohesiveness criteria describe why nanoentities should belong to the same service while compatibility criteria ask for separation of nanoentities. Constraints criteria might require both. Criteria of type communication need to be processed differently as they define which nanoentities are better suitable as for an \gls{API} between services. The information from all types needs to be represented with a single unit to define a number used as a weight of an edge.
 		
-		\item Using a single number with only one unit of measurement bears the risk of unintended change of relative importance between the coupling criteria. It is important to carefully assure that each coupling criteria uses the same range of numbers to allow comparison and priorizing of criteria.   
+		\item Using a single number with only one unit of measurement bears the risk of unintended change of the relative importance between the coupling criteria. It is important to carefully assure that each coupling criteria uses the same range of numbers to allow comparison and prioritization of each criteria.   
 		
 		\item To allow the user to define the specific requirements of his system, priorities per coupling criteria can optionally be defined to influence the weights of each coupling criteria instance.
 	\end{enumerate}
 	
 	The \textit{Clustering Algorithm} then analyzes the graph and creates clusters of nanoentities so that as few edges as possible need to be cut.	
-
+	
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{figure}[H]
@@ -90,20 +86,13 @@ Decomposition describes the task of grouping nanoentities into services. Achievi
 	\end{figure}
 \end{minipage}
 
-A detailed evaluation of clustering algorithms is document in Appendix \ref{appendix:graphClustering}. We decided to do a first assessment of this approach using the \gls{MCL}\cite{markovCluster} and Girvan-Newman\cite{girvan} algorithms. Both algorithms are implemented as plugins of the Gephi\cite{gephi} platform and can be extracted as \gls{JAR} files.
+\subsection{Performance}
 
-TODO: this part needs to be reviewed and enhanced with results from the second run 
+%TODO: performance of algorithm against graph building performance?
+%TODO: compare performance of algorithms?
+%TODO: weglassen? nach hinten verschieben?
 
-
-\subsubsection{Discussion}
-
-As proven with the first graph samples based on entity and use case relationships, the problem can be mapped to a graph. This allows to leverage existing graph clustering algorithms.
-
-We identified two conceptional challenges of the graph approach. Firstly the theoretical number of nodes may cause performance problems and secondly a separation constraint can not directly modeled on a graph. The following paragraphs cover those problems.
-
-A weighted graph can only describe how close two nanoentities are. This includes all coupling criteria of type cohesiveness. Coupling that describes separation or incompatibility, where different characteristics should be separated, can only be mapped to the graph indirectly as negative scores. %TODO müssen die positiven scores grösser sein als die penalties?
-
-The maximum number of edged in a graph can be described using a formula: A graph of $n$ nodes, where every node is connected to all other nodes, has $e$ edges.
+The theoretical number of nodes may cause performance problems. The maximum number of edged in a graph can be described using a formula: A graph of $n$ nodes, where every node is connected to all other nodes, has $e$ edges.
 
 \begin{displaymath}
 e = \frac{n(n-1)}{2}
@@ -116,98 +105,31 @@ The number of edges grows almost quadratically as shown in Table \ref{tab:edgesC
 	\caption{Maximum number of edges in an undirected graph}
 	\label{tab:edgesCount}
 	\begin{tabular}{|r|r|}
-	\hline \textbf{Nodes} $n$ & \textbf{Edges} $e$ \\ 
-	\hline 2 & 1 \\ 
-	\hline 3 & 3 \\ 
-	\hline 20 & 190 \\ 
-	\hline 50 & 1'225 \\ 
-	\hline 100 & 4'950 \\ 
-	\hline 2000 & 1'999'999 \\ 
-	\hline 
+		\hline \textbf{Nodes} $n$ & \textbf{Edges} $e$ \\ 
+		\hline 2 & 1 \\ 
+		\hline 3 & 3 \\ 
+		\hline 20 & 190 \\ 
+		\hline 50 & 1'225 \\ 
+		\hline 100 & 4'950 \\ 
+		\hline 2000 & 1'999'999 \\ 
+		\hline 
 	\end{tabular} 
 \end{table}
 
 Our implementation however will unlikely have anything close to the theoretical number of edges as:
 \begin{itemize}
-\item Coupling of type \textit{Cohesiveness} only adds edges where nanoservices are in a relationship with each other.
-\item Coupling of type \textit{Compatibility} only adds a negative score (penalty) to existing relationships.
-\item Coupling of type \textit{Constraint} only removes existing edges.
-%todo communication
+	\item Coupling of type \textit{Cohesiveness} only adds edges where nanoservices are in a relationship with each other.
+	\item Coupling of type \textit{Compatibility} only adds a negative score (penalty) to existing relationships.
+	\item Coupling of type \textit{Constraint} only removes existing edges.
+	%todo communication
 \end{itemize}
 
 The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoentities which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
 
 
-
-\subsection{Approach \#2: Rating of possible Service Cuts}
-
-During sprint 2 we conducted a feasibility assessment with a professor of mathematics of the graph based approach as documented in Appendix \ref{sec:feasibilityAssessment}. The result of the assessment is the idea to create a set of all possible service cuts and rate the cuts isolated per coupling criteria. The approach is illustrated in Figure \ref{fig:setProcess}.
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=0.45]{diagrams/scoring_process.png}
-	\end{center}
-	\caption{Approach \#2: Set Rating}
-	\label{fig:setProcess}
-\end{figure}
-
-This approach is processed in three steps:
-
-\begin{description}
-	\item[Partitioning] Based on the nanoentities, a set of all possible candidate service cuts is calculated. This includes every theoretically possible service cut for every number of services. For practical usage, this step needs to be optimized. 
-	\item[Assessment] For all coupling criteria a processor assesses all service cuts with a score describing how well the criteria's requirements are met. The score is a number between 0 and 10, while 10 means that all requirements are perfectly satisfied. 
-	\item[Evaluation] The user optionally defines priorities how important each criteria is for his system. The priorities are defined with approximately exponential numbers like the Fibonacci sequence. These priorities are applied on the service cut scores. The resulting best candidate cut is then presented to the user.
-\end{description}
-
-\subsubsection{Discussion}
-
-An advantage of this approach is that each relevant step is clearly separated and can thus be analyzed, debugged and visualized better than in the graph based approach. The assessment and score calculation is done separately for every cut and for every coupling criteria. Each criteria processor needs to score candidate cuts with a uniform scoring range. 
-
-The weak point is the partitioning process. Theoretically every possible set of services where each nanoentity is contained in one and only one service is a candidate cut. In mathematics this is described as the \textit{partition of a set}\cite{partitionOfASet} problem. The Bell number $B_n$ defines the amount of possible partitions: 
-
-
-\begin{displaymath}
-B_{n+1}=\sum_{j=0}^n {n\choose j} B_j
-\end{displaymath}
-
-For the Service Cutter $n$ is the number of nanoentities, so the number of possible service cuts for $n=20$ nanoentities is $51'724'158'235'372$\footnote{We don't show the number for the required $2000$ nanoentities for lack of space in the document.}.
-
-The Bell number includes cuts for $1 - n$ number of services. In the context of a software system only certain numbers of services are realistic. The \textit{Stirling numbers of the second kind} calculate the Bell number for a given number of sets $k$:
-
-\begin{displaymath}
-\left\{ {n \atop k}\right\} = \frac{1}{k!}\sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^n
-\end{displaymath}
-
-For $n=20$ nanoentities and $k=4$ services the equation results in $45'232'115'901$ possible cuts. For $k=6$ its already $4'306'078'895'384$.
-
-During a discussion with our industry partner and supervisor documented in Appendix \ref{sec:status22102015}, we decided that the Service Cutter should be able to process system models with up to 2000 nanoentities. We therefore concluded in the same meeting that this approach is not practicable without a heuristic approach of finding a small set of relevant candidate cuts. 
-
-A possible heuristic approach is to take one or a few coupling criteria information about the system into account for finding service Candidates. A simple example would be to only analyze cuts where nanoentities of the same entity are not split across services so that only entities and not it's nanoentities need to be considered.
-
-As we tried to find a heuristic approach to calculate candidate cuts, we discovered a new idea for the composition algorithm described in the next approach. 
-
-\subsection{Approach \#3: Constructing Services - a Heuristic Approach}
-
-(Notes only)
-Idee:
-
-Distanzkriterien: Umso mehr Services umso besser die Lösung (Nanoservices)
-Nähekriterien: Umso weniger Services umso besser die Lösung (Monolith)
-
-Die richtige Anzahl Services ist eine kritische Dimension der Lösung, welche unter anderem aber von vielen externen (z.B Infrastruktur) Faktoren abhängt. Entscheidung: Die Verantwortung für das bestimmen der Anzahl Services an den User auslagern.
-
-Nun ist es möglich eine bestimmte Anzahl Services zu füllen. Dazu kann ein heuristischer, empirischer Algorithmus mit intelligentem Rütteln genommen werden. 
-Jede Verbindung von zwei Feldern wird von jedem CC mit einer einheitlichen Einheit bewertet. Dadurch kann einfach bestummen werden, wie gut ein Feld in ein Topf passt. Alle Töpfe werden gefüllt (wenn es nirgends passt in den kleinsten Topf). Danach wird angefangen Feldern die am wenigsten passen in einen anderen Topf zu werfen.
-Der Algorithmus kann beliebig(?) weiterlaufen und optimieren. Wenn der Algorithmus gut funktioniert, kann man während der Optimierung auch die Gewichtung anpassen und schauen was damit passiert.
-Idee: Snapshots machen von Status bevor eine Gewichtung angepasst wird.
-Idee: Am Anfang 5 Minuten durchlaufen, 10 Vorschläge ausarbeiten und dann den user entscheiden lassen auf welchen er weiter optimieren will (?) Evtl. kann auch der Algorithmus entscheiden indem er die lösungen vergleicht? 
-
-Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decomposition mode? Kann der Algorithmus in zwei Schritten geschehen? Bzw. lösen wir eigentlich 2 Probleme (Logisch \& Physisch) auf einmal?
-
-
 \section{Clustering Algorithms}
 
-To implement the graph approach described in Section \ref{subsec:approach1_graph}, a clustering algorithm is required to split the undirected, weighted graph into groups of nodes having as few connections between the clusters as possible. 
+A clustering algorithm is required to split the undirected, weighted graph into groups of nodes having as few connections between the clusters as possible. 
 
 A full comparison of the evaluated algorithms is attached in Appendix \ref{appendix:graphClusteringAlgs}.
 
@@ -312,13 +234,34 @@ The scoring process rates the relation of two nanoentities with a score. A highe
 	\end{center}
 \end{figure}
 
-Figure \ref{fig:scoringExample} shows three nanoentities from the Trading System (see Appendix \ref{sec:tradingSystem}) and their scores to each other. The relation \textit{Position.balance} to \textit{Account.number} has a high score as these nanoentities are often accessed in the same use cases and therefore get a high score from the \textit{Semantic Proximity} criterion. \textit{News.description} to \textit{Account.number} has a negative score. These nanoentities do not have common use cases and do not belong to the same entity, so the positive scores from \textit{cohesiveness} criteria are low or zero. Different characteristics like \textit{low} resilience requirements for \textit{News.description} and \textit{critical} resilience requirements for \textit{Account.number} lead to a negative score. 
+Figure \ref{fig:scoringExample} shows three nanoentities from the Trading System (see Appendix \ref{sec:tradingSystem}) and their potential scores to each other. The relation \textit{Position.balance} to \textit{Account.number} has a high score as these nanoentities are often accessed in the same use cases and therefore get a high score from the \textit{Semantic Proximity} criterion. \textit{News.description} to \textit{Account.number} has a negative score. These nanoentities do not have common use cases and do not belong to the same entity, so the positive scores from \textit{cohesiveness} criteria are low or zero. Different characteristics like \textit{low} resilience requirements for \textit{News.description} and \textit{critical} resilience requirements for \textit{Account.number} lead to a negative score. 
 
 In this simple example, the Service Cutter would most probably suggest two services, one with \textit{Account.number} and \textit{Position.balance} and another one with the \textit{News.description}.
 
+\subsection{Single Dimensionality}
+\label{subsec:singleDimensionality}
+
+A big challenge with the graph based approach is that weights between nodes only have one dimension with a single unit of measurement. The edges can describe how close or cohesive two nanoentities are. This suites well to all coupling criteria of type cohesiveness as they describe reasons to combine nanoentities in the same service. Coupling criteria describing separation or incompatibility, where separation of nanoentities is asked by constraints or different nanoentity characteristics, can not accurately be described using the weight on the edge.
+
+Our approach to solve this problem is to introduce negative scores as shown in the example above. A negative score implies that in the view of a coupling criterion two fields should be separated to different services. If the negative score exceeds the positive score given by cohesiveness criteria, the edge between two nanoentity nodes is removed. 
+
+This approach implies two disadvantages:
+
+\begin{enumerate}
+	\item By removing edges with a score lower than zero, information  about the need for separation is lost. The scores of $-120$ and $-1$ are processed equally. 
+	\item Positive and negative scoring criteria must be balanced out. Too many negatively scoring criteria or high prioritization of such criteria leads to elimination of the positive data and therefore of all information available. 
+\end{enumerate}
+
+
+Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed within the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criteria, as described later in this Section, in a way that positively scoring criteria are prioritized higher. 
+
+%TODO: future work, find better solution and create a reference here
+
+\subsection{Scoring Process}
+
 To determine the final score between two nanoentities three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Finally the prioritized scores of all criteria are summed up to a final score.
 
-\subsection{Step 1: Score by Coupling Criterion}
+\subsubsection{Step 1: Score by Coupling Criterion}
 
 Every coupling criterion calculates a score between $-10$ and $10$ for each nanoentity relation $AB$. 
 
@@ -332,7 +275,7 @@ The range from $-10$ to  $10$ was chosen to be able to compare scores of differe
 
 It is important to notice that not every criterion has to use the full possible range. Coupling criteria of type \textit{cohesiveness} tend to score only positive values, as they describe why nanoentities should be composed in the same service. Criteria of type \textit{compatibility} or \textit{constraints} on the other hand tend to score negative, as they describe reasons to split nanoentities into different services.
 
-\subsection{Step 2: Prioritized Coupling Criteria}
+\subsubsection{Step 2: Prioritized Coupling Criteria}
 
 In the second step, the coupling criteria are prioritized relatively to each other. Table \ref{tab:priorities} outlines all possible priorities.
 
@@ -361,7 +304,7 @@ In the second step, the coupling criteria are prioritized relatively to each oth
 	\end{tabular}
 \end{table}
 
-The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of Zühlke and inspired by agile estimation scales\footnote{Alex Yakyma wrote an interesting paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
+The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of Wolfang Giersche, representative of Zühlke, and inspired by agile estimation scales\footnote{Alex Yakyma wrote an interesting paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
 
 Having very high values allows analyzing a system in the Service Cutter with focus on one or two coupling criteria only as giving a criterion the priority XXL quickly makes it more important than many of the other criteria together. With progressive values we obtain this ability while still keeping the number of priorities small in order to make it simpler to map each criterion to a priority. 
 
@@ -372,7 +315,7 @@ The priority of each criterion is multiplied with all scores given by that crite
 
 It is important to distinct between a criterion score (step 1) and a prioritized score (step 2). A criterion score is a statement on the relation of two nanoentities per coupling criterion where each coupling criterion has the same importance ($-10$ to $10$). The prioritized score multiplies this statement by the importance of the criterion in the analyzed system. Priorities are very context sensitive. Priorities of a real-time entertainment system will have for example very different priorities than a system handling financial transactions. 
 
-\subsection{Step 3: Final Relation Score}
+\subsubsection{Step 3: Final Relation Score}
 
 The final relation score between two nanoentities is the sum of all prioritized scores per coupling criterion: 
 
@@ -386,7 +329,6 @@ The undirected weighted graph is then built with each vertex representing a nano
 edgeWeight_{AB} = max(0, finalScore_{AB})	
 \end{displaymath}
 
-Negative scores are not represented on the graph. Negative scores request a separation of nanoentities in different services. This information is lost in the graph based approach. Nevertheless, we have not encountered actual problems from this as clustering algorithms are unlikely to put two vertices in one cluster that do not have a connecting edge.
 	
 \subsection{Default Priorities}
 \label{sec:defaultPriorities}
@@ -394,14 +336,15 @@ Negative scores are not represented on the graph. Negative scores request a sepa
 \begin{minipage}[t]{0.5\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
 
-One problem the scoring system has is that the sum in step 3 adds together positive and negative scores. If the amount of criterion give negative scores is high, the likelihood to reach a negative final score gets bigger. While analyzing test systems documented in Appendix \ref{appendix:serviceCutterAssessment}, we found default priorities as shown in Figure \ref{fig:priorities} provide reasonable results.
-
+By reasons of the single dimensionality problem described in Section \ref{subsec:singleDimensionality} we defined the default priorities for coupling criteria in a way that negatively scoring criteria are prioritized lower than positively scoring criteria. This does not apply to constraints as these commonly play an important role in the decomposition process. 
 
 Default priorities: \newline
 Cohesiveness criteria: M\newline
 Compatibility criteria: XS\newline 
 Constraints criteria: M\newline
 
+%TODO update at the end of the project
+%TODO: ref in text
 \end{minipage}
 \begin{minipage}[t]{0.6\textwidth}
 	\begin{figure}[H]
@@ -428,6 +371,7 @@ Figure \ref{fig:scorer} shows the CriterionScorer interface used to calculate cr
 	\end{center}
 \end{figure}
 
+%TODO implement other scorer and update
 Currently there are four CriterionScorer implementations for different coupling criteria. Not all criteria have a suitable implementation yet, as we prioritized the criteria during the project as there was not enough time to implement the scoring for all criteria. Table \ref{tab:scorer} outlines which implementation is used for which coupling criterion.
 
 \begin{table}[H]
@@ -587,7 +531,7 @@ For the reasons listed above, we implemented the web application component using
 	
 	The \textit{Editor} component is a web application based on the JHipster\cite{jhipster} framework. It provides the use the possibility to import this domain information using a JSON upload and feeds this information into the Engine. All security and user interface aspects are handled in this layer.
 	
-	The Engine is the isolated component that holds all the code to calculate service decomposition suggestions. It is also based on Spring technologies and provides a REST web service. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in Section \ref{subsec:infrastructure}.
+	The \textit{Engine} is the isolated component that holds all the code to calculate service decomposition suggestions. It is also based on Spring technologies and provides a REST web service. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in Section \ref{subsec:infrastructure}.
 	
 	%TODO db/orm? -> spring data supports hibernate
 	
