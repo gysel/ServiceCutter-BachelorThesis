@@ -8,7 +8,7 @@ intro... %TODO
 \section{Service Cutter Process}
 %TODO weglassen?
 
-The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. During the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes the suggestion and compares it with his own expectations. 
+The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. During the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes these candidate service cuts and compares it with his own expectations. 
 
 \subsubsection{Step 1: Model Initialization}
 
@@ -32,13 +32,13 @@ Importing the user representation should either be done over a RESTful HTTP API 
 
 Once the user has added all nanoentities and coupling criteria he can start the decomposition process. An algorithm groups nanoentities in a way that a good decomposition solution as described in \ref{sec:decompositionRequirements} is found. 
 
-The algorithm will then present one or multiple solution suggestions to the user.
+The algorithm will then present the candidate service cuts to the user.
 
-\subsection{Step 4: Working with Solution Suggestions}
+\subsection{Step 4: Working with Candidate Service Cuts}
 
 (this might not be in scope of this thesis, should we describe this in requirements or in future work?) %TODO
 
-Once solution suggestions have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project.
+Once candidate service cuts have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project.
 
 
 \section{Service Decomposition using a Weighted Undirected Graph}
@@ -533,7 +533,7 @@ For the reasons listed above, we implemented the web application component using
 	
 	The \textit{Editor} component is a web application based on the JHipster\cite{jhipster} framework. It provides the use the possibility to import this domain information using a JSON upload and feeds this information into the Engine. All security and user interface aspects are handled in this layer.
 	
-	The \textit{Engine} is the isolated component that holds all the code to calculate service decomposition suggestions. It is also based on Spring technologies and provides a REST web service. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in Section \ref{subsec:infrastructure}.
+	The \textit{Engine} is the isolated component that holds all the code to calculate candidate service cuts. It is also based on Spring technologies and provides a REST web service. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in Section \ref{subsec:infrastructure}.
 	
 	%TODO db/orm? -> spring data supports hibernate
 	
