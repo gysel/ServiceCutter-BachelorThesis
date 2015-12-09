@@ -32,9 +32,9 @@ To keep the sample simple we only added information for the \textit{Lifecycle \&
 	\label{fig:bookingExampleMCL}
 \end{figure}
 
-The MCL algorithm's result for this example are shown in Figure \ref{fig:bookingExampleMCL}. Obviously this does not match the expectations. Nanoentities are attached to multiple services. Another MCL implementation (TODO), also provided within the Gephi platform, did not contain duplicate nanoentities but therefore missed attaching every nanoentity to a service. Both implementations do not meet the \textit{distinct clusters} requirement that a nanoentity should be assigned to one and only one service. 
+The MCL algorithm's result for this example are shown in Figure \ref{fig:bookingExampleMCL}. Obviously this does not match the expectations. Nanoentities are attached to multiple services. This behavior does not meet the \textit{distinct clusters} requirement that a nanoentity should be assigned to one and only one service. 
 
-The distinct clusters requirement is satisfied by the original MCL implementation written in R, so that the problems can be identified as implementation problem. A solution to this problem would be to write a Java wrapper for the R implementation as described in Section XXX. %TODO Future Work)
+The distinct clusters requirement is satisfied by the original MCL implementation written in R, so that the problems can be identified as implementation problem. A solution to this problem would be to write a Java wrapper for the R implementation as described in Section \ref{subsec:mclAdapter}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -96,20 +96,43 @@ As we tried to find a heuristic approach to calculate candidate cuts, we discove
 
 \section{Approach \#3: Constructing Services - a Heuristic Approach}
 
-(Notes only)
-Idee:
+While analyzing the decomposition problem we realized that finding a good number of services is one of the key challenges. Cohesiveness criteria are mainly satisfied by consolidating nanoentities in one service while compatibility criteria request exactly the opposite, namely the separation of nanoentities. Figure \ref{fig:numberOfServices} illustrates this dilemma.
 
-Distanzkriterien: Umso mehr Services umso besser die Lösung (Nanoservices)
-Nähekriterien: Umso weniger Services umso besser die Lösung (Monolith)
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=1]{diagrams/HeuristicApproach.pdf}
+	\end{center}
+	\caption{Finding a good number of services is a key challenge of service secomposition}
+	\label{fig:numberOfServices}
+\end{figure}
 
-Die richtige Anzahl Services ist eine kritische Dimension der Lösung, welche unter anderem aber von vielen externen (z.B Infrastruktur) Faktoren abhängt. Entscheidung: Die Verantwortung für das bestimmen der Anzahl Services an den User auslagern.
+To simplify the problem for the heuristic approach we assume the number of services is given by the user and does not need to be computed. Very often an architect has a reasonable assumption about the number of services suitable for his system.
 
-Nun ist es möglich eine bestimmte Anzahl Services zu füllen. Dazu kann ein heuristischer, empirischer Algorithmus mit intelligentem Rütteln genommen werden. 
-Jede Verbindung von zwei Feldern wird von jedem CC mit einer einheitlichen Einheit bewertet. Dadurch kann einfach bestummen werden, wie gut ein Feld in ein Topf passt. Alle Töpfe werden gefüllt (wenn es nirgends passt in den kleinsten Topf). Danach wird angefangen Feldern die am wenigsten passen in einen anderen Topf zu werfen.
-Der Algorithmus kann beliebig(?) weiterlaufen und optimieren. Wenn der Algorithmus gut funktioniert, kann man während der Optimierung auch die Gewichtung anpassen und schauen was damit passiert.
-Idee: Snapshots machen von Status bevor eine Gewichtung angepasst wird.
-Idee: Am Anfang 5 Minuten durchlaufen, 10 Vorschläge ausarbeiten und dann den user entscheiden lassen auf welchen er weiter optimieren will (?) Evtl. kann auch der Algorithmus entscheiden indem er die lösungen vergleicht? 
+The heuristic approach starts with a unordered list of all nanoentities and services that can be imagined as empty boxes that are incrementally filled. The algorithm runs multiple iterations of construction and optimization steps.
 
-Weitere Idee: Aufsplitten auf logische (A) und physische (B) Kriterien und Decomposition mode? Kann der Algorithmus in zwei Schritten geschehen? Bzw. lösen wir eigentlich 2 Probleme (Logisch \& Physisch) auf einmal?
+\begin{description}
+	\item[Construction] Nanoentities are sequentially taken from the list and put in the best suitable service. The target service is calculated by the criteria scores between the selected nanoentity and the nanoentities a service contains at that point of time. 
+	\item[Optimization] Within a service the score from each nanoentity to all it's neighbors in the same service is calculated to determine the least suitable nanoentity in a service. This nanoentity is taken out of the service and put back on the list of unassigned nanoentities.
+\end{description}
+
+%TODO: illsutration?
+
+The algorithm alternates between construction and optimization steps. It finishes either by a given time, by the user stopping the optimization or by detecting that no further optimization is possible. This is detected if nanoentities taken from services in the optimization step are put back to their original service during the construction step.
+
+In an attempt to implemented this heuristic approach we realized that even if the algorithm works well, it does not accurately solve the desired problem. The approach focuses only on cohesion within services but does not take coupling between services, that should be minimized, into consideration.
+
+While acceptable results might still be possible using this approach, we decided to focus more on graph clustering due to new findings described in the next Section.
+
+\subsection{New Findings on Graph Clustering}
+
+As both alternative approaches did not promise expected results, we decided to focus on further investigations on graph clustering. 
+
+By analyzing the Girvan-Newman algorithm documented in Section \ref{subsec:girvanNewman}, we were able to identify the problem encountered with the booking sample. As the sample only provides \textit{Lifecycle \& Identity Commonality} data, every pair of nanoentities in the graph was either directly or not connected at all. The calculated edge betweenness, that Girvan-Newman is based on, is therefore equal for all edges in the graph as every shortest path only passes one edge. The Gephi\cite{gephi} implementation of Girvan-Newman consequently removes all graphs in the first iteration leaving every nanoentity isolated which results in one service per nanoentity. Adding only one more information like nanoentity characteristics or use cases solved the problem.
+
+Through further research on the topic we found the algorithm defined by Leung implemented in the GraphStream\cite{leungGraphstream} project and integrated it into the Service Cutter. First tests using the booking sample provided the expected results.
 
 \subsection{Conclusion}
+
+While all approaches possibly lead to the desired results, the new findings on the Girvan-Newman and Leung algorithms promised the best results with adequate effort. Rating possible service cuts or heuristic construction of services would have both required great effort, which we decided together with our stakeholders, is not worth taking if the graph clustering provides reasonable results. 
+
+We furthermore implemented a hint in the Service Cutter if the case arrives where a user provides input generating the faulty behavior of Girvan-Newman. %TODO implement

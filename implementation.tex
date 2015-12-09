@@ -161,6 +161,8 @@ Table \ref{tab:clusterAlgorithms} documents the detailed evaluation of the three
 The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. However we found the Java implementation not to be mature enough as the output contains overlapping or missing nodes so that the \textit{distinct clusters} requirement is not met. Leung and Girvan-Newman are used in the Service Cutter and both provide good results as documented in Appendix \ref{testSystems}.
 
 \subsection{Girvan-Newman}
+\label{subsec:girvanNewman}
+	
 
 M. E. J. Newman and M. Girvan\cite{girvan} proposed to use a divisive approach to graph clustering. This approach repeatedly finds the least similar connected pair of vertices and removes the edges between them. The least similar connected pair is defined by \textit{edge betweennees} which can be calculated using different approaches as described by Girvan-Newman. The Gephi implementation used in the Service Cutter calculates edge betweenness as the number of shortest paths of any pair of vertices running through an edge. Edges with the highest edge betweenness are removed first. This process divides the graph into smaller and smaller components and can be stopped at any time to select the components at this time to be the graph clusters.
 
