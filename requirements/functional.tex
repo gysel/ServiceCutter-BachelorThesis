@@ -8,7 +8,7 @@ section.
 
 \subsection{Coupling Criteria}
 
-All \textit{Cohesiveness}, \textit{Compatibiltiy} and \textit{Constraints} criteria must be supported. The Service Cutter needs to rate for each criteria which nanoentities need be placed in one service and which need to be separated over multiple services. Within this rating, every coupling criterion is equally respected.
+The criteria of type \textit{Cohesiveness}, \textit{Compatibiltiy} and \textit{Constraints} must be supported. The Service Cutter needs to rate for each criteria which nanoentities need be placed in one service and which need to be separated over multiple services. Within this rating, every coupling criterion is equally respected.
 
 Criteria of type \textit{Communication} do not describe the need to merge or separate nanoentities but characterize nanoentities suitable for inter service communication and are handled with a lower priority than other criteria. 
 
@@ -31,6 +31,8 @@ The system should allow to change priorities for all supported coupling criteria
 \subsection{Candidate Service Cuts}
 
 Based on the input provided by user representations and the defined criteria priorities, the Service Cutter produces a set of candidate service cuts for the analyzed system. The definition of a good service cut is elaborated in Section \ref{sec:decompositionRequirements}
+
+A candidate service cut can be exported in a machine-readable format.
 
 \subsection{Visualize Published Language}
 
