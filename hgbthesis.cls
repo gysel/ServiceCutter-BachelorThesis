@@ -177,7 +177,7 @@
   \setlength{\unitlength}{1cm}
   \begin{picture}(12,2)
   %\thinlines\put(0,0){\framebox(12,4){}}
-    \put(0,1.8){\parbox{12cm}{\centering\LARGE\bf%
+    \put(0,1.8){\parbox{12cm}{\centering\Huge\bf%
     \setlength{\baselineskip}{20pt}%
     \@title}}
   \end{picture}
@@ -190,7 +190,7 @@
   
     \vskip 10mm%
     {\large\sc\@author}
-    \vskip 40mm%
+    \vskip 30mm%
     {\Large B\,A\,C\,H\,E\,L\,O\,R\, \,T\,H\,E\,S\,I\,S}
     % S\,E\,M\,E\,S\,T\,E\,R\, \,T\,H\,E\,S\,I\,S
     %  B\,A\,C\,H\,E\,L\,O\,R\,A\,R\,B\,E\,I\,T
@@ -203,6 +203,8 @@
     {\large in \@studienort}%
     \vskip 16mm%
     {\large Supervised by Prof. Dr.  Olaf Zimmermann}%
+    \vskip 4mm%
+    {\large Supported by Zühlke Engineering}%
     \vskip 4mm%
     {\large \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
 \end{center}\par
