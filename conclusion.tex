@@ -29,13 +29,13 @@ The catalog helps a software architect to structurize driving factors for servic
 In the Service Cutter assessment documented in Appendix \ref{appendix:serviceCutterAssessment}, we tested two sample systems each with the algorithms Girvan-Newman and Leung. Girvan-Newman provided expected and therefore satisfying results in only one of the two example systems. Leung on the other hand did not only provide expected service cuts for both systems but surprised us with suggestions that were unexpected but definitely reasonable.  
 
 
-The Service Cutter as of now does not yet provide significant business value to its users. It is not a production grade architectural tool but a proof that our concept of structured and automated decomposition optimization generally works and is worth further investigations. We believe that the great value to its users will become apparent if further efforts are put in the following four aspects:
+The Service Cutter as of now does not yet provide significant business value to its users. It is not a production grade architectural tool but a proof that our concept of structured and automated decomposition optimization generally works and is worth further investigations. We believe that the great value to its users will become apparent when further efforts are put in the following four aspects:
 
 \begin{enumerate}
 	\item The \textbf{scoring process} for the different type of criteria should further be analyzed and tested. More sophisticated solutions for conceptual challenges like the single dimensionality problem documented in Section \ref{subsec:singleDimensionality} could improve the accuracy and meaningfulness of results. 
 	\item \textbf{Graph clustering algorithms} should further be analyzed and optimized. Possible alternative approaches as documented in Appendix \ref{appendix:decompositionAppraoches} could furthermore solve some of the conceptual challenges of the scoring process.
-	\item The \textbf{Service Cutter Prototype} should be enhanced to a production ready tool with graphical user interfaces for defining, editing, and storing a user's system description and candidate service cuts.
-	\item The idea of the Service Cutter furthermore is to be integrated into a \textbf{toolkit chain}. The input could automatically be generated from other tools or diagrams and the output used for code or \gls{API} generation. 
+	\item The \textbf{Service Cutter Prototype} should be enhanced to a production ready tool with graphical user interfaces for defining, editing, and storing a user's system description and candidate service cuts. %TODO storing user representations?
+	\item The idea of the Service Cutter should be integrated into a \textbf{toolkit chain}. The input could automatically be generated from other tools or diagrams and the output used for code or \gls{API} generation.
 \end{enumerate}
 
 These aspects are documented in more detail in Chapter \ref{cha:futureWork}.
@@ -44,7 +44,7 @@ These aspects are documented in more detail in Chapter \ref{cha:futureWork}.
 
 This section assesses the developed solution based on the defined requirements. The two domain models as described in Appendix \ref{appendix:serviceCutterAssessment} as well as the implemented Service Cutter itself serve as the test scenario.
 
-All requirements are rated with a rating from 1-3:
+All requirements are rated with a rating from $1-3$.
 
 \begin{description}
 \item[1] The requirement is fully satisfied.
@@ -54,7 +54,7 @@ All requirements are rated with a rating from 1-3:
 
 \subsection{Functional Requirements}
 
-Table \ref{tab:conclusionFunctional} assesses the provided solution with the defined functional requirements described in Section \ref{sec:functionalRequirements}.
+Table \ref{tab:conclusionFunctional} assesses the provided solution against the defined functional requirements described in Section \ref{sec:functionalRequirements}.
 
 \begin{table}[H]
 	\centering
@@ -74,7 +74,7 @@ Table \ref{tab:conclusionFunctional} assesses the provided solution with the def
 
 \subsection{Non-Functional Requirements}
 
-Table \ref{tab:conclusionNonFunctional} assesses the provided solution with the defined non-functional requirements described in Chapter \ref{cha:requirements}, Section \ref{sec:nonfunctionalRequirements}.
+Table \ref{tab:conclusionNonFunctional} assesses the provided solution against the defined non-functional requirements described in Chapter \ref{cha:requirements}, Section \ref{sec:nonfunctionalRequirements}. %TODO überall so? chapter X, section Y
 
 \begin{table}[H]
 	\centering
@@ -84,7 +84,7 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution with the 
 	\hline \textbf{Requirement} & \textbf{Rating} & \textbf{Assessment} \\ 
 	\hline Usability & 2 & TODO: document in detail \\ %TODO document
 	\hline Simplicity & 1 & A simple analysis can be performed with 5 mouse clicks. \\
-	\hline Performance & 2 & The sample domain models can be decomposed in not more than two seconds. Extensive performance tests have not been conducted. \\ %TODO performance NFR???
+	\hline Performance & 2 & The sample domain models can be decomposed in not more than two seconds. Extensive performance tests have not been conducted due to time budget constraints as decided with our stakeholders. \\
 	\hline Logging, \newline Deployment & 1 & Logging is based on SLF4J and a deployment based on Docker is implemented. \\
 	\hline Fault Tolerance & 1 & All errors are handled and occuring errors are logged. \\
 	\hline Maintainability & 1 & The implementation is based on two services (editor and engine) both built with suitable application layers. Communication between the layers is implemented with RESTful HTTP communication. Open source tools are used wherever possible. \\
@@ -95,8 +95,8 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution with the 
 \end{table}
 
 
-\chapter{Conclusion}
+\section{Conclusion}
 
 ??
-
+%TODO
 

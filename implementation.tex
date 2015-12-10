@@ -2,23 +2,26 @@
 \chapter{Service Cutter Design \& Implementation}
 \label{cha:implementation}
 
-intro... %TODO
+To satisfy the requirements defined in Section \ref{cha:requirements}, the Service Cutter was built. This chapter documents design and implementation aspects.
 
 
 \section{Service Cutter Process}
 %TODO weglassen?
 
-The Service Cutter's analysis and suggestions is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. During the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes these candidate service cuts and compares it with his own expectations. 
+The Service Cutter's decomposition calculation is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. During the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes these candidate service cuts and compares it with his own expectations. 
 
-\subsubsection{Step 1: Model Initialization}
+%TODO add process chart. e.g. steps: |1> >2> >3> >4> or bpmn?
+
+\subsection{Step 1: Model Initialization}
 
 In this step a model representing a system to be analyzed is created in the Service Cutter. The user defines all nanoentities relevant for his domain. 
 
 Importing these nanoentities is possible either as a list of nanoentities or parsed from an \gls{ERM} defined in a self defined JSON representation.
 
-%TODO add REST URI?
+%ZIO: a bit too short
+%TODO add REST URI and json example
 
-\subsubsection{Step 2: Model Description}
+\subsection{Step 2: Model Description}
 
 In the second step the model is described with meta data that is used by the Service Cutter to calculate coupling between nanoentities for each coupling criteria. This meta data is imported using user representations in a self defined JSON representation.
 
@@ -30,21 +33,42 @@ Importing the user representation should either be done over a RESTful HTTP API 
 
 \subsection{Step 3: Decomposition}
 
-Once the user has added all nanoentities and coupling criteria he can start the decomposition process. An algorithm groups nanoentities in a way that a good decomposition solution as described in \ref{sec:decompositionRequirements} is found. 
+Once the user has added all nanoentities and coupling criteria he can start the decomposition process. An algorithm groups nanoentities in a way that a good decomposition solution as described in Section \ref{sec:decompositionRequirements} is found. 
 
 The algorithm will then present the candidate service cuts to the user.
 
 \subsection{Step 4: Working with Candidate Service Cuts}
 
-(this might not be in scope of this thesis, should we describe this in requirements or in future work?) %TODO
-
 Once candidate service cuts have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project.
+
+The candidate service cuts can be exported as a \gls{JSON} file for further processing.
+
+\lstset{
+   	language=JavaScript,
+   	tabsize=3,
+   	%frame=lines,
+   	caption=JSON export of a candidate service cut,
+   	label=code:cut-bookingsample,
+   	frame=shadowbox,
+   	rulesepcolor=\color{gray},
+   	xleftmargin=20pt,
+   	framexleftmargin=15pt,
+   	keywordstyle=\color{blue}\bf,
+   	commentstyle=\color{OliveGreen},
+   	stringstyle=\color{red},
+   	numbers=left,
+   	numberstyle=\tiny,
+   	numbersep=5pt,
+   	breaklines=true,
+   	showstringspaces=false,
+   	basicstyle=\footnotesize}
+\lstinputlisting{code/CandidateServiceCut-BookingSample.json}
 
 
 \section{Service Decomposition using a Weighted Undirected Graph}
 \label{subsec:approach1_graph}
 
-Service decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined coupling criteria as described in Section \ref{sec:decompositionRequirements} requires a non trivial algorithm. We approach this problem by using a weighted undirected graph and clustering algorithms as described in this Section. Other approaches have been evaluated but could not provide satisfying results as documented in Appendix \ref{appendix:decompositionAppraoches}.
+Service decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined coupling criteria as described in Section \ref{sec:decompositionRequirements} requires a non trivial algorithm. We approach this problem by using a weighted undirected graph and clustering algorithms as described in this section. Other approaches have been evaluated but could not provide satisfying results as documented in Appendix \ref{appendix:decompositionAppraoches}.
 
 \begin{minipage}[t]{0.6\textwidth}
 	\setlength{\parskip}{5pt plus 0.1pt}	
@@ -63,12 +87,15 @@ Service decomposition describes the task of grouping nanoentities into services.
 
 \begin{minipage}[t]{0.5\textwidth}
 	\setlength{\parskip}{5pt plus 0.1pt}
+	
+	%ZIO: a bit abstract. concrete example needed to appreciate. input/output jedes schrittes nennen/zeigen
+	
 	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations like an \gls{ERM} or use cases are imported. The \textit{importer} component extracts the nanoentities and the coupling meta data stores this information in a database.
 	
 	The \textit{Solver} then creates all vertices from the nanoentities and builds weighted edges between them according to the stored coupling criteria instances. This task is complex for the following reasons:
 	
 	\begin{enumerate}
-		\item Coupling criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaOverview}. Cohesiveness criteria describe why nanoentities should belong to the same service while compatibility criteria ask for separation of nanoentities. Constraints criteria might require both. Criteria of type communication need to be processed differently as they define which nanoentities are better suitable as for an \gls{API} between services. The information from all types needs to be represented with a single unit to define a number used as a weight of an edge.
+		\item Coupling criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaOverview}. Cohesiveness criteria describe why nanoentities should belong to the same service while compatibility criteria ask for separation of nanoentities. Constraints criteria might require both. Criteria of type communication need to be processed differently as they define which nanoentities are suitable to be transmitted across services. The information from all types needs to be represented with a single unit to define a number used as a weight of an edge.
 		
 		\item Using a single number with only one unit of measurement bears the risk of unintended change of the relative importance between the coupling criteria. It is important to carefully assure that each coupling criteria uses the same range of numbers to allow comparison and prioritization of each criteria.   
 		
@@ -92,7 +119,7 @@ Service decomposition describes the task of grouping nanoentities into services.
 %TODO: compare performance of algorithms?
 %TODO: weglassen? nach hinten verschieben?
 
-The theoretical number of nodes may cause performance problems. The maximum number of edged in a graph can be described using a formula: A graph of $n$ nodes, where every node is connected to all other nodes, has $e$ edges.
+The theoretical number of nodes may cause performance problems. The maximum number of edges in a graph can be described using a formula: A graph of $n$ nodes, where every node is connected to all other nodes, has $e$ edges.
 
 \begin{displaymath}
 e = \frac{n(n-1)}{2}
@@ -133,7 +160,7 @@ A clustering algorithm is required to split the undirected, weighted graph into 
 
 A full comparison of the evaluated algorithms is attached in Appendix \ref{appendix:graphClusteringAlgs}.
 
-The remaining three algorithm candidates are Girvan-Newman, MCL, and Leung. Leung is provided by the GraphStream project. Girvan-Newman and MCL are implemented as Gephi plugins. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The platform provides a toolkit to use its functionality without \gls{UI}.  The algorithms code can be extracted from the plugins as \gls{JAR} using the UnpackNBM tool\cite{unpackNBM}.
+The remaining three algorithm candidates are Girvan-Newman, MCL, and Leung. Leung is provided by the GraphStream project. Girvan-Newman and MCL are implemented as Gephi plugins. Gephi is a desktop platform with a well developed \gls{UI} to explore and visualize complex graphs and network systems. The platform provides a toolkit to use its functionality without a \gls{UI}.  The source code of the algorithms can be extracted from the plugins as \gls{JAR} files using the UnpackNBM tool\cite{unpackNBM}.
 
 Table \ref{tab:clusterAlgorithms} documents the detailed evaluation of the three candidate algorithms. 
 
@@ -158,7 +185,7 @@ Table \ref{tab:clusterAlgorithms} documents the detailed evaluation of the three
 	\end{tabular}
 \end{table}
 
-The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. However we found the Java implementation not to be mature enough as the output contains overlapping or missing nodes so that the \textit{distinct clusters} requirement is not met. Leung and Girvan-Newman are used in the Service Cutter and both provide good results as documented in Appendix \ref{testSystems}.
+The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. However we found the Java implementation not to be mature enough as the output contains overlapping or missing nodes so that the \textit{distinct clusters} requirement is not met. Leung and Girvan-Newman are used in the Service Cutter and both provide good results as documented in Appendix \ref{appendix:serviceCutterAssessment}.
 
 \subsection{Girvan-Newman}
 \label{subsec:girvanNewman}
@@ -194,8 +221,8 @@ The algorithm occasionally forms so called \enquote{monster} families as describ
 
 \enquote{[\dots] certain communities do not form strong enough links to prevent a foreign \enquote{epidemic} to sweep through.}\cite[p. 5]{leung}
 
-Leung therefore refined the algorithm by adding a \enquote{Hop Attenuation Factor} $\delta$ to prevent labels from spreading across two clusters. He explains: \enquote{The value $\delta$ governs how far a particular label can spread as a function of the geodesic distance from its origin. This additional parameter adds in extra uncertainties
-to the algorithm but may encourage a stronger local community to form before a large cluster start to dominate.}
+Leung \textit{et al} therefore refined the algorithm by adding a \enquote{Hop Attenuation Factor} $\delta$ to prevent labels from spreading across two clusters. He explains: \enquote{The value $\delta$ governs how far a particular label can spread as a function of the geodesic distance from its origin. This additional parameter adds in extra uncertainties
+to the algorithm but may encourage a stronger local community to form before a large cluster start to dominate.}\cite[p. 5]{leung}
 
 This parameters decelerates the propagation of a cluster from its origin and therefore encourages a stronger local cluster to form before a large cluster starts to dominate.
 
@@ -212,16 +239,16 @@ Results of a deterministic algorithm like Girvan-Newman can be reproduced by run
 
 A non-deterministic algorithm like Leung complicates analysis since changes in results can not clearly be identified as consequence of changes in input or randomness. Furthermore results always need to be safely persisted and reloaded since they can not be reliably reproduced. 
 
-Nevertheless, our industry partner Wolfgang Giersche accurately pointed out that an element of randomness is not only a disadvantage. Running multiple algorithm cycles presents different solutions and outlines where the difficult architectural decisions lie.
+Nevertheless, the representative of our industry partner, W. Giersche, accurately pointed out that an element of randomness is not only a disadvantage. Running multiple algorithm cycles presents different solutions and outlines where the difficult architectural decisions reside.
 
 \subsubsection{Number of Clusters Parameter}
 
-Providing the number of clusters as a parameter to the algorithm has the advantage of analyzing the service decomposition with any possible number of services. This feature can be used to better understand the structure and coupling between parts of the analyzed system by running analysis even with a number of services which is not optimal. Requesting a high number of service provides indications of how services internally might be further decomposed into modules. 
+Providing the number of clusters as a parameter to the algorithm has the advantage of analyzing the service decomposition with any possible number of services. This feature can be used to better understand the structure and coupling between parts of the analyzed system by running an analysis with a number of services that is not optimal. Requesting a high number of service provides indications of how services internally might be further decomposed into modules. 
 
 Furthermore the parameter allows to help in the process of emerging from a monolithic architecture to service orientation as described in Section XXX.
 %TODO ref
 
-Nevertheless, algorithms requesting the number of services as a parameter hand over the responsibility to answer this critical question to the user instead of answering it itself. Wolfgang Giersche pointed out that architects are often prejudiced on the number of services their system should be decomposed. Having the Service Cutter providing not only the content of each service but also the number of services challenges the user to reassess his ideas against the candidate service cuts provided. 
+Nevertheless, algorithms requesting the number of services as a parameter hand over the responsibility to answer this critical question to the user instead of answering it itself. W. Giersche pointed out that architects are often prejudiced on the number of services their system should be composed of. Having the Service Cutter providing not only the content of each service but also the number of services challenges the user to reassess his ideas against the candidate service cuts provided. 
 
 %TODO überleitung
 
@@ -246,7 +273,7 @@ In this simple example, the Service Cutter would most probably suggest two servi
 
 A big challenge with the graph based approach is that weights between nodes only have one dimension with a single unit of measurement. The edges can describe how close or cohesive two nanoentities are. This suites well to all coupling criteria of type cohesiveness as they describe reasons to combine nanoentities in the same service. Coupling criteria describing separation or incompatibility, where separation of nanoentities is asked by constraints or different nanoentity characteristics, can not accurately be described using the weight on the edge.
 
-Our approach to solve this problem is to introduce negative scores as shown in the example above. A negative score implies that in the view of a coupling criterion two fields should be separated to different services. If the negative score exceeds the positive score given by cohesiveness criteria, the edge between two nanoentity nodes is removed. 
+Our approach to solve this problem is to introduce negative scores as shown in the example above. A negative score implies in the view of a coupling criterion that two fields should be separated into different services. If the negative score exceeds the positive score given by cohesiveness criteria, the edge between two nanoentity nodes is removed. 
 
 This approach implies two disadvantages:
 
@@ -256,7 +283,7 @@ This approach implies two disadvantages:
 \end{enumerate}
 
 
-Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed within the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criteria, as described later in this Section, in a way that positively scoring criteria are prioritized higher. 
+Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed within the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criteria, as described later in this section, in a way that positive scoring criteria are prioritized higher. 
 
 %TODO: future work, find better solution and create a reference here
 
@@ -307,7 +334,7 @@ In the second step, the coupling criteria are prioritized relatively to each oth
 	\end{tabular}
 \end{table}
 
-The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of Wolfang Giersche, representative of Zühlke, and inspired by agile estimation scales\footnote{Alex Yakyma wrote an interesting paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
+The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of W. Giersche, a representative of our industry partner, and inspired by agile estimation scales\footnote{Alex Yakyma wrote an insightful paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
 
 Having very high values allows analyzing a system in the Service Cutter with focus on one or two coupling criteria only as giving a criterion the priority XXL quickly makes it more important than many of the other criteria together. With progressive values we obtain this ability while still keeping the number of priorities small in order to make it simpler to map each criterion to a priority. 
 
@@ -316,7 +343,7 @@ The priority of each criterion is multiplied with all scores given by that crite
 	criteria[i].prioritizedScore_{AB} = criteria[i].score_{AB} * criteria[i].priorityValue
 \end{displaymath}
 
-It is important to distinct between a criterion score (step 1) and a prioritized score (step 2). A criterion score is a statement on the relation of two nanoentities per coupling criterion where each coupling criterion has the same importance ($-10$ to $10$). The prioritized score multiplies this statement by the importance of the criterion in the analyzed system. Priorities are very context sensitive. Priorities of a real-time entertainment system will have for example very different priorities than a system handling financial transactions. 
+It is important to distinguish between a criterion score (step 1) and a prioritized score (step 2). A criterion score is a statement on the relation of two nanoentities per coupling criterion where each coupling criterion has the same importance ($-10$ to $10$). The prioritized score multiplies this statement by the importance of the criterion in the analyzed system. Priorities are very context sensitive. A real-time entertainment system for example will have for example very different priorities than a system handling financial transactions. 
 
 \subsubsection{Step 3: Final Relation Score}
 
@@ -326,7 +353,7 @@ The final relation score between two nanoentities is the sum of all prioritized 
 finalScore_{AB} = \sum\limits_{i=1}^n criteria[i].score_{AB} * criteria[i].priorityValue_{AB}
 \end{displaymath}
 
-The undirected weighted graph is then built with each vertex representing a nanoentity. Nanoentity relations with a positive score are connected by an weighted edge:
+The undirected, weighted graph is then built with each vertex representing a nanoentity. Nanoentity relations with a positive score are connected by an weighted edge:
 
 \begin{displaymath}
 edgeWeight_{AB} = max(0, finalScore_{AB})	
@@ -341,10 +368,11 @@ edgeWeight_{AB} = max(0, finalScore_{AB})
 
 By reasons of the single dimensionality problem described in Section \ref{subsec:singleDimensionality} we defined the default priorities for coupling criteria in a way that negatively scoring criteria are prioritized lower than positively scoring criteria. This does not apply to constraints as these commonly play an important role in the decomposition process. 
 
-Default priorities: \newline
-Cohesiveness criteria: M\newline
-Compatibility criteria: XS\newline 
-Constraints criteria: M\newline
+\begin{itemize}
+\item Cohesiveness criteria: M
+\item Compatibility criteria: XS
+\item Constraints criteria: M
+\end{itemize}
 
 %TODO update at the end of the project
 %TODO: ref in text
@@ -353,7 +381,7 @@ Constraints criteria: M\newline
 	\begin{figure}[H]
 		\begin{center}
 			\includegraphics[scale=0.5]{images/priorities.png}
-			\caption{Screenshot of Default Priorities in the Service Cutter}
+			\caption{Screenshot of default priorities in the Service Cutter}
 			\label{fig:priorities}
 		\end{center}
 	\end{figure}
@@ -374,12 +402,14 @@ Figure \ref{fig:scorer} shows the CriterionScorer interface used to calculate cr
 	\end{center}
 \end{figure}
 
+%ZIO: how does this match implementation? previous section content?
+
 %TODO implement other scorer and update
 Currently there are four CriterionScorer implementations for different coupling criteria. Not all criteria have a suitable implementation yet, as we prioritized the criteria during the project as there was not enough time to implement the scoring for all criteria. Table \ref{tab:scorer} outlines which implementation is used for which coupling criterion.
 
 \begin{table}[H]
 	\centering
-	\caption{Coupling Criteria and their Scorer Implementation}
+	\caption{Coupling Criteria and their scorer implementation}
 	\label{tab:scorer}
 	\begin{tabular}{|p{170pt}|p{200pt}|}
 		\hline	
@@ -399,6 +429,14 @@ Currently there are four CriterionScorer implementations for different coupling 
 		\hline
 	\end{tabular}
 \end{table}
+
+%ZIO: too early to feature implementation?
+
+%ZIO: why this grouping? how / why different from figure in mgmt summary? (catalog overview)
+
+%ZIO: utter jump from high level (CC) to low level implementation
+
+%ZIO: add some table and domain model to bridge gap + allow user / reader to follow. CC->SC
 
 \subsubsection{CohesiveGroupCriteriaScorer}
 
@@ -458,7 +496,7 @@ x = \frac{referenceIntermediateScore}{10}
 criterionScore_{AB} = \frac{intermediateScore_{AB}}{X}
 \end{equation}
 
-Both, the numbers counted for access or aggregation occurrences and the reduction to the criterion score have been experimental evaluated. The algorithm documented here has proven to produce reasonable results for the example systems tested but might require further investigations for other systems. 
+Both the numbers counted for access or aggregation occurrences and the reduction to the criterion score have been experimentally evaluated. The algorithm documented here has proven to produce reasonable results for the example systems tested but might require further investigations for other systems. 
 
 \subsubsection{CharacteristicsCriteriaScorer}
 %TODO styles?
@@ -479,25 +517,27 @@ To improve usability we introduced default values so that a user does not need t
 
 Table \ref{tab:characteristics} outlines characteristics of all criteria with their values and defaults. Both, the numbers and defaults are configurable for advanced users to better suit a systems requirements. 
 
+%ZIO: sorry, i'm lost (in details)...
+
 \begin{table}[H]
 	\centering
-	\caption{Criteria Characteristics with values and defaults}
+	\caption{Criteria characteristics with values and defaults}
 	\label{tab:characteristics}
-	\begin{tabular}{|p{100pt}|p{80pt}|p{60pt}|}
+	\begin{tabular}{|p{100pt}|p{150pt}|}
 		\hline	
-		\textbf Criterion & Characteristics & Default\\
+		\textbf{Criterion} & \textbf{Characteristics} \\
 		\hline
-		Change Similarity & Often 10 \newline Normal 4 \newline Rarely 0 & Normal\\
+		Change Similarity & Often 10 \newline Normal 4 \textit{(default)} \newline Rarely 0 \\
 		\hline
-		Consistency & High 10 \newline Eventually 4 \newline Weak 0 & High\\
+		Consistency & High 10 \textit{(default)} \newline Eventually 4 \newline Weak 0 \\
 		\hline
-		Resilience & Critical 10 \newline Normal 4 \newline Low 0 & Normal\\
+		Resilience & Critical 10 \newline Normal 4 \textit{(default)} \newline Low 0 \\
 		\hline
-		Volatility & Often 10 \newline Regularly 5 \newline Rarely 0 & Regularly \\
+		Volatility & Often 10 \newline Regularly 5 \textit{(default)} \newline Rarely 0 \\
 		\hline
-		Storage Similarity & Huge 10 \newline Normal 3 \newline Tiny 0 & Normal\\
+		Storage Similarity & Huge 10 \newline Normal 3 \textit{(default)} \newline Tiny 0 \\
 		\hline
-		Security Criticality & Critical 10 \newline Internal 3 \newline Public 0 & Internal\\
+		Security Criticality & Critical 10 \newline Internal 3 \textit{(default)} \newline Public 0 \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -514,7 +554,7 @@ The design of the Service Cutter was intentionally not evaluated in detail. We t
 The main reasons were:
 
 \begin{itemize}
-\item Zühlke uses them successfully.
+\item Our industry partner uses them successfully.
 \item Spring Boot is considered the way to go for Spring based applications nowadays.
 \item JHipster is based on established technologies that are partially already familiar to us. Furthermore it provides a code generator and samples. This can noticeable speed up development especially in the prototyping area.
 \item We were able to implement a technological proof of concept in a few days and did not face major obstacles.
@@ -560,10 +600,14 @@ Technically the Service Cutter can be operated on a single server providing a re
 \item The Engine and the Editor both require a relational database. As Hibernate\cite{hibernate} and Liquibase\cite{liquibase} are used, all database related code is vendor agnostic. However we only tested the Service Cutter on Postgres 9.4\cite{postgres}.
 \end{itemize}
 
+Docker provides a layer of abstraction between the application and the underlying operating system. It uses resource isolation features of the Linux kernel to avoid the overhead of starting and maintaining full virtual machines. We implemented our deployment using Docker as it provides us with the ability to install the application components in isolated containers on a single machine with only a few command line statements.
+
 The Docker Compose definition is attached in Appendix \ref{appendix:dockerCompose}.
 
 
 \subsection{Graph Analyzing}
+
+%TODO add text
 
 \begin{figure}[H]
 	\includegraphics[scale=0.7]{images/ddd_semantic_proximity_debug.png}
@@ -590,4 +634,4 @@ The base layout is responsive and adapts to smaller screens such as smartphones.
 
 
 \bigskip
-After covering the important design and implementation aspects, the next chapter assesses the built solution described in this chapter against the defined requirements.
+After covering the important design and implementation aspects, the next chapter discusses our decomposition approach and the practicability of the Service Cutter.

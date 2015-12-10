@@ -17,6 +17,17 @@ To assess the Service Cutter's output the following language is used:
 	\item A \textit{bad} output contains two or more unreasonable service cuts.
 \end{itemize}
 
+%TODO discuss ratings / language
+% Excellent / perfect service cut? (only expected?)
+
+We evaluated the service cuts of the following test systems:
+
+\begin{enumerate}
+\item For the fictional Trading System we engineered requirements based on our experience with similar software.
+\item For the Cargo Tracking System we extracted the requirements from the existing application.
+\end{enumerate}
+
+We therefore tested the Service Cutter once with forward- and once with reverse-engineering. The following sections present our test results in detail.
 
 \section{Trading System}
 \label{sec:tradingSystem}
@@ -35,6 +46,7 @@ The Trading System is an application one might find in a typical swiss private b
 
 Figure \ref{fig:tradingClasses} shows a domain model of the Trading System.
 
+%TODO: Typo Ac_c_ount ; companyName:String is not wide enough
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{diagrams/TradingSystem.pdf}
 	\caption{Trading System Class Diagram}
@@ -96,6 +108,8 @@ The following ten use cases describe the supported functionality of the applicat
 	\end{itemize}
 \end{enumerate}
 
+%TODO say something about the effort to collect this info!!
+
 In addition to the use cases, we defined the following characteristics.
 
 \textbf{Security Criticality}
@@ -142,16 +156,17 @@ Furthermore all default characteristics as documented in Section \ref{sec:coupli
 
 From our experience in software architecture we expect the Service Cutter to decompose the Trading System into the services presented in Figure \ref{fig:tradingCuts}.
 
+%TODO same typos as C.1
 \begin{figure}[H]
 	\includegraphics[scale=0.5]{diagrams/TradingSystem-ServiceCut.pdf}
 	\caption{Trading System expected service cuts}
 	\label{fig:tradingCuts}
 \end{figure}
 
-The following reasons led us to this decision.
+The following reasons led us to this decision.:
 \begin{itemize}
 	\item The service \textit{Order} encapsulates many use cases and contains several entities that need to be processed with high consistency (Order, Position).
-	\item The high volatility of the entity price led to the isolation of this part into an own service \textit{Price}.
+	\item The high volatility of the entity price led to the isolation of this part into a separate service \textit{Price}.
 	\item News are not part of the core operations and therefore require lower resilience and security criticality. News images furthermore require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service.
 	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions. Moreover recommendations are, like the news, not part of the core operations and require lower resilience. 
 	\item Security restrictions requires all \gls{PII} to be separated from other data. Extracting it into a \textit{Customer} service allows the architect to protect this data with additional measures. 
@@ -218,17 +233,19 @@ As Girvan-Newman receives a number of services parameter we can analyze how a mo
 	\end{tabular}
 \end{table}
 
-Reasonable cuts are presented for up to 8 different services. The results produced by Girvan-Newman with the Trading System example are very satisfying as \textit{good} results are presented with almost all combinations of parameters. 
+Reasonable cuts are presented for up to 8 different services. The results produced by Girvan-Newman with the Trading System example are very satisfying as \textit{good} results are presented with almost all combinations of parameters. %TODO _almost_ ZIO: be precise!
+
+%TODO ZIO: a bit hard to compare. show table E - R - C or figure with both service cuts
 
 \subsection{Leung Algorithm Assessment}
 
 Leung produces varying suggested cuts as it is not a deterministic algorithm. The algorithm is therefore harder to analyze, as we can't determine if changes in results emerge from changes in priorities or by coincidence. 
 
-Generally speaking the results are similar as those by Girvan-Newman. With the default priorities, the result matches the one of Girvan-Newman shown in Figure \ref{fig:tradingCutsTool} in approximately 50\%. In the cases it is not matching it suggests fewer service by merging two services together. This is due to the accidentally created monster clusters described in Section \ref{sec:monsterclusters}.
+Generally speaking the results are similar to those by Girvan-Newman. With the default priorities, the result matches the one of Girvan-Newman shown in Figure \ref{fig:tradingCutsTool} in approximately 50\%. In the cases it is not matching it suggests fewer service by merging two services together. This is due to the accidentally created monster clusters described in Section \ref{sec:monsterclusters}.
 
 \subsubsection{Priorities Sensitivity}
 
-As already mentioned we can't assess the priority sensitivity with Leung. Changing criteria priorities to values from \textit{XS} to \textit{L} has in some cases produced the following results differing from the one shown in Figure \ref{fig:tradingCutsTool}.
+As already mentioned we cannot assess the priority sensitivity with Leung. Changing criteria priorities to values from \textit{XS} to \textit{L} has in some cases produced the following results differing from the one shown in Figure \ref{fig:tradingCutsTool}.
 
 \begin{itemize}
 	\item An extra service for PaymentInfo.
@@ -246,8 +263,11 @@ The number of services suggested by Leung vary between 2 and 7 services. There i
 
 With only small changes to the priorities Leung often suggests 4 or 5 services which matches with our expectation. 
 
+%TODO ZIO: too much plain text. summarize assessment in a short and concise manner (figure or table)
+
 \subsection{Conclusion}
 
+%TODO ZIO: how much is "most"?
 In conclusion we can say that the Service Cutter did suggest the Trading System service cuts as we expected. For both algorithms most results can be considered \textit{good} with only one or two exceptions where the result was considered \textit{acceptable}. These are excellent results for a first test of the Service Cutters scoring and algorithms. 
 
 The tests furthermore show the advantages and disadvantages of a deterministic algorithm. Girvan-Newman produced very stable results and nicely shows the path from a monolith to a more service oriented architecture. Leung on the other hand is harder to analyze but provided us more reasonable candidate service cuts we have not considered before. Leung also suggests a reasonable number of services while this consideration completely lies in the responsibility of the user when using Girvan-Newman.
@@ -334,7 +354,7 @@ The following use cases describe the supported functionality of the application.
 	\end{itemize}
 \end{enumerate}
 
-In addition to the use cases, we identified the following characteristics.
+In addition to the use cases, we assumed the following characteristics.
 
 \textbf{Volatility}
 
@@ -361,7 +381,7 @@ The DDDSample provides multiple interfaces depending on the user's role. The mai
 		\hline	
 		\textbf{Responsibility Area} & \textbf{Nanoentities}  \\
 		\hline
-		Cargoplaner & Cargo.trackingId \newline RouteSpecification.origin\newline RouteSpecification.destination\newline RouteSpecification.arrivalDeadline\newline Itinerary.itineraryNumber\newline Leg.loadLocation\newline Leg.unloadLocation\newline Leg.loadTime\newline Leg.unloadTime\newline Delivery.estimatedArrivalTime\newline Delivery.routingStatus  \\
+		CargoPlanner & Cargo.trackingId \newline RouteSpecification.origin\newline RouteSpecification.destination\newline RouteSpecification.arrivalDeadline\newline Itinerary.itineraryNumber\newline Leg.loadLocation\newline Leg.unloadLocation\newline Leg.loadTime\newline Leg.unloadTime\newline Delivery.estimatedArrivalTime\newline Delivery.routingStatus  \\
 		\hline
 		CargoTracker & HandlingEvent.type\newline HandlingEvent.completionTime\newline HandlingEvent.registrationTime\newline HandlingEvent.location\newline Delivery.transportStatus\newline Delivery.misdirected\newline Delivery.isUnloadedAtDestination  \\
 		\hline
@@ -393,7 +413,7 @@ As there are not many compatibility criteria defined, the main reasons for our d
 
 \subsection{Girvan-Newman Algorithm Assessemnt}
 
-For the Cargo Tracking System the default priorities were adjusted to the following values:
+For the Cargo Tracking System we adjusted the default priorities to the following values:
 
 \begin{itemize}
 	\item Volatility: \textit{S} instead of \textit{XS}
@@ -402,6 +422,7 @@ For the Cargo Tracking System the default priorities were adjusted to the follow
 \end{itemize}
 
 The resulting candidate service cuts by the Girvan-Newman algorithm for 4 services are shown in Figure \ref{fig:dddGirvanNewman}.
+%TODO zio: why? how?
 
 \begin{figure}[H]
 	\includegraphics[scale=0.7]{images/ddd_girvan_4.png}
@@ -421,7 +442,7 @@ The split of location might be due to the fact that in most use cases only Locat
 	\label{fig:dddGirvanNewmanS}
 \end{figure}
 
-Location has now an own service as expected. This improves the result a little but still not enough to consider it \textit{acceptable}.
+Location has now its own service as expected. This improves the result a little, but still not enough to consider it \textit{acceptable}.
 
 \subsubsection{Priorities Sensitivity}
 
@@ -458,11 +479,7 @@ Other runs resulted in similar cuts whereas often only the location service was 
 
 The results provided by Leung can be classified as \textit{acceptable}.
 
-
-
-
-
-
-
-
+%TODO zio: conclusion?
+%michi:
+We conclude that, depending on the input graph, one or both algorithms produces candidate service cuts that help an architect. However he always has to verify the result before taking any decision.
 

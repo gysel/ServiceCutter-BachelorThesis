@@ -32,7 +32,7 @@ To keep the sample simple we only added information for the \textit{Lifecycle \&
 	\label{fig:bookingExampleMCL}
 \end{figure}
 
-The MCL algorithm's result for this example are shown in Figure \ref{fig:bookingExampleMCL}. Obviously this does not match the expectations. Nanoentities are attached to multiple services. This behavior does not meet the \textit{distinct clusters} requirement. A nanoentity should be assigned to one and only one service. 
+The MCL algorithm's result for this example is shown in Figure \ref{fig:bookingExampleMCL}. This does not match the expectations as nanoentities are attached to multiple services. This violates the \textit{distinct clusters} requirement. A nanoentity should be assigned to one and only one service. 
 
 The distinct clusters requirement is satisfied by the original MCL algorithm written in C. We therefore assume that this is  an implementation problem of the Gephi plugin\cite{gephiMarkov}. A solution to this problem would be to write a Java wrapper for the C implementation as described in Section \ref{subsec:mclAdapter}.
 
@@ -88,7 +88,7 @@ The Bell number includes cuts for $1 - n$ number of services. In the context of 
 
 For $n=20$ nanoentities and $k=4$ services the equation results in $45'232'115'901$ possible cuts. For $k=6$ the result is $4'306'078'895'384$.
 
-During a discussion with our industry partner and supervisor documented in Appendix \ref{sec:status22102015}, we decided that the Service Cutter should be able to process system models with up to 2000 nanoentities. We therefore concluded in the same meeting that this approach is not practicable without a heuristic approach of finding a small set of relevant candidate cuts. 
+During a discussion with our industry partner and supervisor documented in Appendix \ref{sec:status22102015}, we decided that the Service Cutter should be able to process system models with up to 2000 nanoentities. We therefore concluded in the same meeting that this approach is not attainable without a heuristic attempt of finding a small set of relevant candidate cuts. 
 
 A possible heuristic approach is to take into account one or a few coupling criteria information about the system to find service candidates. A simple example would be to only analyze cuts where nanoentities of the same entity are not split across services so that only entities and not it's nanoentities need to be considered.
 
