@@ -1,13 +1,11 @@
 \chapter{Abstract}
 
-Decomposing a software system into smaller parts has been an important challenge in our industry for many decades. With the rise of distributed systems, it has become more important to split a system into loosely coupled and highly cohesive parts. Architectural styles like Service Oriented Architecture (SOA) and currently Microservices tackle the many challenges of such systems but remain vague on the art of how to decompose a system into services.
+Decomposing a software system into smaller parts has been an important challenge in our industry for many decades. With the rise of distributed systems, it has become more important to split a system into loosely coupled and highly cohesive parts. The architectural style Service Oriented Architecture (SOA) and the currently trending Microservices tackle the many challenges of such systems but remain vague on the art of how to decompose a system into services.
 
-We propose a structured way to service decomposition by providing a comprehensive catalog of 14 coupling criteria. We collected them from existing literature, the experience of our industry partner Zühlke and our advisor Prof. Dr. O. Zimmermann.
+We propose a structured way to service decomposition by providing a comprehensive catalog of 14 coupling criteria. We abstracted them from existing literature, the experience of our industry partner Zühlke and our advisor Prof. Dr. O. Zimmermann.
 
-These coupling criteria are the basis of the Service Cutter, a prototype that extracts coupling information out of well-known concepts like domain models and use cases. Using this information, the Service Cutter suggests possible service cuts to assist an architect’s decomposition decisions. 
+These coupling criteria are the basis of the Service Cutter, a prototype that extracts coupling information out of well-known concepts like domain models and use cases. Using this information, the Service Cutter suggests service cuts to assist an architect’s decomposition decisions. 
 
 We developed a scoring system that allows the coupling data to be converted into an undirected, weighted graph. On this graph we employ existing algorithms to find densely connected clusters representing the services. Using this approach we guarantee that the Service Cutter produces service cuts which minimize coupling between services while ensuring high cohesion within a service. 
 
-Tests with two sample projects not only met our expectations but also suggested reasonable service cuts we have not considered before. 
-
-With this structured way to service decomposition, the Service Cutter demonstrates that an automated decision assistance is a promising approach. The thesis lays the foundation for further research in this area. 
+Tests with two sample projects demonstrate that our structured and automated way to assist service decomposition decisions is a promising approach. The thesis lays the foundation for further research in this area.
