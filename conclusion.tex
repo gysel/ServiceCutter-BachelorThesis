@@ -1,40 +1,44 @@
-\chapter{Conclusion}
+\chapter{Discussion}
 
-This chapter discusses the outcome of the thesis, the Service Cutter and its impact for future works.
+This chapter discusses the outcome of the thesis, the Service Cutter and its impact for future work.
 
-%TODO Potential contents of this chapter:
-\begin{itemize}
-\item How do you organize such an interview?
-\item Documentation of input format?
-\item When to choose which algorithm?
-\item Recommendations for working with the priorities.
-\item Broader algorithm testing. Also non-Java implementations
-\end{itemize}
 
+%TODO Broader algorithm testing. Also non-Java implementations
 
 \section{Thesis Evaluation}
 
-At the beginning of this project we formulated two hypothesizes. We were able to prove both of them.
+At the beginning of this project we formulated two hypothesizes. We were able to produce results proving both of them.
 %TODO convert goals to reference?
 
 %Die Gründe für Service Cuts in einem Softwaresystem kann man als Liste von \enquote{Coupling Criteria} umfassend beschreiben.
-\textit{The driving factors of service decomposition in a software system can be compiled into a comprehensive catalog.}
+\begin{quote}
+	\textit{The driving factors for service cuts in a software system can be compiled into a comprehensive criteria catalog.}
+\end{quote}
 
 We successfully compiled a catalog of 14 coupling criteria that aims to form a comprehensive but not conclusive collection. 
 
-Those coupling criteria help a software architect to structurize and document dependencies. The developed catalog may provide a basis for a common language amongst architects. 
+The catalog helps a software architect to structurize driving factors for service decomposition while providing a good system documentation. The developed criteria may provide a basis for a common language amongst architects. 
 
 %Ziel erreicht. umfassend - aber nicht abschliessend. der katalog kann aus unserer sicht einen diskussionsbeitrag liefern und zum beispiel eine grundlage für eine gemeinsame sprache für architekten liefern.
 
-\textit{The data of the coupling criteria catalog can be applied to a software system to optimize decomposing a system into services.}
+\begin{quote}
+	\textit{The data of the criteria catalog can be embodied in software in order to optimzie loose coupling between and high cohesion within services in a strcutrued and automated way.}
+\end{quote}
 %Die Informationen aus den \enquote{Coupling Criteria} können strukturiert verarbeitet werden, um die Entkopplung von Softwarekomponenten zu optimieren.}
 
-Our scoring and clustering approach works surprisingly well. Assuming that the priorities are in a suitable proportion, the Service Cutter suggests similar service cuts as an architect would.
+In the Service Cutter assessment documented in Appendix \ref{appendix:serviceCutterAssessment}, we tested two sample systems each with the algorithms Girvan-Newman and Leung. Girvan-Newman provided expected and therefore satisfying results in only one of the two example systems. Leung on the other hand did not only provide expected service cuts for both systems but surprised us with suggestions that were unexpected but definitely reasonable.  
 
 
-The algorithm and our scoring approach could to be refined to improve the results even further. We discuss some conceptual challenges in our thesis but the output nevertheless is as expected. Further works may be able to develop advanced concepts and include more data to produce even better result.
+The Service Cutter as of now does not yet provide significant business value to its users. It is not a production grade architectural tool but a proof that our concept of structured and automated decomposition optimization generally works and is worth further investigations. We believe that the great value to its users will become apparent if further efforts are put in the following four aspects:
 
-The Service Cutter as of now does not yet provide significant business value to its users. It is supposed to be a proof of concept and not a production grade development tool. We believe that the great value to its users will becoming apparent once the tool is integrated into a toolkit chain.
+\begin{enumerate}
+	\item The \textbf{scoring process} for the different type of criteria should further be analyzed and tested. More sophisticated solutions for conceptual challenges like the single dimensionality problem documented in Section \ref{subsec:singleDimensionality} could improve the accuracy and meaningfulness of results. 
+	\item \textbf{Graph clustering algorithms} should further be analyzed and optimized. Possible alternative approaches as documented in Appendix \ref{appendix:decompositionAppraoches} could furthermore solve some of the conceptual challenges of the scoring process.
+	\item The \textbf{Service Cutter Prototype} should be enhanced to a production ready tool with graphical user interfaces for defining, editing, and storing a user's system description and candidate service cuts.
+	\item The idea of the Service Cutter furthermore is to be integrated into a \textbf{toolkit chain}. The input could automatically be generated from other tools or diagrams and the output used for code or \gls{API} generation. 
+\end{enumerate}
+
+These aspects are documented in more detail in Chapter \ref{cha:futureWork}.
 
 \section{Requirements Assessment}
 
@@ -50,7 +54,7 @@ All requirements are rated with a rating from 1-3:
 
 \subsection{Functional Requirements}
 
-Table \ref{tab:conclusionFunctional} assesses the provided solution with the defined functional requirements described in Chapter \ref{cha:requirements}, Section \ref{sec:functionalRequirements}.
+Table \ref{tab:conclusionFunctional} assesses the provided solution with the defined functional requirements described in Section \ref{sec:functionalRequirements}.
 
 \begin{table}[H]
 	\centering
@@ -63,7 +67,7 @@ Table \ref{tab:conclusionFunctional} assesses the provided solution with the def
 	\hline Priorities & 1 & Priorities are built into the scoring process. \\ 
 	\hline Candidate Service Cuts & 2 & The Service Cutter visualizes a candidate service cut using a chart. Multiple candidate cuts can only be compared using several browser tabs. \\ 
 	\hline Published Language & 1 & The published language is extracted from the candidate service cut when selecting a service node in the visualization.  \\ 
-	\hline Hard Architectural Decisions & 3 & This feature is not implemented \\ %TODO correct?
+	\hline Hard Architectural Decisions & 2 & This feature is not explicitly implemented but partially given by non-deterministic algorithms as discussed in Section \ref{subsec:algoDiscussion}\\
 	\hline 
 	\end{tabular} 
 \end{table}
@@ -78,52 +82,19 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution with the 
 	\label{tab:conclusionNonFunctional}
 	\begin{tabular}{|p{100pt}|l|p{250pt}|}
 	\hline \textbf{Requirement} & \textbf{Rating} & \textbf{Assessment} \\ 
-	\hline Usability & 1 & The Service Cutter offers a modern, web based user interface. \\
+	\hline Usability & 2 & TODO: document in detail \\ %TODO document
 	\hline Simplicity & 1 & A simple analysis can be performed with 5 mouse clicks. \\
-	\hline Performance & 1 & The sample domain models can be decomposed in a matter of seconds. \\ %TODO performance NFR???
+	\hline Performance & 2 & The sample domain models can be decomposed in not more than two seconds. Extensive performance tests have not been conducted. \\ %TODO performance NFR???
 	\hline Logging, \newline Deployment & 1 & Logging is based on SLF4J and a deployment based on Docker is implemented. \\
 	\hline Fault Tolerance & 1 & All errors are handled and occuring errors are logged. \\
-	\hline Maintainability & 1 & The implementation is based on proper application layers and should allow isolated changes. \\
-	\hline State-of-the-Art Technology & 1 & The application is based on REST web services and built using JHipster and Spring Boot. \\
+	\hline Maintainability & 1 & The implementation is based on two services (editor and engine) both built with suitable application layers. Communication between the layers is implemented with RESTful HTTP communication. Open source tools are used wherever possible. \\
+	\hline State-of-the-Art Technology & 1 & The application is based on the technology stack suggested by our industry partner. \\
 	\hline License & 1 & The source code has been released under the Apache 2.0 license. \\
 	\hline 
 	\end{tabular} 
 \end{table}
 
 
-\section{Working with the Service Cutter} % TODO is this really conclusion?
+\chapter{Conclusion}
 
-This section outlines our proposed usage schemes.
-
-%TODO: Does this chapter make sense? it could cover the process of working with the service cutter, finding the needed information, intepreting the results and using it for decision finding and documentations (ADs). Giersche highly recommended/requested this. 
-
-
-\subsection{Data Population}
-
-
-
-\begin{enumerate}
-\item UML Class Diagram
-\item Use Cases or User Stories
-\item Contextual information
-\end{enumerate}
-
-
-How do you initially populate all the coupling data? LOTS of knowledge is required!
-
-Hard to keep it up to date.
-
-
-\subsection{Usage Scenarios}
-
-
-- from monolith to microservices
-- green field services, replicable priorities
-
-\subsection{Interpreting the Result}
-
-?
-
-\subsection{Development Iterations}
-
-What to do with the output? How to feed it back into the loop in the next release cycle?
+??
