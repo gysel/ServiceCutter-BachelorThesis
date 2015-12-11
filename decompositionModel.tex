@@ -1,25 +1,16 @@
 \chapter{Decomposition Model}
+\label{cha:decomposition}
 
 The decomposition model describes the quality attributes of good service decomposition solutions and the criteria leading to such. This chapter starts with an overview over all defined coupling criteria and concludes with the definition of a good decomposition solution. 
 
-\section{Coupling Criteria}
-\label{sec:couplingCriteria}
-%TODO: diese section raus, untersections neu als sections
-
 A coupling criterion describes a reason why two nanoentities should or should not be owned by the same service. These criteria define the semantic model on which the Service Cutter is built on. 
 
-The coupling criteria in this thesis are a product of literature research and a workshop assembling the collective software architect experience of our thesis advisor Prof. Dr. O. Zimmermann, our industry partner represented by W. Giersche, an architect of Zühlke Engineering, and us. we transformed the resulting ideas into the following structured catalog.
+The coupling criteria in this thesis are a product of literature research and a workshop assembling the collective software architect experience of our thesis advisor Prof. Dr. O. Zimmermann, our industry partner represented by W. Giersche, an architect of Zühlke Engineering, and us. We transformed the resulting ideas into the following structured catalog.
 
-\subsection{Criteria Catalog Overview}
+\section{Criteria Catalog Overview}
 \label{subsec:couplingCriteriaOverview}
 
 We arranged the coupling criteria in a grid as shown in Figure \ref{fig:cc_grid}.
-
-\begin{figure}[H]
-	\includegraphics[scale=0.5]{diagrams/CouplingCatalog.pdf}
-	\caption{Coupling criteria grid}
-	\label{fig:cc_grid}
-\end{figure}
 
 The grid columns represent the following partitions:
 
@@ -30,6 +21,7 @@ The grid columns represent the following partitions:
 	\item[Communication] - Criteria describing which nanoentities are suitable to be used as part of the published language shared between services. 
 \end{description}
 
+\clearpage
 The rows represent the following categories:
 
 \begin{description}
@@ -39,8 +31,15 @@ The rows represent the following categories:
 	\item[Security] Criteria describing nanoentities from a security perspective.
 \end{description}
 
+\begin{figure}[H]
+	\includegraphics[scale=0.5]{diagrams/CouplingCatalog.pdf}
+	\caption{Coupling criteria grid}
+	\label{fig:cc_grid}
+\end{figure}
 
-\subsection{Coupling Criteria Cards}
+\clearpage
+\section{Coupling Criteria Cards}
+\label{sec:couplingCriteriaCards}
 
 We specified all coupling criteria listed in the grid as \enquote{CC cards} like the following:
 
