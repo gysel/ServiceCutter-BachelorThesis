@@ -1,18 +1,17 @@
-
 \chapter{Domain Analysis}
 \label{cha:analysis}
 
-introduction sentence %TODO
-=> Define decomposition
+This chapter analyses the concepts of service and service decomposition in more detail and concludes with a market overview on different service decomposition approaches. 
 
 \section{What is a Service?}
 
-%TODO find a better word for "words"?
-The term \textit{service} is one of the most used words in the field of software architecture and has been defined differently in many papers, books, and blog posts in numerous ways and various contexts. 
+\textit{Service} is one of the most used terms in the field of software architecture and has been defined differently in many papers, books, and blog posts in numerous ways and various contexts. This section consolidates multiple definitions and defines what a Service in context of this thesis is.
+
+\subsection{Different Views on Services}
 
 The \enquote{4+1 View Model of Software Architecture} by Philippe Kruchten\cite{fourPlusOne} describes software architecture using multiple views such as the \textit{Logical}, \textit{Physical}, \textit{Development}, and \textit{Process View}, illustrated by \textit{Scenarios}. During the research for this thesis we discovered that the difficulty to clearly define the word service lies in the fact that different definitions focus on contrasting views. For this thesis we use multiple definitions for the word service depending if we talk about the \textit{logical} or the \textit{physical} view of a service.
 
-\subsection{Logical Service}
+\subsubsection{Logical Service}
 
 \begin{quotation}
 A service is the technical authority for a specific business capability --- Udi Dahan\cite{serviceDefinitionDahan}
@@ -40,7 +39,7 @@ A model only used within one bounded context is defined and visible only in that
 
 The process of service decomposition as done by the Service Cutter automatically defines the published language of the system. 
 
-\subsection{Physical Service}
+\subsubsection{Physical Service}
 
 Martin Fowler describes a service as following:
 
@@ -57,32 +56,37 @@ This definition by Martin Fowler is based on the physical structure and is close
 
 A process providing a remote API might provide business logic, pure technical functionality or a data store. A service commonly includes at least a data store, wrapped by a RESTful HTTP API. Physical services might be congruent with logical services but very often more complex cases split logical services in multiple physical services. 
 
-\subsection{Should a Service Cutter produce Logical or Physical Service Candidates?}
+\subsubsection{Should a Service Cutter produce Logical or Physical Service Candidates?}
 
 While every logical reason to define service boundaries applies to logical and physical services, technical reasons like technology constraints might define additional physical service boundaries. Infrastructure or deployment constraints might lead to multiple logical services deployed into one physical service. %TODO discuss: "Infrastructure or deployment constraints" such as?
 
 We do not strictly define what kind of services the Service Cutter suggests. Given that the Service Cutter mostly focuses on logical criteria it could well be that a suggested service needs to be further decomposed due to technological reasons.
 
-The factors driving the decomposition of a system into services are discussed in more detail in the next section.
-
 %TODO ZIO: 2-3 examples for logical / phyiscal services (generally give examples for conecpts)
+% Note Lukas: Logical service containing three layers (DB, logic, GUI)each on a single process
+
+\subsection{Nanoentities, Building Blocks for Services}
+
+A service is built up by two types of elements:
+
+\begin{description}
+	\item[Data] A service has ownership over some of the system's data. It is the only instance responsible for changes on that data and optionally informs other services about changes. The data is often, but not necessarily, stored in a database. Data which is published to other services belongs to the published language of the system.
+	\item[Operations] A service has ownership over business rules and calculation logic. These operations are often based on the data the service owns.
+\end{description}
+
+Within the Service Cutter, both elements are unified under the term \textit{nanoentity}. A nanoentity is a piece of information, either in form of a data field or an operation result.
+
+Each service must embody both, data and operations, to be considered as a service. Something only providing CRUD\footnote{Create, Read, Update, and Delete} functions on data is considered a database. Something only providing operations is considered a function, not a service. 
+
+Service decomposition therefore is the act of defining a number of services and assigning all nanoentities to the responsible service. 
+
+The factors driving the decomposition are discussed in more detail in the next section.
 
 \section{Driving Factors for Service Decomposition}
 
 Well experienced software architects decompose systems by reason of multiple factors to ensure a maintainable, robust and consistent system with business relevance and good performance. This section describes the factors mostly considered by architects. 
 
-\subsection{Decomposition within the Service Cutter}
-
-%TODO introduce nanoentity
-The Service Cutter is based on nanoentities. Therefore service decomposition for the Service Cutter is simply the act of grouping nanoentities. If a nanoentity is assigned to service, the service becomes the owner and is the only instance allowed to create, update or delete instances of the nanoentities.
-
-%TODO: is "logic" in scope of the thesis? Sometimes a bounded context might depend on a lot of nanoentities of another BC, but in the ends all it want's is a single processed result of this number that could be served by the other BC. How do we handle this? => Could this be modelled as a nanoentity itself with a new kind of coupling criteria "calculated by"?
-
-
-\subsection{Decomposition Principles}
-
-Decomposition --- the craft of splitting a system into smaller parts --- has been a main discipline for programmers since early in the history of our industry. David L. Parnas published a paper entitled \enquote{On the Criteria To Be Used in Decomposing Systems into Modules} in 1972\cite{parnaDecomposing}. Shortly after, the terms \textit{coupling} 
-and \textit{cohesion} as software design metrics appeared as part of the Structured Design technique\cite{structuredDesign}:
+Decomposition has been a main discipline for programmers since early in the history of our industry. David L. Parnas published a paper entitled \enquote{On the Criteria To Be Used in Decomposing Systems into Modules} in 1972\cite{parnaDecomposing}. Shortly after, the terms \textit{coupling} and \textit{cohesion} as software design metrics appeared as part of the \textit{Structured Design} technique\cite{structuredDesign}:
 
 \begin{description}
 	\item[Coupling] A measure of how closely connected two routines or modules are.\newline In	software design, a measure of the interdependence among modules in a computer program \textcopyright  2011 IEEE\cite{softwareVocabulary}.
@@ -97,7 +101,6 @@ Software architects commonly started to use this metrics to define good architec
 \end{description}
 
 Starting from these principles, we analyzed different types and reasons for coupling and cohesion metrics and created the decomposition model described in the next Chapter.
-
 
 
 \section{Existing Decomposition Solutions}
