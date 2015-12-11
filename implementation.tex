@@ -203,7 +203,7 @@ In the ordered graph in Figure \ref{fig:girvan-newman-process} Girvan-Newman wou
 	\label{fig:girvan-newman-process}
 \end{figure}
 
-Girvan-Newman receives the number of clusters as a parameter and stops as soon as the desired number has been reached. One iteration might remove multiple edges with the maximum edge betweenness. One iteration can therefore produce numerous new clusters so that the requested number of clusters can not be provided. In this case the gephi implementation looks for a result having the least difference in number of clusters. 
+Girvan-Newman receives the number of clusters as a parameter and stops as soon as the desired number has been reached. One iteration might remove multiple edges with the maximum edge betweenness. One iteration can therefore produce numerous new clusters so that the requested number of clusters cannot be provided. In this case the gephi implementation looks for a result having the least difference in number of clusters. 
 
 As this algorithm does not include random elements, the proposed clusters are always identical.
 
@@ -237,7 +237,7 @@ Two main differences between Leung and Girvan-Newman algorithms are determinism 
 
 Results of a deterministic algorithm like Girvan-Newman can be reproduced by running the algorithm again with the same input data. The influence of different input data, scoring values and priorities can therefore be analyzed as the algorithm itself does not contain a random element.
 
-A non-deterministic algorithm like Leung complicates analysis since changes in results can not clearly be identified as consequence of changes in input or randomness. Furthermore results always need to be safely persisted and reloaded since they can not be reliably reproduced. 
+A non-deterministic algorithm like Leung complicates analysis since changes in results cannot clearly be identified as consequence of changes in input or randomness. Furthermore results always need to be safely persisted and reloaded since they cannot be reliably reproduced. 
 
 Nevertheless, the representative of our industry partner, W. Giersche, accurately pointed out that an element of randomness is not only a disadvantage. Running multiple algorithm cycles presents different solutions and outlines where the difficult architectural decisions reside.
 
@@ -271,7 +271,7 @@ In this simple example, the Service Cutter would most probably suggest two servi
 \subsection{Single Dimensionality}
 \label{subsec:singleDimensionality}
 
-A big challenge with the graph based approach is that weights between nodes only have one dimension with a single unit of measurement. The edges can describe how close or cohesive two nanoentities are. This suites well to all coupling criteria of type cohesiveness as they describe reasons to combine nanoentities in the same service. Coupling criteria describing separation or incompatibility, where separation of nanoentities is asked by constraints or different nanoentity characteristics, can not accurately be described using the weight on the edge.
+A big challenge with the graph based approach is that weights between nodes only have one dimension with a single unit of measurement. The edges can describe how close or cohesive two nanoentities are. This suites well to all coupling criteria of type cohesiveness as they describe reasons to combine nanoentities in the same service. Coupling criteria describing separation or incompatibility, where separation of nanoentities is asked by constraints or different nanoentity characteristics, cannot accurately be described using the weight on the edge.
 
 Our approach to solve this problem is to introduce negative scores as shown in the example above. A negative score implies in the view of a coupling criterion that two fields should be separated into different services. If the negative score exceeds the positive score given by cohesiveness criteria, the edge between two nanoentity nodes is removed. 
 
