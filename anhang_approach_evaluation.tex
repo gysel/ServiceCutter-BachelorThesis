@@ -90,7 +90,7 @@ For $n=20$ nanoentities and $k=4$ services the equation results in $45'232'115'9
 
 During a discussion with our industry partner and supervisor documented in Appendix \ref{sec:status22102015}, we decided that the Service Cutter should be able to process system models with up to 2000 nanoentities. We therefore concluded in the same meeting that this approach is not attainable without a heuristic attempt of finding a small set of relevant candidate cuts. 
 
-A possible heuristic approach is to take into account one or a few coupling criteria information about the system to find service candidates. A simple example would be to only analyze cuts where nanoentities of the same entity are not split across services so that only entities and not it's nanoentities need to be considered.
+A possible heuristic approach is to take into account one or a few coupling criteria information about the system to find service candidates. A simple example would be to only analyze cuts where nanoentities of the same entity are not split across services so that only entities and not its nanoentities need to be considered.
 
 As we tried to find a heuristic approach to calculate candidate cuts, we discovered a new idea for the composition algorithm described in the next section. 
 
@@ -112,7 +112,7 @@ The heuristic approach starts with a unordered list of all nanoentities and serv
 
 \begin{description}
 	\item[Construction] Nanoentities are sequentially taken from the list and put in the best suitable service. The target service is calculated by the criteria scores between the selected nanoentity and the nanoentities a service contains at that point of time. 
-	\item[Optimization] Within a service the score from each nanoentity to all it's neighbors in the same service is calculated to determine the least suitable nanoentity in a service. This nanoentity is taken out of the service and put back on the list of unassigned nanoentities.
+	\item[Optimization] Within a service the score from each nanoentity to all its neighbors in the same service is calculated to determine the least suitable nanoentity in a service. This nanoentity is taken out of the service and put back on the list of unassigned nanoentities.
 \end{description}
 
 %TODO: illsutration?
