@@ -1,8 +1,32 @@
 \chapter{Introduction}
 
-D. L. Parnas published a paper titled \textit{On the Criteria To Be Used in Decomposing Systems into Modules}\cite{parnaDecomposing} in 1972. Since then, the challenge of decomposing a system into modules has been widely discussed and many principles like the \textit{Single Responsibility Principle} and metrics like \textit{cohesion} and \textit{coupling} emerged. 
+D. L. Parnas published a paper titled \textit{On the Criteria To Be Used in Decomposing Systems into Modules}\cite{parnaDecomposing} in 1972. Since then, decomposition of software systems has become an important area in the field of software engineering. As systems grew more complex, software engineers started to distribute modules over a network and hence called them services. Architectural styles like Software Oriented Architecture (SOA) have been introduced to tackle the many challenges such distributed systems create. 
 
-With 
+Nevertheless, even with microservices, the latest incarnation of service orientation, decomposition is more described as an art then a structured discipline. C. Richardson writes in his popular introduction to microservices on InfoQ:
+
+\begin{quote}
+	\textit{Deciding how to partition a system into a set of services is very much an art but there are number of strategies that can help. One approach is to partition services by verb or use case.}\cite{richardson2014microservices}
+\end{quote}
+
+As we acknowledge the suitability of the described strategies, we do believe that there is a more structured way to service decomposition. This leads us to our first hypothesis:
+
+\begin{quote}
+	\textit{The driving factors for service cuts in a software system can be compiled into a comprehensive criteria catalog.}
+\end{quote}
+
+To take the structured approach to service decomposition a step further, we formulated a second hypothesis:
+
+\begin{quote}
+	\textit{The data of the criteria catalog can be embodied in software in order to optimzie loose coupling between and high cohesion within services in a strcutured and automated way.}
+\end{quote}
+
+To proof our hypothesis's 
+
+
+
+
+During a workshop titled  led by Udi Dahan, 
+
 
 Starting with Microservices, what news they bring (deployability) and what old, underlying problem they try to solve (decomposition)
 
