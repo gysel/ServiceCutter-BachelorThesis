@@ -264,7 +264,7 @@ The scoring process rates the relation of two nanoentities with a score. A highe
 	\end{center}
 \end{figure}
 
-Figure \ref{fig:scoringExample} shows three nanoentities from the Trading System (see Appendix \ref{sec:tradingSystem}) and their potential scores to each other. The relation \textit{Position.balance} to \textit{Account.number} has a high score as these nanoentities are often accessed in the same use cases and therefore get a high score from the \textit{Semantic Proximity} criterion. \textit{News.description} to \textit{Account.number} has a negative score. These nanoentities do not have common use cases and do not belong to the same entity, so the positive scores from \textit{cohesiveness} criteria are low or zero. Different characteristics like \textit{low} resilience requirements for \textit{News.description} and \textit{critical} resilience requirements for \textit{Account.number} lead to a negative score. 
+Figure \ref{fig:scoringExample} shows three nanoentities from the Trading System (see Appendix \ref{sec:tradingSystem}) and their potential scores to each other. The relation \textit{Position.balance} to \textit{Account.number} has a high score as these nanoentities are often accessed in the same use cases and therefore get a high score from the \textit{Semantic Proximity} criterion. \textit{News.description} to \textit{Account.number} has a negative score. These nanoentities do not have common use cases and do not belong to the same entity, so the positive scores from \textit{cohesiveness} criteria are low or zero. Different characteristics like \textit{low} availability requirements for \textit{News.description} and \textit{critical} availability requirements for \textit{Account.number} lead to a negative score. 
 
 In this simple example, the Service Cutter would most probably suggest two services, one with \textit{Account.number} and \textit{Position.balance} and another one with the \textit{News.description}.
 
@@ -423,7 +423,7 @@ Currently there are four CriterionScorer implementations for different coupling 
 		\hline
 		Semantic Proximity & SemanticProximityCriterionScorer \\
 		\hline
-		Change Similarty \newline Consistency \newline Resilience \newline Volatility \newline Storage Similarty \newline Security Criticality & CharacteristicsCriteriaScorer  \\
+		Change Similarty \newline Consistency \newline Availability \newline Volatility \newline Storage Similarty \newline Security Criticality & CharacteristicsCriteriaScorer  \\
 		\hline
 		Mutability \newline Network Traffic Suitability \newline Latency \newline Security Contextuality & No Implementation  \\
 		\hline
@@ -531,7 +531,7 @@ Table \ref{tab:characteristics} outlines characteristics of all criteria with th
 		\hline
 		Consistency & High 10 \textit{(default)} \newline Eventually 4 \newline Weak 0 \\
 		\hline
-		Resilience & Critical 10 \newline Normal 4 \textit{(default)} \newline Low 0 \\
+		Availability & Critical 10 \newline Normal 4 \textit{(default)} \newline Low 0 \\
 		\hline
 		Volatility & Often 10 \newline Regularly 5 \textit{(default)} \newline Rarely 0 \\
 		\hline

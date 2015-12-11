@@ -144,7 +144,7 @@ In addition to the use cases, we defined the following characteristics.
 \item \textbf{Often}: Recommendation.description
 \end{itemize}
 
-\textbf{Resilience}
+\textbf{Availability}
 
 \begin{itemize}
 \item \textbf{Low}: News.title, News.text, News.image, Recommendation.description
@@ -167,8 +167,8 @@ The following reasons led us to this decision.:
 \begin{itemize}
 	\item The service \textit{Order} encapsulates many use cases and contains several entities that need to be processed with high consistency (Order, Position).
 	\item The high volatility of the entity price led to the isolation of this part into a separate service \textit{Price}.
-	\item News are not part of the core operations and therefore require lower resilience and security criticality. News images furthermore require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service.
-	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions. Moreover recommendations are, like the news, not part of the core operations and require lower resilience. 
+	\item News are not part of the core operations and therefore require lower availability and security criticality. News images furthermore require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service.
+	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions. Moreover recommendations are, like the news, not part of the core operations and require lower availability. 
 	\item Security restrictions requires all \gls{PII} to be separated from other data. Extracting it into a \textit{Customer} service allows the architect to protect this data with additional measures. 
 \end{itemize}
 
@@ -371,15 +371,15 @@ In addition to the use cases, we assumed the following characteristics.
 
 Furthermore all default characteristics as documented in Section \ref{sec:couplingCriteriaCards} are taken into account.
 
-The DDDSample provides multiple interfaces depending on the user's role. The main interface provides tracking information, the administration panel offers means to create cargos and plan their itinerary and an additional interface is used to inform about handling events. Out of these distinction by the \gls{UI} we defined responsibility areas listed in Table \ref{tab:dddResponsibilites} each containing a group of nanoentities a user role is responsible for.
+The DDDSample provides multiple interfaces depending on the user's role. The main interface provides tracking information, the administration panel offers means to create cargos and plan their itinerary and an additional interface is used to inform about handling events. Out of these distinction by the \gls{UI} we defined the roles listed in Table \ref{tab:dddResponsibilites} each containing a group of nanoentities sharing an owner.
 
 \begin{table}[H]
 	\centering
-	\caption{Responsibility Areas in DDDSample}
+	\caption{Shared owners in the DDDSample}
 	\label{tab:dddResponsibilites}
 	\begin{tabular}{|p{90pt}|p{200pt}|}
 		\hline	
-		\textbf{Responsibility Area} & \textbf{Nanoentities}  \\
+		\textbf{Role} & \textbf{Owned nanoentities}  \\
 		\hline
 		CargoPlanner & Cargo.trackingId \newline RouteSpecification.origin\newline RouteSpecification.destination\newline RouteSpecification.arrivalDeadline\newline Itinerary.itineraryNumber\newline Leg.loadLocation\newline Leg.unloadLocation\newline Leg.loadTime\newline Leg.unloadTime\newline Delivery.estimatedArrivalTime\newline Delivery.routingStatus  \\
 		\hline
