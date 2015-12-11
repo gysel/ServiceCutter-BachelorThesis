@@ -1,0 +1,25 @@
+\chapter{Project Definition}
+\label{appendix:projectDefinition}
+
+The following project definition is an excerpt of the original project definition which was signed at the beginning of the thesis project.
+
+\section{Context}
+
+The idea of splitting a monolithic landscape into smaller and manageable pieces is not new. Having been promoted e.g. in the Service Oriented Architecture (SOA) and its predecessors (OOAD, CBSE), it is being discussed under the banner of microservices nowadays. One challenge remains the same: How, and considering which criteria, do you split data and functions into manageable and maintainable pieces? The microservices community suggests Domain-Driven Design (DDD) to identify service boundaries. 
+
+With microservices, loose coupling and the single responsibility principle have received even more importance. Unnecessary coupling between microservices results in performance loss, development overhead and complex system landscapes that are hard to test and maintain. Engineers and architects are used to draw borders between components, but are generally doing this “as it feels right”. Coming from an object oriented programming, very often logical entities such as classes are bundled to packages or microservices. Our assumption is that there is a better, more sophisticated way to model data and functions in order to achieve loose coupling and domain decomposition.
+
+\section{Goals and Deliverables}
+	
+The goal of the thesis project it to conceptualize and prototypically implement a system that allows a software architect to model data and logic and enhance it with a series of characterizations such as volatility, security, volumes, consistency and others. This data can then be used to suggest a set of services (or bounded contexts in DDD terminology) to the architect. We do not aim for full automation; the architect may or may not make use of these suggestions. 
+
+We identify four separate tasks to implement the described idea:
+\begin{enumerate}
+	\item Research after which criteria data can be grouped into services to achieve loose coupling.
+	\item Definition of a format to model components, data and its characterizations.
+	\item Creation or evaluation of an algorithm to find one or more \enquote{optimized} suggestions.
+	\item Implementation of a system taking the defined format as an input to process it into one or multiple suggestions.
+\end{enumerate}
+Every task can be done in a very simple or a more advanced way. The implementation for example, could be done as a simple command line tool and later on enlarged with a web user interface and a graph based database for data processing. The complexity of the tasks increases considerably with every new criterion taken into account.
+
+Critical success factors for this bachelor thesis are the maturity and practical applicability of the developed concepts and their implementation, as well as their generality and extensibility.  Algorithm and support system shall be applied to several sample applications (both public ones such as Pet Store and DDD Sample Application) so that effectiveness and efficiency of the developed approach and its value for the architect can be demonstrated. 
