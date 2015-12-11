@@ -131,7 +131,7 @@ The following questionnaire is based on the coupling criteria described in this 
 \begin{enumerate} %TODO is it possible to remove some of the negation?
 	\item Does it not violate a constraint criterion?
 	\item Does it not combine too many nanoentities with diverging characteristics into one service?
-	\item Do a small amount of use cases require more than one service to be completed?
+	\item Does each service depend on as few nanoentities of other services as possible? A use case should cross as few service boundaries as possible. %Do a small amount of use cases require more than one service to be completed?
 	\item Are the nanoentities that are part of a published language between services suitable for intra service communication?
 	\item Is the coupling between services similar? It is not the size of services that requires homogeneity within the system but the amount of published language the services. 
 	\item Are there not too many services? This is called the nanoservice antipattern\cite{nanoservice}.
