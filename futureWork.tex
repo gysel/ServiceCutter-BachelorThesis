@@ -128,7 +128,7 @@ Documenting architectural decisions is a significant documentation artifact of e
 
 A relationship between coupling criteria like the following might have significant impact on service decomposition:
 
-\textit{Persisted nanoentities with huge storage requirements should not be placed in the same service as nanoentities with high consistency requirements as they require very different storage capabilites.}
+\textit{Persisted nanoentities with huge storage requirements should not be placed in the same service as nanoentities with high consistency requirements as they are handled using different database technologies.}
 
 Such a relationship should be incorporated in the Service Cutter's decomposition algorithm. Another way of integration would be to present a warning to the user whenever a critical combination of characteristics appears in a candidate service cut.
 
