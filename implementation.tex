@@ -138,7 +138,7 @@ The number of edges grows almost quadratically as shown in Table \ref{tab:edgesC
 		\hline 20 & 190 \\ 
 		\hline 50 & 1'225 \\ 
 		\hline 100 & 4'950 \\ 
-		\hline 2000 & 1'999'999 \\ 
+		\hline 2000 & 1'999'000 \\ 
 		\hline 
 	\end{tabular} 
 \end{table}
@@ -153,6 +153,46 @@ Our implementation however will unlikely have anything close to the theoretical 
 
 The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoentities which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
 
+
+\section{Components and Packages}
+
+The Service Cutter is divided into two parts:
+
+\begin{enumerate}
+\item The \textit{Editor} is a web application and handles all user interactions.
+\item The \textit{Engine} runs in a separate Java \gls{VM} and offers the capability to upload nanoentities and coupling information. This data is then used to calculate candidate service cuts.
+\end{enumerate}
+
+We decided to split the Service Cutter into a web application and a separate engine so that the engine can be reused in a different context without the overhead of a fully fledged \gls{UI}.
+
+Figure \ref{fig:packages} introduces the most important components and packages of the Service Cutter.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=1]{diagrams/PackageDiagram.pdf}
+		\caption{Components and packages of the Service Cutter}
+		\label{fig:packages}
+	\end{center}
+\end{figure}
+
+The \textit{Editor} consists of four components:
+
+\begin{itemize}
+\item \textit{Scripts} -- contains all JavaScript code and HTML markup.
+\item \textit{Styles} -- includes the requires CSS files.
+\item \textit{Java} -- consists of the Java classes that offer access to the engine to the \gls{UI}.
+\item \textit{JHipster} -- includes a set of components provided by JHipster such as user management, authorization, authentication, logging, monitoring and others.
+\end{itemize}
+
+The Engine offers a RESTful HTTP web service and is structured into the following five packages:
+
+\begin{itemize}
+\item \textit{Importer} -- contains the service endpoint that accepts the nanoentities and user representations. %TODO add reference?
+\item \textit{Solver} -- accesses the scores to create the graph, runs the algorithm and exposes the candidate service cuts on a web service. The algorithms are documented in Section \ref{sec:algorithms}.
+\item \textit{Repository} -- encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}.
+\item \textit{Score} -- processes the model and calculate the scores. The scores are documented in Section \ref{sec:scores}.
+\item \textit{Model} -- contains all nanoentities and coupling data. %TODO document?
+\end{itemize}
 
 \section{Clustering Algorithms}
 \label{sec:algorithms}
@@ -253,7 +293,9 @@ Nevertheless, algorithms requesting the number of services as a parameter hand o
 
 %TODO überleitung
 
+
 \section{Scoring}
+\label{sec:scores}
 
 The scoring process rates the relation of two nanoentities with a score. A higher positive score states that these entities should be modeled in the same service while a negative score asks for a separation of the nanoentities into different services.
 
