@@ -68,20 +68,28 @@ We do not strictly define what kind of services the Service Cutter suggests. Giv
 
 \subsection{Nanoentities, Building Blocks for Services}
 
-A service is built up by two types of elements:
+
+A service incorporates two elements:
 
 \begin{description}
 	\item[Data] A service has ownership over some of the system's data. It is the only instance responsible for changes on that data and optionally informs other services about changes. The data is often, but not necessarily, stored in a database. Data which is published to other services belongs to the published language of the system.
 	\item[Operations] A service has ownership over business rules and calculation logic. These operations are often based on the data the service owns.
 \end{description}
 
-Within the Service Cutter, both elements are unified under the term \textit{nanoentity}. A nanoentity is a piece of information, either in form of a data field or an operation result.
+Within the Service Cutter, both elements are unified under the term \textit{nanoentity}. A nanoentity is a piece of information, either in form of a data field or an operation result. Examples for possible nanoentities are illustrated in Figure \ref{fig:nanoentities}.
 
 Each service must embody both, data and operations, to be considered as a service. Something only providing CRUD\footnote{Create, Read, Update, and Delete} functions on data is considered a database. Something only providing operations is considered a function, not a service. 
 
 Service decomposition therefore is the act of defining a number of services and assigning all nanoentities to the responsible service. 
 
 The factors driving the decomposition are discussed in more detail in the next section.
+
+
+\begin{figure}[H]
+	\centering{\includegraphics[scale=0.5]{diagrams/Nanoentities.pdf}}
+	\caption{Nanoentities related to an employee}
+	\label{fig:nanoentities}
+\end{figure}
 
 \section{Driving Factors for Service Decomposition}
 
