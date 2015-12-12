@@ -1,15 +1,15 @@
 \chapter{Future Work}
 \label{cha:futureWork}
 
-This chapter explains possible enhancements of the Service Cutter as well as improvements to the concept of coupling criteria.
+This chapter explains possible enhancements of the Service Cutter and the coupling criteria catalog. %TODO check, catalog auch?
 
 \section{Scoring}
 
-The scoring system we developed for the Service Cutter works well for our test scenarios. However other systems might require further enhancements.
+The developed scoring process works well for our test scenarios. However other systems might require further enhancements.
 
 \subsection{Better Handling for Separations}
 
-As discussed in Section \ref{subsec:singleDimensionality} we mapped coupling of type compatibility to negative scores and once all coupling criteria have been processed we remove all edges with a negative total score. This approach retains information about the coupling in a system. A refined concept in this area can be developed and evaluated leading to more accurate candidate service cuts.
+As introduced as \textit{single dimensionality} in Section \ref{subsec:singleDimensionality}, we mapped coupling of type compatibility and constraints to negative scores. Once all coupling criteria have been processed, we remove all edges with a negative total score. This approach retains information about the coupling in a system. Finding a solution for the single dimensionality problem would lead to more accurate candidate service cuts.
 
 \subsection{Implement Criteria of Type Communication}
 
@@ -17,10 +17,15 @@ As part of this project we only implemented 14 out of 16 identified coupling cri
 
 \begin{itemize}
 \item \textit{Mutability} defined whether a nanoentity is mutable or immutable.
-\item \textit{Network Traffic Suitability} illustrates the implications when this nanoentity is exposed to a remote interface.
+\item \textit{Network Traffic Suitability} illustrates the network traffic implications when this nanoentity is exposed to a remote interface.
 \end{itemize}
 
-Both criteria influence the cost of a service cut. Services owning immutable data with little network traffic can easily be extracted into a separated service. Mutable data causing lots of traffic however should preferrably not be extracted. The scoring concept could be enhanced to also be capable of supporting communication requirements.
+Both criteria of type \textit{communication} do not describe which nanoentities should or should not be modeled in the same service, but which nanoentities are more suitable for being exposed as published language and therefore used in intra service communication. For immutable data, consistency is not an issue and it is therefore simpler to handle and more suitable for published language then mutable nanoentities. Similarly, nanoentities that are frequently accessed and need high storage resources are less suitable for being exposed on the network. 
+
+If a nanoentity needs to be exposed is defined by use cases and which service is responsible for which use case. The communication criteria require that the use case accessing unsuitable nanoentities are owned by the same services as the nanoentities.
+
+%%% verstehe ich nicht
+%Both criteria influence the cost of a service cut. Services owning immutable data with little network traffic can easily be extracted into a separated service. Mutable data causing lots of traffic however should preferrably not be extracted. The scoring concept could be enhanced to also be capable of supporting communication requirements.
 
 \section{Algorithms \& Approach}
 
@@ -28,12 +33,12 @@ This section illustrates a series of possible improvements to the algorithms.
 
 \subsection{Additional Leung Layer}
 
-The non-deterministic nature of the Leung algorithm causes the calculation result to be unstable. This has advantages and disadvantes as oulined in Section \ref{subsec:algoDiscussion}. As an architect I would expect the Service Cutter to assist me with non-deterministic algorithms in a way that the possible service cuts are automatically calcaluted, compared and rated. This additional layer would allow me to easily select the best candidate service cut.
+The non-deterministic nature of the Leung algorithm causes the calculation result to be unstable. This has advantages and disadvantages as outlined in Section \ref{subsec:algoDiscussion}. As an architect, I would expect the Service Cutter to assist me with non-deterministic algorithms in a way that the possible service cuts are automatically calculated, compared and rated. This additional layer would allow me to select the best candidate service cut and help furthermore help to identify hard architectural decisions.
 
 \subsection{MCL adapter}
 \label{subsec:mclAdapter}
 
-As outlined in Section \ref{sec:algorithms} the MCL algorithm could be used in the Service Cutter as well.
+As outlined in Section \ref{sec:algorithms}, the MCL algorithm could be used in the Service Cutter as well.
 
 The reference implementation of the MCL algorithm is provided as a \gls{c} based command line tool. With some effort this algorithm could be integrated into the Service Cutter using \gls{JNI} or an integration based on text files.
 
@@ -41,34 +46,40 @@ An assessment of the MCL algorithm may produce better results compared to the ot
 
 \subsection{Alternative Algorithms and Optimizations of Existing Algorithms}
 
-Our evaluation of suitable graph clustering algorithms was limited to the ones having a stable Java implementation. Further research may prove that other algorithms are capable of calculating even better candidate service cuts based on our input data.
+Our evaluation of suitable graph clustering algorithms was limited to the ones having a stable Java implementation. Further research may prove that other algorithms are capable of calculating even candidate service cuts better according to the defined criteria\ref{sec:decompositionRequirements}.
 
 Furthermore existing algorithms may be improved with optimizations. For instance Lancichinetti and Fortunato\cite{lancichinetti2009community} valuated a set of improved versions of the Girvan-Newman algorithm as well as a collection of alternative algorithms.
 
-We assume that several optimizations in the area of the underlying algorithm can be achieved when the selection is not limited to existing Java implementations.
+We assume that optimizations of the Service Cutter's algorithm can be achieved when the selection is not limited to existing Java implementations.
 
 \section{Tooling}
 
-A set of enhancements of the Service Cutter as a tool may enhance its value to the users.
+A set of enhancements of the Service Cutter as a tool may increase its value to the users.
 
-\subsubsection{Traceability of User Representations}
+\subsection{Traceability of User Representations}
 
-It is important that the calculated data is presented to the user in a way for him to understand why the candidate service cuts have been selected. By visualizing user representations like use cases, the user gets a better understanding of how his input and definitions affect the suggested architecture. 
+It is important that the calculated data is presented to the user in a way for him to understand why the candidate service cuts have been selected. By visualizing the user's input on candidate service cuts, the user gets a better understanding of how his input and definitions affect the suggested decomposition. 
 
-Along with the user representations, the scores could be visualized per coupling criterion so that the user understands the impact of priority changes and input enhancements.
+Along with the user representations, the scores could be visualized per coupling criterion so that the user understands the impact of priority changes and input enhancements. However, this feature should be turned of for a novice user. 
 
-\subsubsection{Adjust Suggested Solutions}
+\subsection{Adjust Suggested Solutions}
 
 The architect is able to adjust the solution by moving a nanoentity from one to another service. He instantly sees the impact of his adjustment as the rating of each coupling criterion is visualized.
 
 \subsection{Configurations for Advanced Users}
 
-For a normal usage, the Service Cutter provides reasonable defaults which have been tested with example projects. Advanced users might want to change or enhance existing coupling criteria or characteristics.
+For a normal usage, the Service Cutter provides reasonable defaults which have been tested with example systems. Advanced users should be enabled to change or enhance existing characteristics of compatibility criteria.
 
-Furthermore the Service Cutter could guide the architect through a questionnaire in order to apply different presets of characterization defaults or priorities.
+\subsection{Configuration by a Questionanaire}
+
+The Service Cutter could guide the architect through a questionnaire in order to apply different presets of characterization defaults or priorities.
+
+\subsection{Editor for User Representations}
+
+To improve usability and reduce the effort needed to define the input for the Service Cutter, a sophisticated user interface to create and edit user representations should be built. The user interface should simplify input creation as much as possible. One example to achieve this is to the ability to define characteristics on entities which are then applied to all nanoentities of the entity. 
 
 \subsection{Iterative Enhancements}
-
+%TODO: Lukas: Ich verstehe nicht wie das dann funktionieren soll? Sollen wir das nicht umschreiben sodass man models und candidate service cuts einfach persistieren kann?
 Projects are often implemented in subsequent stages. The selected service cut of the first iteration influences the design decision of the second iteration. The Service Cutter therefore should allow the user to load a previously persisted service cut into the new model.
 
 \section{Toolchain Integration}
@@ -77,15 +88,16 @@ Providing interfaces to existing tools lowers the cost of using the Service Cutt
 
 \subsection{Adapters for the Input Format}
 
-Writing the required import format is a significant effort. The model containing the nanoentities and their relations could automatically be parsed from an \gls{ORM} configuration or an existing database schema.
+Writing the required input is a significant effort. The model containing nanoentities and their relations could automatically be parsed from different sources. Adapters could be written for an \gls{ORM} configuration, a database schema, or \gls{UML} diagrams provided by tools like the Enterprise Architect\cite{entArch}.
 
-The use cases could be parsed from existing machine-readable \gls{UML} diagrams (e.g. from Enterprise Architect\cite{entArch}) or \gls{API} documentation 
+%TOOD: wie soll das gehen?
+%Use cases could be parsed from existing \gls{API} documentation.
 
 \subsection{Use Solution as a Basis for Working Software}
 
-If the solution is good enough to be used as an initial architecture of a system, it can be used to build the suggested services. As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between services. 
+As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between services. 
 
-Depending on the communication layer used to communicate between services these APIs look differently. In a messaging based system the Service Cutter could generate a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter is able to generate Swagger\cite{swagger} API definitions for the resources which need to be part of the published language\cite[p.375]{evans2003domain} of the system. 
+Depending on the communication layer used to communicate between services, these \gls{API}s look differently. In a messaging based system the Service Cutter could generate a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter is able to generate Swagger\cite{swagger} \gls{API} definitions for the resources which need to be part of the published language of the system. 
 
 \section{Conceptual Refinements}
 
@@ -93,11 +105,16 @@ Besides the technical enhancements, we also collected a set of conceptual improv
 
 \subsection{Logical and Physical Services}
 
-As outlined in Section \ref{sec:serviceIntro} there are two different definitions for the term service. A technical service may contain a number of logical services. This mitigates the cost associated with remoting when two related nanoservices are split into two different services. The Service Cutter could reflect those differences in the scoring logic.
+As outlined in Section \ref{sec:serviceIntro}, services can be analyzed from different views like the logical or physical view. Udi Dahan describes the confusion of these views as one of the common pitfalls in implementing \gls{SOA}\cite{udiViews}.
+
+In Section\ref{subsec:couplingCriteriaOverview} we categorized the coupling criteria into the views \textit{Domain}, \textit{Quality}, \textit{Physical}, and \textit{Security}. These views should be further analyzed and integrated in the Service Cutter to improve an architect's understanding of different views on his system and the definition of a service. For example, service decomposition could start with candidate bounded contexts by only considering domain criteria. These bounded contexts would further be split into services to when taking the other views into consideration.
+
+%TODO: wie soll das gehen?
+%As outlined in Section \ref{sec:serviceIntro} there are two different definitions for the term service. A technical service may contain a number of logical services. This mitigates the cost associated with remoting when two related nanoservices are split into two different services. The Service Cutter could reflect those differences in the scoring logic.
 
 \subsection{Caching}
 
-Caching is data redundancy that is used to reduce the cost of coupling between services. It affects an architect's decision when to extract nanoentities into separate services and therefore it could be added to the Service Cutter.
+Caching is data redundancy that is used to reduce the cost of coupling between services. By the means of use cases, the Service Cutter has knowledge of which nanoentities need to be shared between services and, if the use case contains frequency information, even how often it needs to be shared. The Service Cutter could therefore suggest to the architect where caches would be appropriate.
 
 \subsection{Document Architectural Decisions}
 
@@ -105,31 +122,32 @@ Caching is data redundancy that is used to reduce the cost of coupling between s
 	Architectural decisions capture key design issues and the rationale behind chosen solutions.\cite{zioAD}
 \end{quote}
 
-Documenting architectural decisions is a significant documentation artifact of every long-term software project. In order to retrace architectural decisions taken with help of the Service Cutter, important solutions enhanced with discussion notes could be saved persistently. These notes could be captures as free text, Y-Templates\cite{zimmermann2012yTemplate} or other architectural decision templates\footnote{Zimmermann \textit{et al} compiled a comparison of seven publicly available decision templates\cite[p. 3]{zimmermann2015architectural}}.
+Documenting architectural decisions is a significant documentation artifact of every long-term software project. In order to retrace architectural decisions taken with help of the Service Cutter, important solutions enhanced with discussion notes could be saved persistently. These notes could be captures as free text, Y-Templates\cite{zimmermann2012yTemplate} or other architectural decision templates\footnote{O. Zimmermann \textit{et al} compiled a comparison of seven publicly available decision templates\cite[p. 3]{zimmermann2015architectural}}.
 
 \subsection{Relationships between Coupling Criteria}
 
 A relationship between coupling criteria like the following might have significant impact on service decomposition:
 
-\textit{Nanoentities with huge storage requirements should not be placed in the same service as nanoentities with high consistency requirements.}
+\textit{Persisted nanoentities with huge storage requirements should not be placed in the same service as nanoentities with high consistency requirements as they require very different storage capabilites.}
 
-Such a relationship should be incorporated in the Service Cutter's decomposition algorithm. Another way of integration would be to present a warning to the user whenever a critical combination of characteristics appears in a suggested service cut.
+Such a relationship should be incorporated in the Service Cutter's decomposition algorithm. Another way of integration would be to present a warning to the user whenever a critical combination of characteristics appears in a candidate service cut.
 
-\section{Suggested Service Cut Grading}
+\section{Candidate Service Cut Grading}
 \label{sec:suggested-cut-grades}
 
 We suggested a questionnaire to assess candidate service cuts in Section \ref{sec:decompositionRequirements}. This distinction could automatically be performed by the Service Cutter and visualized using a indicator similar to a traffic light.
 
-\section{Handling of Large Data Volumes}
+%\section{Handling of Large Data Volumes}
+%NOTE Lukas: Ist alles bereits abgedeckt in vorherigen Sections
 
-Our two test systems are relatively small compared to a typical enterprise system. Therefore the required information to analyze such a system is very large. The data model is probably already existing in a machine-readable format -- the use cases however might not exist and a systematic characterization of the nanoentities are likely not available. It is therefore an important question how such a system could be analyzed using the Service Cutter.
+%Our two test systems are relatively small compared to a typical enterprise system. Therefore the required information to analyze such a system is very large. The data model is probably already existing in a machine-readable format -- the use cases however might not exist and a systematic characterization of the nanoentities are likely not available. It is therefore an important question how such a system could be analyzed using the Service Cutter.
 
-The following questions need to be investigated:
+%The following questions need to be investigated:
 
-\begin{enumerate}
-\item Can an existing data model automatically be transformed into the Service Cutter's import format?
-\item Can the Service Cutter calculate meaningful candidate service cuts without taking use cases into account?
-\item Can the Service Cutter offer a \gls{UI} that simplifies characterizations of a large data models?
-\end{enumerate}
+%\begin{enumerate}
+%\item Can an existing data model automatically be transformed into the Service Cutter's import format?
+%\item Can the Service Cutter calculate meaningful candidate service cuts without taking use cases into account?
+%\item Can the Service Cutter offer a \gls{UI} that simplifies characterizations of a large data models?
+%\end{enumerate}
 
-One approach we suggest is to allow a user to specify the coupling on the level of an entity instead of a nanoentity. Other ideas would have to be gathered and evaluated in subsequent projects.
+%One approach we suggest is to allow a user to specify the coupling on the level of an entity instead of a nanoentity. Other ideas would have to be gathered and evaluated in subsequent projects.
