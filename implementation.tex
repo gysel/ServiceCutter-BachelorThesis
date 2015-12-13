@@ -29,7 +29,7 @@ In the second step the model is described with meta data that is used by the Ser
 
 Almost all nanoentities are related in some way to other nanoentities. The concept of a coupling criterion described in Chapter \ref{cha:decomposition} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the nanoentities's characteristics and relations to each other. To improve usability well known concepts like use cases are defined as user representation which can be used to enhance the model. 
 
-Importing the user representation should either be done over a RESTful HTTP API in a self defined JSON format or using a wizard within the Service Cutter's \gls{UI}.
+Importing the user representation should either be done over a RESTful HTTP API in a self defined JSON format or using a wizard in the Service Cutter's \gls{UI}.
 
 \subsection{Step 3: Decomposition}
 
@@ -326,7 +326,7 @@ This approach implies two disadvantages:
 \end{enumerate}
 
 
-Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed within the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criteria, as described later in this section, in a way that positive scoring criteria are prioritized higher. 
+Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed into the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criteria, as described later in this section, in a way that positive scoring criteria are prioritized higher. 
 
 %TODO: future work, find better solution and create a reference here
 
@@ -500,7 +500,7 @@ The implementation sets a negative score of $-10$ from each nanoentity to all ot
 \subsubsection{SemanticProximityCriterionScorer}
 
 %TODO: name for UML diagram? 
-The SemanticProximityCriterionScorer is a more complex scoring implementation. It considers use cases and aggregations within a UML diagram. To calculate the score, the scorer uses an intermediate score summing up occurrences of the following conditions for the nanoentities $A$ and $B$:
+The SemanticProximityCriterionScorer is a more complex scoring implementation. It considers use cases and aggregations in a UML diagram. To calculate the score, the scorer uses an intermediate score summing up occurrences of the following conditions for the nanoentities $A$ and $B$:
 
 \begin{description}
 	\item [READ\_ACCESS] $A$ and $B$ are both read in the same use case.
