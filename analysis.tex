@@ -78,12 +78,12 @@ Sam Newman writes in his book \textit{Building Microservices}\cite[p. 34]{newman
 
 %TODO: one more linking sentence here?
 
-In order to provide capabilities a service needs resources. We identified three types of resources which form the building blocks for services:
+In order to provide capabilities, a service needs resources. We identified three types of resources which are the building blocks of services:
 
 \begin{description}
 	\item[Data] A service has ownership over some of the system's data. It is the only instance responsible for changes on that data and optionally informs other services about changes. The data is often, but not necessarily, stored in a database. Data which is published to other services belongs to the published language of the system.
 	\item[Operations] A service has ownership over business rules and calculation logic. These operations are often but not necessarily based on the data the service owns.
-	\item[Artifacts] A service has ownership over artifacts. An example is a business report which has been built by using operations and data. 
+	\item[Artifacts] A service has ownership over artifacts. An artifact is a collection of data or operation results transformed into a specific format. An example is a business report which has been built using operations and data.
 \end{description}
 
 In order to enable a structured approach to service decomposition, we generalize these resources with the concept of a \textit{nanoentity}. Examples for possible nanoentities are illustrated in Figure \ref{fig:nanoentities}.
@@ -94,10 +94,12 @@ In order to enable a structured approach to service decomposition, we generalize
 	\label{fig:nanoentities}
 \end{figure}	
 
-%TODO: weglassen?
-A service must contain  at least two type of nanoentities to be considered a service. 
-Something only providing CRUD\footnote{Create, Read, Update, and Delete} functions on data is considered a database. \newline Something only providing operations is considered a function. \newline
-Something only providing artifacts is considered a resource or a database. 
+A service must contain  at least two type of nanoentities to be considered a logical service. 
+\begin{itemize}
+\item Something only providing CRUD\footnote{Create, Read, Update, and Delete} functions on data is considered a database. 
+\item Something only providing operations is considered a function. 
+\item Something only providing artifacts is considered a resource or a database. 
+\end{itemize}
 
 Service decomposition is the act of defining a number of services and assigning all nanoentities to the responsible service. The factors driving decomposition are discussed in more detail in the next section.
 
