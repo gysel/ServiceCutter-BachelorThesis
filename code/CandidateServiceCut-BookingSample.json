@@ -1,7 +1,7 @@
 {
    "services":[
       {
-         "dataFields":[
+         "nanoentities":[
             "Customer.firstname",
             "Customer.name",
             "Customer.street",
@@ -13,7 +13,7 @@
          "name":"Service A"
       },
       {
-         "dataFields":[
+         "nanoentities":[
             "Article.articleName",
             "Article.price",
             "Article.serial"
@@ -22,7 +22,7 @@
          "name":"Service B"
       },
       {
-         "dataFields":[
+         "nanoentities":[
             "Booking.bookingDate",
             "Booking.paymentDate",
             "Booking.totalPrice",
@@ -37,13 +37,13 @@
          "serviceA":"Service A",
          "serviceB":"Service C",
          "score":139,
-         "sharedFields":["Customer.creditCard"]
+         "sharedEntities":["Customer.creditCard"]
       },
       {
          "serviceA":"Service B",
          "serviceB":"Service C",
          "score":82,
-         "sharedFields":["Article.price"]
+         "sharedEntities":["Article.price"]
       }
    ],
    "useCaseResponsibility":{
