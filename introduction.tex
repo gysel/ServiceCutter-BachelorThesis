@@ -38,24 +38,6 @@ The Service Cutter's goal is to assist and advise a software architect or develo
 
 The original project definition, signed at the beginning of project, is documented in Appendix \ref{appendix:projectDefinition}.
 
-\section{Context and Influences}
-
-The ideas and concepts in this thesis are influenced by the work of many others. We reused and embodied existing concepts to our structured way of service decomposition. This section describes the context and influences of the thesis.
-
-\subsection{Service Oriented Architecture}
-
-It was during a course titled \textit{Advanced Distributed Systems Design using SOA \& DDD} by Udi Dahan where our initial idea to assist service decomposition with an automated approach emerged. Dahan is the founder of NServiceBus\cite{nservicebus}, the most popular service bus for \gls{dotnet} and a well known \gls{SOA} and \gls{DDD} expert. The approach to tackle service decomposition from the 4+1 View Model\cite{fourPlusOne} is inspired by him. Approaching decomposition on the basis of data fields, or the later in the document introduced nanoentites, is motivated by his course.
-
-Further \gls{SOA} influences are provided by our supervisor Dr. Prof. O. Zimmermann throughout the project and during his course \textit{Application Architecture} at \gls{HSR}.
-
-\subsection{Microservices}
-
-In recent years, microservices substituted \gls{SOA} as the trending architectural style, but can be seen as a new incarnation of the service oriented approach. Valuable concepts like service definitions or decomposition criteria are inspired by leading evangelists in this area such as Martin Fowler, Sam Newman, and Chris Richardson. 
-
-\subsection{Domain-Driven Design}
-
-Nevertheless, decomposition is not solely a problem in distributed systems. Eric Evans introduced in his book \textit{Domain-Driven Design: Tackling Complexity in the Heart of Software}\cite{evans2003domain} a collection of patterns to handle decomposition complexity. Especially the concepts of \textit{Bounded Context}, \textit{Entity}, \textit{Published Language} were integrated in our approach.
-
 \section{Scope}
 
 This section describes the scope and boundaries of this thesis. 
@@ -85,8 +67,44 @@ Our thesis focuses solely on service decomposition. Consequently the following a
 	\item Service decomposition tries to minimize coupling between services. Tactics like caches or \gls{CQRS}, which try to lower the consequences of coupling introduced by decomposition, are not analyzed. 
 \end{itemize}
 
+
+\section{Context and Influences}
+
+The ideas and concepts in this thesis are influenced by the work of many others. We reused and embodied existing concepts to our structured way of service decomposition. This section describes the context and influences of the thesis.
+
+\subsection{Service Oriented Architecture}
+
+It was during a course titled \textit{Advanced Distributed Systems Design using SOA \& DDD} by Udi Dahan where our initial idea to assist service decomposition with an automated approach emerged. Dahan is the founder of NServiceBus\cite{nservicebus}, the most popular service bus for \gls{dotnet} and a well known \gls{SOA} and \gls{DDD} expert. The approach to tackle service decomposition from the 4+1 View Model\cite{fourPlusOne} is inspired by him. Approaching decomposition on the basis of data fields, or the later in the document introduced nanoentites, is motivated by his course.
+
+Further \gls{SOA} influences are provided by our supervisor Dr. Prof. O. Zimmermann throughout the project and during his course \textit{Application Architecture} at \gls{HSR}.
+
+\subsection{Microservices}
+
+In recent years, microservices substituted \gls{SOA} as the trending architectural style, but can be seen as a new incarnation of the service oriented approach. Valuable concepts like service definitions or decomposition criteria are inspired by leading evangelists in this area such as Martin Fowler, Sam Newman, and Chris Richardson. 
+
+\subsection{Domain-Driven Design}
+
+Nevertheless, decomposition is not solely a problem in distributed systems. Eric Evans introduced in his book \textit{Domain-Driven Design: Tackling Complexity in the Heart of Software}\cite{evans2003domain} a collection of patterns to handle decomposition complexity. Especially the concepts of \textit{Bounded Context}, \textit{Entity}, \textit{Published Language} were integrated in our approach.
+
+\section{Existing Decomposition Solutions}
+
+We were not able to find projects that try to structure and automatically assist service decomposition. Nevertheless, there are several methodologies and decomposition tools tackling some of the relevant challenges. 
+
+\subsection{Software Methodologies}
+
+The already introduced approaches \gls{SOA}, microservices, and \gls{DDD} discuss some decomposition criteria but do not provide a comprehensive criteria catalog. Existing concepts like the \gls{DDD} published language pattern were reused in this thesis.
+
+Other approaches tackle related problems but are focused on different layers of software development. \gls{OOAD} focuses more on abstractions like classes and object instances. We integrated \gls{OOAD} artifacts like the \gls{ERM} as part of the system description given to the Service Cutter as input. \gls{BPM} lies an abstraction layer above services, focusing on business processes and therefore the usage of services rather than their identification and specification. A detailed analysis on the correlation of \gls{OOAD} and \gls{BPM} with service orientation was published by IBM\cite{zimmermann2004elements}.
+
+\subsection{Decomposition Tools}
+
+Kenny Bastani suggests a graph based analysis to decompose monolithic software into microservices\cite{bastani}. In his decomposition approach he focuses on dependencies from user stories to resources which resembles with our decomposition criteria \textit{Semantic Proximity} introduced in Chapter \ref{cha:decomposition}. He uses Neo4J GraphGist\cite{graphGist} to visualize the dependencies but does not run any automated analysis on the graph. 
+
+The barrio eclipse plugin\cite{dietrich2008cluster} analyses Java dependencies from Java code or bytecode. It suggests a candidate package structure by leveraging the Girvan-Newman clustering algorithm. The tool has been published as part of a students project of the Massey University, New Zealand.
+
 \bigskip
 
-After introducing our hypothesis's and goals, the next Chapter analyzes the definition of a service and service decomposition principles in more detail. 
+After introducing our hypothesis's and the broader context of service decomposition, the next Chapter analyzes the definition of a service and service decomposition principles in more detail. 
 
 %TODO AppArch 3 Ebenen von Services,  Drei definitionen von SOMA/Services, User / Architect / Developer
+
