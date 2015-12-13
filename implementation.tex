@@ -165,7 +165,7 @@ The Service Cutter is divided into two parts:
 
 We decided to split the Service Cutter into a web application and a separate engine so that the engine can be reused in a different context without the overhead of a fully fledged \gls{UI}.
 
-Figure \ref{fig:packages} introduces the most important components and packages of the Service Cutter.
+Figure \ref{fig:packages} introduces the important components and packages of the Service Cutter.
 
 \begin{figure}[H]
 	\begin{center}
@@ -178,8 +178,8 @@ Figure \ref{fig:packages} introduces the most important components and packages 
 The \textit{Editor} consists of four components:
 
 \begin{itemize}
-\item \textit{Scripts} -- contains all JavaScript code and HTML markup.
-\item \textit{Styles} -- includes the requires CSS files.
+\item \textit{Scripts} -- contains all JavaScript code and \gls{HTML} markup.
+\item \textit{Styles} -- includes the required \gls{CSS} files.
 \item \textit{Java} -- consists of the Java classes that offer access to the engine to the \gls{UI}.
 \item \textit{JHipster} -- includes a set of components provided by JHipster such as user management, authorization, authentication, logging, monitoring and others.
 \end{itemize}
@@ -187,10 +187,10 @@ The \textit{Editor} consists of four components:
 The Engine offers a RESTful HTTP web service and is structured into the following five packages:
 
 \begin{itemize}
-\item \textit{Importer} -- contains the service endpoint that accepts the nanoentities and user representations. %TODO add reference?
+\item \textit{Importer} -- contains the service endpoint that accepts nanoentities and user representations. %TODO add reference?
 \item \textit{Solver} -- accesses the scores to create the graph, runs the algorithm and exposes the candidate service cuts on a web service. The algorithms are documented in Section \ref{sec:algorithms}.
 \item \textit{Repository} -- encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}.
-\item \textit{Score} -- processes the model and calculate the scores. The scores are documented in Section \ref{sec:scores}.
+\item \textit{Score} -- processes the model and calculates the scores. The scores are documented in Section \ref{sec:scores}.
 \item \textit{Model} -- contains all nanoentities and coupling data. %TODO document?
 \end{itemize}
 
