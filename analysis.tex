@@ -54,42 +54,53 @@ This definition by Martin Fowler is based on the physical structure and is close
 	In short, the microservice architectural style is an approach to developing a single application as a suite of small services, each running in its own process and communicating with lightweight mechanisms, often an HTTP resource API.\cite{fowlerMicroservice}
 \end{quotation}
 
-
 A process providing a remote API might provide business logic, pure technical functionality or a data store. A service commonly includes at least a data store, wrapped by a RESTful HTTP API. Physical services might be congruent with logical services but very often more complex cases split logical services in multiple physical services. 
 
-\subsubsection{Should a Service Cutter produce Logical or Physical Service Candidates?}
+\subsubsection{Should the Service Cutter Produce Logical or Physical Service Candidates?}
 
-While every logical reason to define service boundaries applies to logical and physical services, technical reasons like technology constraints might define additional physical service boundaries. Infrastructure or deployment constraints might lead to multiple logical services deployed into one physical service. %TODO discuss: "Infrastructure or deployment constraints" such as?
+The Service Cutter incorporates logical and physical aspects in the decomposition process but focuses more on the former. 
 
-We do not strictly define what kind of services the Service Cutter suggests. Given that the Service Cutter mostly focuses on logical criteria it could well be that a suggested service needs to be further decomposed due to technological reasons.
+Not all reasons to create physical services can be analyzed in a structured way. The Service Cutter cannot decide if a service using a database runs in a single process or connects to its database over a remote interface. Similarly, an operations team might decide to run different logical services on the same machine or even in the same process to save resources and simplify deployment. These decision are often reasoned by operational aspects rather than the system's characteristics. 
 
-%TODO ZIO: 2-3 examples for logical / phyiscal services (generally give examples for conecpts)
-% Note Lukas: Logical service containing three layers (DB, logic, GUI)each on a single process
+Nevertheless, some physical aspects can be analyzed. As an example, the Service Cutter is able to receive information about the storage requirements for the system's data. It suggests that data with very high storage needs require an own service because a different database technology is necessary. 
+
+In conclusion we define that the Service Cutter focuses on logical services while incorporating physical aspects whenever possible. 
+
+%TODO ZIO: generally give examples for conecpts
 
 \subsection{Nanoentities, Building Blocks for Services}
 
+Sam Newman writes in his book \textit{Building Microservices}\cite[p. 34]{newman2015building}: 
 
-A service incorporates two elements:
+\begin{quote}
+	\textit{When you start to think about the bounded contexts that exist in your organization, you should be thinking not in terms of data that is shared, but about the capabilities those contexts provide the rest of the domain.}
+\end{quote}
+
+%TODO: one more linking sentence here?
+
+In order to provide capabilities a service needs resources. We identified three types of resources which form the building blocks for services:
 
 \begin{description}
 	\item[Data] A service has ownership over some of the system's data. It is the only instance responsible for changes on that data and optionally informs other services about changes. The data is often, but not necessarily, stored in a database. Data which is published to other services belongs to the published language of the system.
-	\item[Operations] A service has ownership over business rules and calculation logic. These operations are often based on the data the service owns.
+	\item[Operations] A service has ownership over business rules and calculation logic. These operations are often but not necessarily based on the data the service owns.
+	\item[Artifacts] A service has ownership over artifacts. An example is a business report which has been built by using operations and data. 
 \end{description}
 
-Within the Service Cutter, both elements are unified under the term \textit{nanoentity}. A nanoentity is a piece of information, either in form of a data field or an operation result. Examples for possible nanoentities are illustrated in Figure \ref{fig:nanoentities}.
-
-Each service must embody both, data and operations, to be considered as a service. Something only providing CRUD\footnote{Create, Read, Update, and Delete} functions on data is considered a database. Something only providing operations is considered a function, not a service. 
-
-Service decomposition therefore is the act of defining a number of services and assigning all nanoentities to the responsible service. 
-
-The factors driving the decomposition are discussed in more detail in the next section.
-
+In order to enable a structured approach to service decomposition, we generalize these resources with the concept of a \textit{nanoentity}. Examples for possible nanoentities are illustrated in Figure \ref{fig:nanoentities}.
 
 \begin{figure}[H]
-	\centering{\includegraphics[scale=0.5]{diagrams/Nanoentities.pdf}}
-	\caption{Nanoentities related to an employee}
+	\centering{\includegraphics[scale=0.7]{diagrams/Nanoentities.pdf}}
+	\caption{Nanoentities related to an employee.}
 	\label{fig:nanoentities}
-\end{figure}
+\end{figure}	
+
+%TODO: weglassen?
+A service must contain  at least two type of nanoentities to be considered a service. 
+Something only providing CRUD\footnote{Create, Read, Update, and Delete} functions on data is considered a database. \newline Something only providing operations is considered a function. \newline
+Something only providing artifacts is considered a resource or a database. 
+
+Service decomposition is the act of defining a number of services and assigning all nanoentities to the responsible service. The factors driving decomposition are discussed in more detail in the next section.
+
 
 \section{Driving Factors for Service Decomposition}
 
