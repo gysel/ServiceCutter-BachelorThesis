@@ -189,9 +189,8 @@ The Engine offers a RESTful HTTP web service and is structured into the followin
 \begin{itemize}
 \item \textit{Importer} -- contains the service endpoint that accepts nanoentities and user representations. %TODO add reference?
 \item \textit{Solver} -- accesses the scores to create the graph, runs the algorithm and exposes the candidate service cuts on a web service. The algorithms are documented in Section \ref{sec:algorithms}.
-\item \textit{Repository} -- encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}.
 \item \textit{Score} -- processes the model and calculates the scores. The scores are documented in Section \ref{sec:scores}.
-\item \textit{Model} -- contains all nanoentities and coupling data. %TODO document?
+\item \textit{Model} -- contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}. %TODO document?
 \end{itemize}
 
 \section{Clustering Algorithms}
