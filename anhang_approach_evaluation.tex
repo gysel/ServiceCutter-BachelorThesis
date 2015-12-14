@@ -94,7 +94,7 @@ A possible heuristic approach is to take into account one or a few coupling crit
 
 As we tried to find a heuristic approach to calculate candidate cuts, we discovered a new idea for the composition algorithm described in the next section. 
 
-\section{Approach \#3: Constructing Services - a Heuristic Approach}
+\section{Approach \#3: Constructing Services with a Heuristic Greedy Algorithm}
 
 While analyzing the decomposition problem we realized that finding a good number of services is one of the key challenges. Cohesiveness criteria are mainly satisfied by consolidating nanoentities in one service while compatibility criteria request exactly the opposite, namely the separation of nanoentities. Figure \ref{fig:numberOfServices} illustrates this dilemma.
 
@@ -102,26 +102,30 @@ While analyzing the decomposition problem we realized that finding a good number
 	\begin{center}
 		\includegraphics[scale=1]{diagrams/HeuristicApproach.pdf}
 	\end{center}
-	\caption{Finding a good number of services is a key challenge of service secomposition}
+	\caption{Finding a good number of services is a key challenge of service decomposition}
 	\label{fig:numberOfServices}
 \end{figure}
 
-To simplify the problem for the heuristic approach we assume the number of services is given by the user and does not need to be computed. Very often an architect has a reasonable assumption about the number of services suitable for his system.
+To simplify the problem we assume the number of services is given by the user and does not need to be computed. Very often an architect has a reasonable assumption about the number of services suitable for his system. 
 
-The heuristic approach starts with a unordered list of all nanoentities and services that can be imagined as empty boxes that are incrementally filled. The algorithm runs multiple iterations of construction and optimization steps.
+Given the number of services, the services can be imagined as empty boxes that need to be filled with nanoentities. The boxes are filled by construction and optimization steps. In every construction step, one nanoentity is assigned to a box by means of a greedy algorithm.
 
 \begin{description}
-	\item[Construction] Nanoentities are sequentially taken from the list and put in the best suitable service. The target service is calculated by the criteria scores between the selected nanoentity and the nanoentities a service contains at that point of time. 
-	\item[Optimization] Within a service the score from each nanoentity to all its neighbors in the same service is calculated to determine the least suitable nanoentity in a service. This nanoentity is taken out of the service and put back on the list of unassigned nanoentities.
+	\item[Construction Step] One nanoentity is taken from an unordered list of all unassigned nanoentities and put in the best suitable service. The suitability is calculated by the criteria scores between the selected nanoentity and the nanoentities already assigned to a service. 
+\end{description}
+
+Such greedy algorithms often end in a local maxima and not in the global maxima that represents the optimal solution. In every step the assignment decision is only based on the already assigned nanoentities. Assignments by former steps cannot be changed. 
+To improve this behavior, the algorithm should process optimization steps between or after construction. 
+
+\begin{description}
+\item[Optimization Step] One service with already assigned nanoentities is randomly chosen. Within the service, the score from each nanoentity to all its neighbors is calculated to determine the least suitable nanoentity in a service. This nanoentity is taken out of the service and put back on the list of unassigned nanoentities.
 \end{description}
 
 %TODO: illsutration?
 
-The algorithm alternates between construction and optimization steps. It finishes either after a given time, by the user stopping the optimization or by detecting that no further optimization is possible. This is detected when nanoentities taken from services in the optimization step are put back to their original service during the construction step.
+The algorithm starts with assigning the first nanoentity to a random service and then alternates between construction and optimization stages. It finishes either after a given time, by the user stopping the optimization or by detecting that no further optimization is possible. This is detected when nanoentities taken from services in an optimization step are put back to their original service during the construction step. To finish the algorithm all nanoentities must be assigned to a service.
 
-In an attempt to implement this heuristic approach we realized that even if the algorithm works well, it does not accurately solve the desired problem. The approach focuses only on cohesion within services but does not take coupling between services, that should be minimized, into consideration.
-
-While acceptable results might still be possible using this approach, we decided to focus more on graph clustering due to new findings described in the next section.
+We have not proved that this algorithm solves the desired problem. The approach focuses only on cohesion within services but does not take coupling between services into consideration. If these two requirements build a duality, meaning that optimizing one automatically optimizes the other, is to be analyzed. However, we did not continue to investigate in this approach due to new findings on graph clustering described in the next section 
 
 \subsection{New Findings on Graph Clustering}
 
