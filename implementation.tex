@@ -457,11 +457,11 @@ Currently there are four CriterionScorer implementations for different coupling 
 		\hline	
 		\textbf{Coupling Criteria} & \textbf{Scorer Implementation}  \\
 		\hline
-		Responsibility \newline Consistency Constraint \newline Identity \& Lifecycle Commonality  & CohesiveGroupCriteriaScorer \\
+		Shared Owner \newline Consistency Constraint \newline Identity \& Lifecycle Commonality  & CohesiveGroupCriteriaScorer \\
 		\hline
 		Predefined Service Constraint  & ExclusiveGroupCriteriaScorer \\ 
 		\hline
-		Security Constraint & SeparationCriteriaScorer \\
+		Security Constraint & SeparatedGroupCriteriaScorer \\
 		\hline
 		Semantic Proximity & SemanticProximityCriterionScorer \\
 		\hline
@@ -490,7 +490,7 @@ The scorer sets the maximum score of $10$ for every relation between nanoentitie
 
 A ExclusiveGroupCriteriaScorer is used for the \textit{Predefined Service Constraint} criterion. The scorer implements the same logic as a CohesiveGroupCriteriaScorer, but additionally sets a penalty of $-10$ from a nanoentity inside a group to all other nanoentities which do not share the same group.
 
-\subsubsection{SeparationCriteriaScorer}
+\subsubsection{SeparatedGroupCriteriaScorer}
 
 A SeparationCriteriaScorer is used for the criterion \textit{Security Constraint}. The criterion defines two or more groups of nanoentities which should clearly be separated into different services for security reasons. 
 
