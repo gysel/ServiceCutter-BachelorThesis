@@ -123,13 +123,13 @@ To improve this behavior, the algorithm should process optimization steps betwee
 
 %TODO: illsutration?
 
-The algorithm starts with assigning the first nanoentity to a random service and then alternates between construction and optimization stages. It finishes either after a given time, by the user stopping the optimization or by detecting that no further optimization is possible. This is detected when nanoentities taken from services in an optimization step are put back to their original service during the construction step. To finish the algorithm all nanoentities must be assigned to a service.
+The algorithm starts by assigning the first nanoentity to a random service and then alternates between construction and optimization stages. It finishes either after a given time, by the user stopping the optimization or by detecting that no further optimization is possible. This is detected when nanoentities taken from services in an optimization step are put back to their original service during the construction step. To finish the algorithm all nanoentities must be assigned to a service.
 
-We have not proved that this algorithm solves the desired problem. The approach focuses only on cohesion within services but does not take coupling between services into consideration. If these two requirements build a duality, meaning that optimizing one automatically optimizes the other, is to be analyzed. However, we did not continue to investigate in this approach due to new findings on graph clustering described in the next section 
+We have not proved that this algorithm solves the desired problem. The approach focuses only on cohesion within services but does not take coupling between services into consideration. Whether these two requirements build a duality, meaning that optimizing one automatically optimizes the other, is to be analyzed. However, we did not continue to investigate in this approach due to new findings on graph clustering described in the next section.
 
 \subsection{New Findings on Graph Clustering}
 
-Parallel to finding new approaches we continued to investigate in graph clustering.
+Parallel to finding new approaches we continued to investigate the graph clustering.
 
 By analyzing the Girvan-Newman algorithm documented in Section \ref{subsec:girvanNewman}, we were able to identify the problem encountered with the booking sample. As the sample only provides \textit{Lifecycle \& Identity Commonality} data, every pair of nanoentities in the graph was either directly or not connected at all. The calculated edge betweenness, which Girvan-Newman is based on, is therefore equal for all edges in the graph as every shortest path only passes one edge. The Gephi\cite{gephi} implementation of Girvan-Newman then consequently removes all edges in the first iteration leaving every nanoentity isolated which then results in one service per nanoentity. Adding only one more information like nanoentity characteristics or use cases solved this problem.
 
@@ -139,13 +139,13 @@ Through further research on the topic we found the algorithm defined by Leung im
 
 While all approaches possibly lead to the desired results, the new findings on the Girvan-Newman and Leung algorithms promised the best results with adequate effort. Rating possible service cuts or heuristic construction of services would both require greater effort. Together with our stakeholders we decided that the effort is not worth taking, considering that the graph clustering provides reasonable results. 
 
-We furthermore implemented a warning in the Service Cutter should a user provides input leading to the faulty behavior of Girvan-Newman as shown in Figure \ref{fig:girvanNewmanWarning}
+We furthermore implemented a warning in the Service Cutter should a user provide input leading to the faulty behavior of Girvan-Newman as shown in Figure \ref{fig:girvanNewmanWarning}
 
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[scale=0.9]{images/grivanNewmanAlert.png}
 	\end{center}
-	\caption{Service Cutter shown a warning on faulty Girvan-Newman results.}
+	\caption{Service Cutter shows a warning for faulty Girvan-Newman results.}
 	\label{fig:girvanNewmanWarning}
 \end{figure}
 	
