@@ -443,7 +443,7 @@ Prüfungsbehörde vorgelegt.
 \noindent
 We hereby declare 
 \begin{itemize}
-\item that this semester thesis and the work presented in it is our own, original work.
+\item that this bachelor thesis and the work presented in it is our own, original work.
 \item that all sources we consulted and cited are clearly attributed. We have acknowledged
 all main sources of help. 
 \item that no copyright secured material has been used by unfair means. 
