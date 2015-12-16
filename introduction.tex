@@ -25,7 +25,7 @@ To validate this first hypothesis, we created a catalog of coupling criteria as 
 	\textit{The data of the criteria catalog can be processed in a software to optimize loose coupling between and high cohesion within services in a structured and automated way.}
 \end{quote}
 
-To validate this second hypothesis, we developed a prototype based on the criteria catalog. This prototype, hence called the \enquote{Service Cutter}, analyses a system's specification and suggests candidate service cuts in order to optimize loose coupling between services and high cohesion within services. A system's specification contains a domain model, use cases and further artifacts as illustrated in Figure \ref{fig:serviceCutterIO}.
+To validate this second hypothesis, we developed a prototype based on the criteria catalog. This prototype, hence called the \enquote{Service Cutter}, analyzes a system's specification and suggests candidate service cuts in order to optimize loose coupling between services and high cohesion within services. A system's specification contains a domain model, use cases and further artifacts as illustrated in Figure \ref{fig:serviceCutterIO}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -99,7 +99,7 @@ Other approaches tackle related problems but are focused on different layers of 
 
 Kenny Bastani suggests a graph based analysis to decompose monolithic software into microservices\cite{bastani}. In his decomposition approach he focuses on dependencies from user stories to resources which resembles with our decomposition criteria \textit{Semantic Proximity} introduced in Chapter \ref{cha:decomposition}. He uses Neo4J GraphGist\cite{graphGist} to visualize the dependencies but does not run any automated analysis on the graph. 
 
-The barrio eclipse plugin\cite{dietrich2008cluster} analyses Java dependencies from Java code or bytecode. It suggests a candidate package structure by leveraging the Girvan-Newman clustering algorithm. The tool has been published as part of a students project of the Massey University, New Zealand.
+The barrio eclipse plugin\cite{dietrich2008cluster} analyzes Java dependencies from Java code or bytecode. It suggests a candidate package structure by leveraging the Girvan-Newman clustering algorithm. The tool has been published as part of a students project of the Massey University, New Zealand.
 
 \bigskip
 
