@@ -1,42 +1,81 @@
 \chapter{Working with the Service Cutter} 
 
-Benefit: structured catalog, the right questions are asked.
+This chapters helps presents possible approaches of working with the Service Cutter. Access to a test installation of the Service Cutter is preliminary to try the samples.
+
+The data import, analysis of service cuts and two possible usage scenarios are covered in this chapter.
+
+
+
+%Benefit: structured catalog, the right questions are asked.
 
 
 %TODO Potential contents of this chapter:
-\begin{itemize}
-	\item How do you organize such an interview?
-	\item Documentation of input format?
-	\item When to choose which algorithm?
-	\item Recommendations for working with the priorities.
-\end{itemize}
+%\begin{itemize}
+%	\item How do you organize such an interview?
+%	\item Documentation of input format?
+%	\item When to choose which algorithm?
+%	\item Recommendations for working with the priorities.
+%\end{itemize}
 
-This section outlines our proposed usage schemes.
+%This section outlines our proposed usage schemes.
 
 %TODO: Does this chapter make sense? it could cover the process of working with the service cutter, finding the needed information, intepreting the results and using it for decision finding and documentations (ADs). Giersche highly recommended/requested this. 
-\subsection{Data Population}
-
-\begin{enumerate}
-	\item UML Class Diagram
-	\item Use Cases or User Stories
-	\item Contextual information
-\end{enumerate}
-
-How do you initially populate all the coupling data? LOTS of knowledge is required!
-
-Hard to keep it up to date.
-
-\subsection{Usage Scenarios}
-
-- from monolith to microservices
-- green field services, replicable priorities
-
-\subsection{Interpreting the Result}
-
-?
-\subsection{Development Iterations}
-
-What to do with the output? How to feed it back into the loop in the next release cycle?
 
 
+\section{Data Import}
+
+The Service Cutter provides a data import based on the user representations.
+
+A user representation is a concept familiar to the architect that can be used to feed the criteria information into the Service Cutter. 
+
+\begin{itemize}
+\item An \textbf{\gls{ERM}} consists of data fields, entities and relationships. The data fields are imported as nanoentitites, the entities and relationships of type composition/inheritance as\textit{ Identity \& Lifecycle Commonality} and relationships of type aggegation as \textit{Semantic Proximity}.
+\item \textbf{Use cases} primarly describe the \textit{Semantic Proximity} of a group of nanoentities. They can also be marked as latency critical which when results in \textit{Latency}.
+\item \textbf{Shared owner group} represents a person, role or department that is responsible for a group of nanoentities.
+\item An \textbf{aggregate} is a \gls{DDD} pattern. 
+\item The \textbf{entity} is a \gls{DDD} pattern.
+\item A \textbf{predefined service} represents a service that already exists and and therefore is harder or impossible to change.
+\item \textbf{Separated security zones} represent groups of nanoentities that should not be combined into a common service. They are represented as \textit{Security Constraints}.
+\item A \textbf{security access group} represents a group of nanoentities that share a common security context.
+\item \textbf{Compatibilities} can be used to import all coupling criteria of type \enquote{Compatability}.
+\end{itemize}
+
+Figure \ref{fig:userrep} lists all user representations and indicates which coupling criteria they are linked to.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.6]{diagrams/UserRep-CC.pdf}
+		\caption{User representations and the related coupling criteria}
+		\label{fig:userrep}
+	\end{center}
+\end{figure}
+
+The technical format including \gls{JSON} schema files of all user representations is documented in detail on GitHub\cite{githubWiki}.
+
+\section{Service Cut Analysis}
+
+The Service Cutter offers an analysis mode. When activated, the relationships between services are visualized and the published language of the services is generated. Figure \ref{fig:service-dependency} outlines such a dependency: Nanoentities of Service A and D are read or written in a common use case. 
+
+\begin{figure}[H]
+	\centering{\includegraphics[scale=0.7]{images/screenshot-solver-analysis-example.png}}
+	\caption{Service A and Service D share a use case.}
+	\label{fig:service-dependency}
+\end{figure}
+
+The published language of Service D is visible in Figure \ref{fig:service-publang}.
+
+\begin{figure}[H]
+	\centering{\includegraphics[scale=0.7]{images/screenshot-solver-analysis-service.png}}
+	\caption{Use cases and published language of Service D}
+	\label{fig:service-publang}
+\end{figure}
+
+\section{Usage Scenarios}
+
+%TODO take from tutorial
+
+
+
+%TODO rewrite
 After introducing usage scenarios of the service cutter, the next chapter assesses the decomposition approach and the practicability of the Service Cutter
+
