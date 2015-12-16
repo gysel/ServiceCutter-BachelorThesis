@@ -154,44 +154,6 @@ Our implementation however will unlikely have anything close to the theoretical 
 The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoentities which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
 
 
-\section{Components and Packages}
-
-The Service Cutter is divided into two parts:
-
-\begin{enumerate}
-\item The \textit{Editor} is a web application and handles all user interactions.
-\item The \textit{Engine} runs in a separate Java \gls{VM} and offers the capability to upload nanoentities and coupling information. This data is then used to calculate candidate service cuts.
-\end{enumerate}
-
-We decided to split the Service Cutter into a web application and a separate engine so that the engine can be reused in a different context without the overhead of a fully fledged \gls{UI}.
-
-Figure \ref{fig:packages} introduces the important components and packages of the Service Cutter.
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[scale=1]{diagrams/PackageDiagram.pdf}
-		\caption{Components and packages of the Service Cutter}
-		\label{fig:packages}
-	\end{center}
-\end{figure}
-
-The \textit{Editor} consists of four components:
-
-\begin{itemize}
-\item \textit{Scripts} -- contains all JavaScript code and \gls{HTML} markup.
-\item \textit{Styles} -- includes the required \gls{CSS} files.
-\item \textit{Java} -- consists of the Java classes that offer access to the engine to the \gls{UI}.
-\item \textit{JHipster} -- includes a set of components provided by JHipster such as user management, authorization, authentication, logging, monitoring and others.
-\end{itemize}
-
-The Engine offers a RESTful HTTP web service and is structured into the following five packages:
-
-\begin{itemize}
-\item \textit{Importer} -- contains the service endpoint that accepts nanoentities and user representations. %TODO add reference?
-\item \textit{Solver} -- accesses the scores to create the graph, runs the algorithm and exposes the candidate service cuts on a web service. The algorithms are documented in Section \ref{sec:algorithms}.
-\item \textit{Score} -- processes the model and calculates the scores. The scores are documented in Section \ref{sec:scores}.
-\item \textit{Model} -- contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}. %TODO document?
-\end{itemize}
 
 \section{Clustering Algorithms}
 \label{sec:algorithms}
@@ -591,32 +553,76 @@ This section introduces the prototypical implementation of the Service Cutter to
 
 \subsection{Design}
 
-The design of the Service Cutter was intentionally not evaluated in detail. We therefore followed the recommendation of our industry partner and used Spring Boot\cite{springboot} and JHipster\cite{jhipster} as the underlying frameworks.
+The Service Cutter is divided into two processes:
+
+\begin{enumerate}
+	\item The \textit{Editor} is a web application and handles all user interactions.
+	\item The \textit{Engine} runs in a separate Java \gls{VM} and offers the capability to upload nanoentities and coupling information. This data is then used to calculate candidate service cuts.
+\end{enumerate}
+
+We decided to split the Service Cutter into a web application and a separate engine so that the engine can be reused in a different context without the overhead of a fully fledged \gls{UI}.
+
+Figure \ref{fig:packages} introduces the important components and packages of the Service Cutter.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=1.1]{diagrams/PackageDiagram.pdf}
+		\caption{Components and packages of the Service Cutter.}
+		\label{fig:packages}
+	\end{center}
+\end{figure}
+
+The \textit{Editor} consists of three components:
+
+\begin{description}
+	\item[Importer] is used to upload nanoentities and user representations into the Engine.
+	\item[CriteriaBrowser] is used to display all implemented coupling criteria and their description.
+	\item[Solver] is used to parametrize the decomposition calculations and to visualize candidate service cuts.
+\end{description}
+
+The Engine offers a RESTful HTTP web service for all Editor components. It contains the following packages:
+
+\begin{description}
+	%TODO document engine internal model
+	%TODO: entweder referez auf sections bei allen oder bei keinen
+	\item[Importer] contains the importer endpoint and maps user representations to the Engine internal model. 
+	\item[CouplingCriteria] contains an endpoint for the coupling criteria data to be display in the CriteriaBrowser.
+	\item[Solver] runs the scorers to create the graph, starts the algorithm, processes the result with the analyzer, and exposes the candidate service cuts on a web service.
+	\item[Analyzer] analyses the candidate service cuts to determine use case responsibilities and published language between the candidate services.
+	\item[Scorer] calculates the scores between nanoentities based on the users system definition and coupling criteria.
+	\item[Model] contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}. %TODO document?
+\end{description}
+
+
+\subsection{RESTful HTTP APIs}
+
+%TODO....
+TODO?
+
+\subsection{Technology}
+\label{subsec:technology}
+
+We followed the recommendation of our industry partner and used Spring Boot\cite{springboot} and JHipster\cite{jhipster} as the underlying frameworks.
 
 The main reasons were:
 
 \begin{itemize}
-\item Our industry partner uses them successfully.
-\item Spring Boot is considered the way to go for Spring based applications nowadays.
-\item JHipster is based on established technologies that are partially already familiar to us. Furthermore it provides a code generator and samples. This can noticeable speed up development especially in the prototyping area.
-\item We were able to implement a technological proof of concept in a few days and did not face major obstacles.
+	\item Our industry partner uses them successfully.
+	\item Spring Boot is considered the way to go for Spring based applications nowadays.
+	\item JHipster is based on established technologies that are partially already familiar to us. Furthermore it provides a code generator and samples. This can noticeable speed up development especially in the prototyping area.
+	\item We were able to implement a technological proof of concept in a few days and did not face major obstacles.
 \end{itemize}
-
-For the reasons listed above, we implemented the web application component using JHipster and the Engine using Spring Boot combined with a web service library. Section \ref{subsec:technology} discusses the utilized technologies in more detail.
-
-\subsection{Technology}
-\label{subsec:technology}
 
 
 \begin{minipage}[t]{0.5\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
 	The Service Cutter is implemented as a three tier application.
 	
-	The first tier is the web \textit{browser} of the user. The single-page application is based on AngularJS\cite{angularjs} and uses a template based on Bootstrap\cite{bootstrap}. A REST API provides access to the Editor tier.
+	The first tier is the web \textit{browser} of the user. The single-page application is based on AngularJS\cite{angularjs} and uses a template based on Bootstrap\cite{bootstrap}. A RESTful HTTP interface provides access to the Editor tier.
 	
-	The \textit{Editor} component is a web application based on the JHipster\cite{jhipster} framework. It provides the use the possibility to import this domain information using a JSON upload and feeds this information into the Engine. All security and user interface aspects are handled in this layer.
+	The \textit{Editor} component is a web application based on the JHipster\cite{jhipster} framework. It provides the user the possibility to import system information using a JSON upload and feeds this information into the Engine. All security and user interface aspects are handled in this layer.
 	
-	The \textit{Engine} is the isolated component that holds all the code to calculate candidate service cuts. It is also based on Spring technologies and provides a REST web service. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in Section \ref{subsec:infrastructure}.
+	The \textit{Engine} is the isolated component that holds the logic to calculate candidate service cuts. It is based on Spring technologies and provides a RESTful HTTP interfaces. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in the next Section.
 	
 	%TODO db/orm? -> spring data supports hibernate
 	
@@ -637,8 +643,8 @@ Technically the Service Cutter can be operated on a single server providing a re
 
 \begin{itemize}
 \item Every components runs in an isolated Docker\cite{docker} container.
-\item Docker Compose\cite{dockercompose} is used to link the Docker containers (hostnames, ports).
-\item The Engine and the Editor operate in an embedded Tomcat server as provided by Sprint Boot web.
+\item Docker Compose\cite{dockercompose} is used to connect the Docker containers.
+\item The Engine and the Editor operate in an embedded Tomcat\cite{tomcat} server as provided by Sprint Boot web.
 \item The Engine and the Editor both require a relational database. As Hibernate\cite{hibernate} and Liquibase\cite{liquibase} are used, all database related code is vendor agnostic. However we only tested the Service Cutter on Postgres 9.4\cite{postgres}.
 \end{itemize}
 
@@ -647,32 +653,11 @@ Docker provides a layer of abstraction between the application and the underlyin
 The Docker Compose definition is attached in Appendix \ref{appendix:dockerCompose}.
 
 
-\subsection{Graph Analyzing}
-
-%TODO add text
-
-\begin{figure}[H]
-	\includegraphics[scale=0.7]{images/ddd_semantic_proximity_debug.png}
-	\caption{DDD Sample Graph Visualization with Gephi Platform}
-	\label{fig:dddSampleGraph}
-\end{figure}
-
-\begin{figure}[H]
-	\includegraphics[scale=0.8]{images/ddd_semantic_proximity_debug_data.png}
-	\caption{DDD Sample Graph Data Visualization with Gephi Platform}
-	\label{fig:dddSampleData}
-\end{figure}
-
-
 \subsection{Information Security}
 
-The web application is secured using an authentication and authorization implementation. Any other internal components such as the database or web services are hidden behind the servers firewall and therefore do not need any special security measures.
+The web application is secured using an authentication and authorization implementation based on Spring Security\cite{springSecurity}. Any other internal components such as the database or web services are hidden behind the servers firewall and therefore do not need any special security measures.
 
-The uploaded data models are initially shared amongst all registered users.
-
-\subsection{User Interface}
-
-The base layout is responsive and adapts to smaller screens such as smartphones. However the tool is mostly used on devices such as laptops and the controls are therefore optimized for use on screens that are at least 15 inches wide and used with a mouse and a keyboard.
+The uploaded data models are shared amongst all registered users.
 
 
 \bigskip
