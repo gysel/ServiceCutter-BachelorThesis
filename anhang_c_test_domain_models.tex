@@ -119,14 +119,14 @@ In addition to the use cases, we defined the following characteristics.
 \item \textbf{Public}: Stock.identifier,Stock.stockName, Price.dateTime, Price.price, Price.currency, News.title, News.text, News.image
 \end{itemize} 
 
-\textbf{Volatility}
+\textbf{Content Volatility}
 
 \begin{itemize}
 \item \textbf{Often}: Price.dateTime, Price.price, Price.currency
 \item \textbf{Rarely}: AccountOwner.address, NaturalPerson.name, Company.companyName, Account.number
 \end{itemize}
 
-\textbf{Consistency}
+\textbf{Consistency Criticality}
 
 \begin{itemize}
 \item \textbf{Eventually}: Price.dateTime, Price.price, Price.currency
@@ -138,13 +138,13 @@ In addition to the use cases, we defined the following characteristics.
 \item \textbf{Huge}: News.image
 \end{itemize}
 
-\textbf{Change Similarity}
+\textbf{Structural Volatility}
 
 \begin{itemize}
 \item \textbf{Often}: Recommendation.description
 \end{itemize}
 
-\textbf{Availability}
+\textbf{Availability Criticality}
 
 \begin{itemize}
 \item \textbf{Low}: News.title, News.text, News.image, Recommendation.description
@@ -166,7 +166,7 @@ From our experience in software architecture we expect the Service Cutter to dec
 The following reasons led us to this decision.:
 \begin{itemize}
 	\item The service \textit{Order} encapsulates many use cases and contains several entities that need to be processed with high consistency (Order, Position).
-	\item The high volatility of the entity price led to the isolation of this part into a separate service \textit{Price}.
+	\item The high content volatility of the entity price led to the isolation of this part into a separate service \textit{Price}.
 	\item News are not part of the core operations and therefore require lower availability and security criticality. News images furthermore require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service.
 	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions. Moreover recommendations are, like the news, not part of the core operations and require lower availability. 
 	\item Security restrictions requires all \gls{PII} to be separated from other data. Extracting it into a \textit{Customer} service allows the architect to protect this data with additional measures. 
@@ -356,14 +356,14 @@ The following use cases describe the supported functionality of the application.
 
 In addition to the use cases, we assumed the following characteristics.
 
-\textbf{Volatility}
+\textbf{Content Volatility}
 
 \begin{itemize}
 	\item \textbf{Often}: HandlingEvent.type, HandlingEvent.completionTime, HandlingEvent.registrationTime, HandlingEvent.location, Delivery.transportStatus 
 	\item \textbf{Rarely}: Location.unLocode, Location.name
 \end{itemize} 
 
-\textbf{Change Similarity}
+\textbf{Structural Volatility}
 
 \begin{itemize}
 	\item \textbf{Rarely}: Location.unLocode, Location.name
@@ -406,7 +406,7 @@ As there are not many compatibility criteria defined, the main reasons for our d
 
 \begin{itemize}
 	\item The \textit{Voyage Service} contains all nanoentities regarding actual voyages and their movements, regardless of any cargo. 
-	\item The \textit{Location Service} is separated as a consequence of the low volatility and change similarity of these nanoentities. Locations are used and referred from almost all entities but very rarely written. This service could be categorized as a master data service.
+	\item The \textit{Location Service} is separated as a consequence of the low data and structural volatility of these nanoentities. Locations are used and referred from almost all entities but very rarely written. This service could be categorized as a master data service.
 	\item The \textit{Planning Service} handles all nanoentities regarding cargos and their itinerary. 
 	\item The \textit{Tracking Service} is responsible to track the actual events of a cargo. The aggregates defined in the DDDSample assign the delivery to the Planning Service. In our opinion the nanoentities \textit{transportStatus}, \textit{misdirected} and \textit{isUnloadedAtLocation} are better assigned to the Tracking Service as they are defined as a consequence of handling events.
 \end{itemize}
@@ -416,8 +416,8 @@ As there are not many compatibility criteria defined, the main reasons for our d
 For the Cargo Tracking System we adjusted the default priorities to the following values:
 
 \begin{itemize}
-	\item Volatility: \textit{S} instead of \textit{XS}
-	\item Change Similarity: \textit{S} instead of \textit{XS}
+	\item Content Volatility: \textit{S} instead of \textit{XS}
+	\item Structural Volatility: \textit{S} instead of \textit{XS}
 	\item Shared Owner: \textit{L} instead of \textit{M}
 \end{itemize}
 

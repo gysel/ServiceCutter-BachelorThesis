@@ -427,7 +427,7 @@ Currently there are four CriterionScorer implementations for different coupling 
 		\hline
 		Semantic Proximity & SemanticProximityCriterionScorer \\
 		\hline
-		Change Similarty \newline Consistency \newline Availability \newline Volatility \newline Storage Similarty \newline Security Criticality & CharacteristicsCriteriaScorer  \\
+		Content Volatility \newline Consistency Criticality \newline Availability Criticality \newline Volatility \newline Storage Similarty \newline Security Criticality & CharacteristicsCriteriaScorer  \\
 		\hline
 		Mutability \newline Network Traffic Suitability \newline Latency \newline Security Contextuality & No Implementation  \\
 		\hline
@@ -507,7 +507,7 @@ Both the numbers counted for access or aggregation occurrences and the reduction
 
 Each coupling criterion of type compatibility defines multiple characteristics. The idea of these criteria is to create services with as homogeneous nanoentities as possible. The scorer therefore sets negative scores for a relation between two nanoentities having different characteristics. 
 
-As an example, the criterion \textit{Change Similarity} describes how often change requests need to be implemented that affect a nanoentity. A nanoentity can have the characteristic \textit{often, normal} or \textit{rarely}. Each characteristic has a number between $0$ and $10$ assigned:
+As an example, the criterion \textit{Structural Volatility} describes how often change requests need to be implemented that affect a nanoentity. A nanoentity can have the characteristic \textit{often, normal} or \textit{rarely}. Each characteristic has a number between $0$ and $10$ assigned:
 
 Often: $10$ \newline
 Normal: $4$ \textit{(default)} \newline
@@ -531,13 +531,13 @@ Table \ref{tab:characteristics} outlines characteristics of all criteria with th
 		\hline	
 		\textbf{Criterion} & \textbf{Characteristics} \\
 		\hline
-		Change Similarity & Often 10 \newline Normal 4 \textit{(default)} \newline Rarely 0 \\
+		Structural Volatility & Often 10 \newline Normal 4 \textit{(default)} \newline Rarely 0 \\
 		\hline
-		Consistency & High 10 \textit{(default)} \newline Eventually 4 \newline Weak 0 \\
+		Consistency Criticality & High 10 \textit{(default)} \newline Eventually 4 \newline Weak 0 \\
 		\hline
-		Availability & Critical 10 \newline Normal 4 \textit{(default)} \newline Low 0 \\
+		Availability Criticality & Critical 10 \newline Normal 4 \textit{(default)} \newline Low 0 \\
 		\hline
-		Volatility & Often 10 \newline Regularly 5 \textit{(default)} \newline Rarely 0 \\
+		Content Volatility & Often 10 \newline Regularly 5 \textit{(default)} \newline Rarely 0 \\
 		\hline
 		Storage Similarity & Huge 10 \newline Normal 3 \textit{(default)} \newline Tiny 0 \\
 		\hline
