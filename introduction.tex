@@ -13,19 +13,19 @@ Nevertheless, even with microservices, the latest incarnation of service orienta
 	\textit{Deciding how to partition a system into a set of services is very much an art but there are number of strategies that can help. One approach is to partition services by verb or use case.}\cite{richardson2014microservices}
 \end{quote}
 
-As we acknowledge the suitability of the described strategies, we do believe that there is a more structured way to service decomposition. This leads us to our first hypothesis:
+We consider the described strategies as suitable approaches to service decomposition. However, we assume that service decomposition can be approached in more structured way. This leads us to our first hypothesis:
 
 \begin{quote}
-	\textit{The driving factors for service cuts in a software system can be compiled into a comprehensive criteria catalog.}
+	\textit{The driving forces for service decomposition of a software system can be assembled in a comprehensive criteria catalog.}
 \end{quote}
 
-To validate this first hypothesis, we created a catalog of coupling criteria as a product of the thesis. Taking this structured approach to service decomposition a step further, we formulated a second hypothesis:
+To validate this first hypothesis, we created a comprehensive but not conclusive catalog of coupling criteria as a product of the thesis. Taking this structured approach to service decomposition a step further, we formulated a second hypothesis:
 
 \begin{quote}
 	\textit{The data of the criteria catalog can be processed in a software to optimize loose coupling between services and high cohesion within services in a structured and automated way.}
 \end{quote}
 
-To validate this second hypothesis, we developed a prototype based on the criteria catalog. This prototype, hence called the \enquote{Service Cutter}, analyzes a system's specification and suggests candidate service cuts in order to optimize loose coupling between services and high cohesion within services. A system's specification contains a domain model, use cases and further artifacts as illustrated in Figure \ref{fig:serviceCutterIO}.
+To validate this second hypothesis, we developed a prototype based on the criteria catalog. This prototype, hence called the \enquote{Service Cutter}, analyzes a system's specification and suggests candidate service cuts in order to optimize loose coupling between services and high cohesion within services. A system's specification contains a entity-relation model, use cases and further artifacts as illustrated in Figure \ref{fig:serviceCutterIO}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -75,7 +75,7 @@ The ideas and concepts in this thesis are influenced by the work of many others.
 
 It was during a course titled \textit{Advanced Distributed Systems Design using SOA \& DDD} by Udi Dahan where our initial idea to assist service decomposition with an automated approach emerged. Dahan is the founder of NServiceBus\cite{nservicebus}, the most popular service bus for \gls{dotnet} and a well known \gls{SOA} and \gls{DDD} expert. The approach to tackle service decomposition from the 4+1 View Model\cite{fourPlusOne} is inspired by him. Approaching decomposition on the basis of data fields, or the later in the document introduced nanoentites, is motivated by his course.
 
-Further \gls{SOA} influences are provided by our supervisor Dr. Prof. O. Zimmermann throughout the project and during his course \textit{Application Architecture} at \gls{HSR}.
+Further \gls{SOA} influences are provided by our supervisor throughout the project and during his course \textit{Application Architecture} at \gls{HSR}.
 
 \subsection{Microservices}
 
@@ -83,7 +83,7 @@ In recent years, microservices substituted \gls{SOA} as the trending architectur
 
 \subsection{Domain-Driven Design}
 
-Nevertheless, decomposition is not solely a problem in distributed systems. Eric Evans introduced in his book \textit{Domain-Driven Design: Tackling Complexity in the Heart of Software}\cite{evans2003domain} a collection of patterns to handle decomposition complexity. Especially the concepts of \textit{Bounded Context}, \textit{Entity}, \textit{Published Language} were integrated in our approach.
+Nevertheless, decomposition is not solely a problem in distributed systems. Eric Evans introduced in his book \textit{Domain-Driven Design: Tackling Complexity in the Heart of Software}\cite{evans2003domain} a collection of patterns to handle decomposition complexity. Especially the concepts \textit{Aggregate}, \textit{Entity}, \textit{Published Language} and \textit{Bounded Context} were integrated in our approach and serve as input or output of the Service Cutter
 
 \section{Existing Decomposition Solutions}
 
@@ -91,13 +91,13 @@ We were not able to find projects that try to structure and automatically assist
 
 \subsection{Software Methodologies}
 
-The already introduced approaches \gls{SOA}, microservices, and \gls{DDD} discuss some decomposition criteria but do not provide a comprehensive criteria catalog. Existing concepts like the \gls{DDD} published language pattern were reused in this thesis.
+The already introduced approaches \gls{SOA}, microservices, and \gls{DDD} discuss some decomposition criteria but do not provide a comprehensive criteria catalog. 
 
-Other approaches tackle related problems but are focused on different layers of software development. \gls{OOAD} focuses more on abstractions like classes and object instances. We integrated \gls{OOAD} artifacts like the \gls{ERM} as part of the system description given to the Service Cutter as input. \gls{BPM} lies an abstraction layer above services, focusing on business processes and therefore the usage of services rather than their identification and specification. A detailed analysis on the correlation of \gls{OOAD} and \gls{BPM} with service orientation was published by IBM\cite{zimmermann2004elements}.
+Other approaches tackle related problems but are focused on different layers of software development. \gls{OOAD} focuses more on abstractions like classes and object instances. We integrated \gls{OOAD} artifacts like the \gls{ERM} as part of the system description given to the Service Cutter as input. \gls{BPM} lies an abstraction layer above services, focusing on business processes and therefore the usage of services rather than their identification and specification. A detailed analysis on the correlation of \gls{OOAD} and \gls{BPM} with service orientation was published by IBM\cite{zimmermann2004elements}. Service oriented modeling approaches like \gls{SOMA}\cite{arsanjani2004service} target similar questions as this thesis but do not provide detailed description of decomposition approaches. \gls{SOMA} suggests decomposition by use cases which resembles with our decomposition criteria \textit{Semantic Proximity} introduced in Chapter \ref{cha:decomposition}.
 
 \subsection{Decomposition Tools}
 
-Kenny Bastani suggests a graph based analysis to decompose monolithic software into microservices\cite{bastani}. In his decomposition approach he focuses on dependencies from user stories to resources which resembles with our decomposition criteria \textit{Semantic Proximity} introduced in Chapter \ref{cha:decomposition}. He uses Neo4J GraphGist\cite{graphGist} to visualize the dependencies but does not run any automated analysis on the graph. 
+Kenny Bastani suggests a graph based analysis to decompose monolithic software into microservices\cite{bastani}. In his decomposition approach he focuses on dependencies from user stories to resources. He uses Neo4J GraphGist\cite{graphGist} to visualize the dependencies but does not run any automated analysis on the graph. 
 
 The barrio eclipse plugin\cite{dietrich2008cluster} analyzes Java dependencies from Java code or bytecode. It suggests a candidate package structure by leveraging the Girvan-Newman clustering algorithm. The tool has been published as part of a students project of the Massey University, New Zealand.
 
