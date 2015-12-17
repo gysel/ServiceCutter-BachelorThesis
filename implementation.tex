@@ -136,47 +136,6 @@ Service decomposition describes the task of grouping nanoentities into services.
 	\end{figure}
 \end{minipage}
 
-\subsection{Performance}
-
-%TODO: performance of algorithm against graph building performance?
-%TODO: compare performance of algorithms?
-%TODO: weglassen? nach hinten verschieben?
-
-The theoretical number of nodes may cause performance problems. The maximum number of edges in a graph can be described using a formula: A graph of $n$ nodes, where every node is connected to all other nodes, has $e$ edges.
-
-\begin{displaymath}
-e = \frac{n(n-1)}{2}
-\end{displaymath}
-
-The number of edges grows almost quadratically as shown in Table \ref{tab:edgesCount}.
-
-\begin{table}[H]
-	\centering
-	\caption{Maximum number of edges in an undirected graph}
-	\label{tab:edgesCount}
-	\begin{tabular}{|r|r|}
-		\hline \textbf{Nodes} $n$ & \textbf{Edges} $e$ \\ 
-		\hline 2 & 1 \\ 
-		\hline 3 & 3 \\ 
-		\hline 20 & 190 \\ 
-		\hline 50 & 1'225 \\ 
-		\hline 100 & 4'950 \\ 
-		\hline 2000 & 1'999'000 \\ 
-		\hline 
-	\end{tabular} 
-\end{table}
-
-Our implementation however will unlikely have anything close to the theoretical number of edges as:
-\begin{itemize}
-	\item Coupling of type \textit{Cohesiveness} only adds edges where nanoservices are in a relationship with each other.
-	\item Coupling of type \textit{Compatibility} only adds a negative score (penalty) to existing relationships.
-	\item Coupling of type \textit{Constraint} only removes existing edges.
-\end{itemize}
-
-The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoentities which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
-
-
-
 \section{Clustering Algorithms}
 \label{sec:algorithms}
 

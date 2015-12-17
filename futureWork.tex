@@ -69,6 +69,16 @@ To compare two different candidate service cuts, a feature should be added to vi
 
 We suggested a questionnaire to assess candidate service cuts in Section \ref{sec:decompositionRequirements}. This distinction could automatically be performed by the Service Cutter and visualized using a indicator similar to a traffic light.
 
+\subsection{Performance Tuning}
+\label{sec:future-tuning}
+
+The initially defined performance requirements were descoped to allow more functional enhancements. We assume that the Service Cutter should be able to support the required volumes as outlined in Appendix \ref{app:performance}. The scorer implementation as well as the algorithms need to be verified with a large enough data set to confirm the scalability of the Service Cutter.
+
+\subsection{Licenses of Libraries}
+\label{sec:future-license}
+
+The implementation of the Girvan-Newman algorithm\cite{girvanGephi} is licensed under the GPLv3. It has to be analyzed whether the Service Cutter can be used in a commercial context. Otherwise the implementation of the Girvan-Newman algorithm has to be replaced with an alternative implementation.
+
 \section{Toolchain Integration}
 
 Providing interfaces to existing tools lowers the cost of using the Service Cutter considerably. We therefore recommend to develop integrations with popular software development tools.
