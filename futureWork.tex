@@ -1,7 +1,7 @@
 \chapter{Future Work}
 \label{cha:futureWork}
 
-This chapter explains possible enhancements of the Service Cutter and the coupling criteria catalog. %TODO check, catalog auch?
+This chapter introduces possible enhancements of the Service Cutter. 
 
 \section{Scoring}
 
@@ -27,6 +27,10 @@ If a nanoentity needs to be exposed is defined by use cases and which service is
 
 %%% verstehe ich nicht
 %Both criteria influence the cost of a service cut. Services owning immutable data with little network traffic can easily be extracted into a separated service. Mutable data causing lots of traffic however should preferrably not be extracted. The scoring concept could be enhanced to also be capable of supporting communication requirements.
+
+\subsection{Calculate Content Volatility from Use Cases}
+
+The current implementation requires a characterization of nanoentities by their content volatility. If use cases would provide information of how frequently they're executed, the content volatility of nanoentities could be calculated out of use cases. This would reduce the user's effort to specify his system.
 
 \section{Algorithms \& Approach}
 
@@ -80,8 +84,14 @@ The Service Cutter could guide the architect through a questionnaire in order to
 To improve usability and reduce the effort needed to define the input for the Service Cutter, a sophisticated user interface to create and edit user representations should be built. The user interface should simplify input creation as much as possible. One example to achieve this is to the ability to define characteristics on entities which are then applied to all nanoentities of the entity. 
 
 \subsection{Iterative Enhancements}
-%TODO: Lukas: Ich verstehe nicht wie das dann funktionieren soll? Sollen wir das nicht umschreiben sodass man models und candidate service cuts einfach persistieren kann?
-Projects are often implemented in subsequent stages. The selected service cut of the first iteration influences the design decision of the second iteration. The Service Cutter therefore should allow the user to load a previously persisted service cut into the new model.
+
+Projects are often implemented in subsequent stages. The selected service cut of the first iteration influences the design decision of the second iteration. The Service Cutter therefore should allow the user to load a previously calculated service cut into the new model.
+
+One solution would be to persist candidate service cuts and the used priorities. 
+
+\subsection{Candidate Cuts Comparison}
+
+To compare two different candidate service cuts, a feature should be added to visually illustrate differences. A history is another feature to help compare different solutions. Changes to priorities could be undone and earlier calculated results would be reloaded.
 
 \section{Toolchain Integration}
 
