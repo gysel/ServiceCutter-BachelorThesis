@@ -1,5 +1,5 @@
 
-\chapter{Service Cutter Design \& Implementation}
+\chapter{Service Cutter Design and Implementation}
 \label{cha:implementation}
 
 To satisfy the requirements defined in Chapter \ref{cha:requirements}, the Service Cutter was built. This chapter documents design and implementation aspects.
@@ -90,7 +90,7 @@ The candidate service cuts can be exported as a \gls{JSON} file as defined by th
 
 After introducing a broad overview, the next sections describe the introduced concepts in more detail. 
  
-\section{Service Decomposition using a Weighted Undirected Graph}
+\section{Decomposition by Graph Clustering}
 \label{subsec:approach1_graph}
 
 Service decomposition describes the task of grouping nanoentities into services. Achieving a good solution according to the defined coupling criteria as described in Section \ref{sec:decompositionRequirements} requires a non trivial algorithm. We approach this problem by using a weighted undirected graph and clustering algorithms as described in this section. Other approaches have been evaluated but could not provide satisfying results as documented in Appendix \ref{appendix:decompositionAppraoches}.
@@ -545,7 +545,7 @@ Table \ref{tab:characteristics} outlines characteristics of all criteria with th
 	\centering
 	\caption{Criteria characteristics with values and defaults}
 	\label{tab:characteristics}
-	\begin{tabular}{|p{100pt}|p{150pt}|}
+	\begin{tabular}{|p{150pt}|p{150pt}|}
 		\hline	
 		\textbf{Criterion} & \textbf{Characteristics} \\
 		\hline

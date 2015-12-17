@@ -3,36 +3,7 @@
 
 This chapter introduces possible enhancements of the Service Cutter. 
 
-\section{Scoring}
-
-The developed scoring process works well for our test scenarios. However other systems might require further enhancements.
-
-\subsection{Better Handling for Separations}
-\label{sec:handling-for-separations}
-
-As introduced as \textit{single dimensionality} in Section \ref{subsec:singleDimensionality}, we mapped coupling of type compatibility and constraints to negative scores. Once all coupling criteria have been processed, we remove all edges with a negative total score. This approach retains information about the coupling in a system. Finding a solution for the single dimensionality problem would lead to more accurate candidate service cuts.
-
-\subsection{Implement Criteria of Type Communication}
-
-As part of this project we only implemented 14 out of 16 identified coupling criteria. The following two criteria are solely described as part of the decomposition model in Chapter \ref{cha:decomposition}.
-
-\begin{itemize}
-\item \textit{Mutability} defined whether a nanoentity is mutable or immutable.
-\item \textit{Network Traffic Suitability} illustrates the network traffic implications when this nanoentity is exposed to a remote interface.
-\end{itemize}
-
-Both criteria of type \textit{communication} do not describe which nanoentities should or should not be modeled in the same service, but which nanoentities are more suitable for being exposed as published language and therefore used in intra service communication. For immutable data, consistency is not an issue and it is therefore simpler to handle and more suitable for published language then mutable nanoentities. Similarly, nanoentities that are frequently accessed and need high storage resources are less suitable for being exposed on the network. 
-
-If a nanoentity needs to be exposed is defined by use cases and which service is responsible for which use case. The communication criteria require that the use case accessing unsuitable nanoentities are owned by the same services as the nanoentities.
-
-%%% verstehe ich nicht
-%Both criteria influence the cost of a service cut. Services owning immutable data with little network traffic can easily be extracted into a separated service. Mutable data causing lots of traffic however should preferrably not be extracted. The scoring concept could be enhanced to also be capable of supporting communication requirements.
-
-\subsection{Calculate Content Volatility from Use Cases}
-
-The current implementation requires a characterization of nanoentities by their content volatility. If use cases would provide information of how frequently they're executed, the content volatility of nanoentities could be calculated out of use cases. This would reduce the user's effort to specify his system.
-
-\section{Algorithms \& Approach}
+\section{Algorithms and Approach}
 
 This section illustrates a series of possible improvements to the algorithms.
 
@@ -57,7 +28,7 @@ Furthermore existing algorithms may be improved with optimizations. For instance
 
 We assume that optimizations of the Service Cutter's algorithm can be achieved when the selection is not limited to existing Java implementations.
 
-\section{Tooling}
+\section{Service Cutter Improvements}
 
 A set of enhancements of the Service Cutter as a tool may increase its value to the users.
 
@@ -93,6 +64,11 @@ One solution would be to persist candidate service cuts and the used priorities.
 
 To compare two different candidate service cuts, a feature should be added to visually illustrate differences. A history is another feature to help compare different solutions. Changes to priorities could be undone and earlier calculated results would be reloaded.
 
+\subsection{Candidate Cuts Grading}
+\label{sec:suggested-cut-grades}
+
+We suggested a questionnaire to assess candidate service cuts in Section \ref{sec:decompositionRequirements}. This distinction could automatically be performed by the Service Cutter and visualized using a indicator similar to a traffic light.
+
 \section{Toolchain Integration}
 
 Providing interfaces to existing tools lowers the cost of using the Service Cutter considerably. We therefore recommend to develop integrations with popular software development tools.
@@ -109,6 +85,35 @@ Writing the required input is a significant effort. The model containing nanoent
 As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between services. 
 
 Depending on the communication layer used to communicate between services, these \gls{API}s look differently. In a messaging based system the Service Cutter could generate a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter is able to generate Swagger\cite{swagger} \gls{API} definitions for the resources which need to be part of the published language of the system. 
+
+\section{Scoring}
+
+The developed scoring process works well for our test scenarios. However other systems might require further enhancements.
+
+\subsection{Better Handling for Separations}
+\label{sec:handling-for-separations}
+
+As introduced as \textit{single dimensionality} in Section \ref{subsec:singleDimensionality}, we mapped coupling of type compatibility and constraints to negative scores. Once all coupling criteria have been processed, we remove all edges with a negative total score. This approach retains information about the coupling in a system. Finding a solution for the single dimensionality problem would lead to more accurate candidate service cuts.
+
+\subsection{Implement Criteria of Type Communication}
+
+As part of this project we only implemented 14 out of 16 identified coupling criteria. The following two criteria are solely described as part of the decomposition model in Chapter \ref{cha:decomposition}.
+
+\begin{itemize}
+\item \textit{Mutability} defined whether a nanoentity is mutable or immutable.
+\item \textit{Network Traffic Suitability} illustrates the network traffic implications when this nanoentity is exposed to a remote interface.
+\end{itemize}
+
+Both criteria of type \textit{communication} do not describe which nanoentities should or should not be modeled in the same service, but which nanoentities are more suitable for being exposed as published language and therefore used in intra service communication. For immutable data, consistency is not an issue and it is therefore simpler to handle and more suitable for published language then mutable nanoentities. Similarly, nanoentities that are frequently accessed and need high storage resources are less suitable for being exposed on the network. 
+
+If a nanoentity needs to be exposed is defined by use cases and which service is responsible for which use case. The communication criteria require that the use case accessing unsuitable nanoentities are owned by the same services as the nanoentities.
+
+%%% verstehe ich nicht
+%Both criteria influence the cost of a service cut. Services owning immutable data with little network traffic can easily be extracted into a separated service. Mutable data causing lots of traffic however should preferrably not be extracted. The scoring concept could be enhanced to also be capable of supporting communication requirements.
+
+\subsection{Calculate Content Volatility from Use Cases}
+
+The current implementation requires a characterization of nanoentities by their content volatility. If use cases would provide information of how frequently they're executed, the content volatility of nanoentities could be calculated out of use cases. This would reduce the user's effort to specify his system.
 
 \section{Conceptual Refinements}
 
@@ -142,11 +147,6 @@ A relationship between coupling criteria like the following might have significa
 \textit{Persisted nanoentities with huge storage requirements should not be placed in the same service as nanoentities with high consistency requirements as they are handled using different database technologies.}
 
 Such a relationship should be incorporated in the Service Cutter's decomposition algorithm. Another way of integration would be to present a warning to the user whenever a critical combination of characteristics appears in a candidate service cut.
-
-\section{Candidate Service Cut Grading}
-\label{sec:suggested-cut-grades}
-
-We suggested a questionnaire to assess candidate service cuts in Section \ref{sec:decompositionRequirements}. This distinction could automatically be performed by the Service Cutter and visualized using a indicator similar to a traffic light.
 
 %\section{Handling of Large Data Volumes}
 %NOTE Lukas: Ist alles bereits abgedeckt in vorherigen Sections
