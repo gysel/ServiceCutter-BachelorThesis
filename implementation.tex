@@ -2,69 +2,107 @@
 \chapter{Service Cutter Design \& Implementation}
 \label{cha:implementation}
 
-To satisfy the requirements defined in Section \ref{cha:requirements}, the Service Cutter was built. This chapter documents design and implementation aspects.
+To satisfy the requirements defined in Chapter \ref{cha:requirements}, the Service Cutter was built. This chapter documents design and implementation aspects.
 
+\section{Overview}
 
-\section{Service Cutter Process}
-%TODO weglassen?
+This overview introduces the Service Cutter process and its most important concepts.
 
-The Service Cutter's decomposition calculation is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then defines meta data on the nanoentities and their relations in a second step. During the third step, the user runs the decomposition process to receive suggestions of how the nanoentities could be split into services. He finally analyzes these candidate service cuts and compares it with his own expectations. 
+\subsection{Service Cutter Concepts}
 
-%TODO add process chart. e.g. steps: |1> >2> >3> >4> or bpmn?
+Figure \ref{fig:concepts} illustrates the important concepts the Service Cutter is based on.
 
-\subsection{Step 1: Model Initialization}
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.8]{diagrams/concepts.pdf}
+		\caption{Service Cutter Concepts}
+		\label{fig:concepts}
+	\end{center}
+\end{figure}
 
-In this step a model representing a system to be analyzed is created in the Service Cutter. The user defines all nanoentities relevant for his domain. 
+The illustration does not show technical representation of the concepts but rather their logical relations:
 
-Importing these nanoentities is possible either as a list of nanoentities or parsed from an \gls{ERM} defined in a self defined JSON representation.
+\begin{itemize}
+	\item A user representation might contain a list of nanoentities and contains data relevant for one or multiple coupling criteria.
+	\item A coupling criterion analyzes one or multiple user representations and is prioritized by its priority. Each coupling criterion has a scorer assigned. 
+	\item A scorer calculates coupling between nanoentities and is used for one or multiple coupling criteria.
+	\item A nanoentity is imported by a user representation. Its coupling to other nanoentities is scored by scorers containing relevant information.
+\end{itemize}
 
-%ZIO: a bit too short
-%TODO add REST URI and json example
+\subsection{Service Cutter Layers}
 
-\subsection{Step 2: Model Description}
+\begin{minipage}[t]{0.5\textwidth}
+	\setlength{\parskip}{5pt plus 0.1pt}	
+	The Service Cutter is split into two layers shown in \ref{fig:overviewLayers}. The \textit{Engine} contains all coupling criteria information, stores a user's system specification, and calculates candidate service cuts. The Engine provides a RESTful HTTP web service for all relevant interactions. Based on this \gls{API}, the web based \textit{Editor} provides a graphical user interface.
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}	
+	\begin{figure}[H]
+		\begin{center}
+		\includegraphics[scale=1]{diagrams/overviewLayers.pdf}
+		\caption{Service Cutter Layers}
+		\label{fig:overviewLayers}
+		\end{center}
+	\end{figure}
+	%TODO: fix layout problem for mini pages
+\end{minipage}
 
-In the second step the model is described with meta data that is used by the Service Cutter to calculate coupling between nanoentities for each coupling criteria. This meta data is imported using user representations in a self defined JSON representation.
+\subsection{Service Cutter Process}
 
-%TODO document REST URIs and JSON formats 	
+The Service Cutter's decomposition calculation is based on nanoentities. In a first step, nanoentities are inserted into the Service Cutter and define a system to be analyzed. The user then specifies his system with user representation in a second step. During the third step, the decomposition process provides candidate service cuts showing how the nanoentities could be split into services. The user finally analyzes the cuts and compares them with his own expectations. The process is illustrated in Figure \ref{fig:process}.
 
-Almost all nanoentities are related in some way to other nanoentities. The concept of a coupling criterion described in Chapter \ref{cha:decomposition} is used to characterize such relations. In this step the user needs to enhance the model with meta information about the nanoentities's characteristics and relations to each other. To improve usability well known concepts like use cases are defined as user representation which can be used to enhance the model. 
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=1]{diagrams/process.pdf}
+		\caption{Service Cutter Process}
+		\label{fig:process}
+	\end{center}
+\end{figure}
 
-Importing the user representation should either be done over a RESTful HTTP API in a self defined JSON format or using a wizard in the Service Cutter's \gls{UI}.
+\subsubsection{Step 1: System Definition}
 
-\subsection{Step 3: Decomposition}
+In this step all nanoentities of the system to be analyzed are loaded in the Service Cutter. For the prototype, the only way to define a system's nanoentities is by uploading an \gls{ERM}. An entity–relationship model consists of data fields, entities and relationships. The data fields are imported as nanoentities and define the system to be analyzed.  
 
-Once the user has added all nanoentities and coupling criteria he can start the decomposition process. An algorithm groups nanoentities in a way that a good decomposition solution as described in Section \ref{sec:decompositionRequirements} is found. 
+The \gls{ERM} is defined in a Service Cutter specific \gls{JSON} format defined by the \gls{JSON} Schema\cite{jsonSchema} in Appendix \ref{appendix:erm}. This \gls{JSON} file can either be uploaded through the Editor or directly, for example by using the Linux bash:
 
-The algorithm will then present the candidate service cuts to the user.
+%TODO MICHI reivew
+\texttt{curl -i -H "Content-Type: application/json" -X POST /} \\
+\-\hspace{40pt}\texttt{http://localhost:8090/engine/import/ -d \@booking\_1\_model.json}
 
-\subsection{Step 4: Working with Candidate Service Cuts}
+\subsubsection{Step 2: System Specification}
 
-Once candidate service cuts have been presented, the user needs to interpret them and compare it with his own expectations. There are multiple ways the provided data could be further used in the process of a software engineering project.
+The second step adds coupling information to the system's nanoentities by uploading user representations. By uploading the \gls{ERM}, the first coupling information have already been added. The entities define the \textit{Identity \& Lifecycle Commonality} criterion data and relationships of type aggregation influence the \textit{Semantic Proximity} criterion.
 
-The candidate service cuts can be exported as a \gls{JSON} file for further processing.
+The Service Cutter considers entities connected with an inheritance or a composition relation to have one identity and lifecycle. The Engine internally combines entities connected by these relations to one group of nanoentities. In order to determine which entities can be combined, we perform a topological sort\cite{pang2015topological} on the \gls{ERM} relations. 
 
-\lstset{
-   	language=JavaScript,
-   	tabsize=3,
-   	%frame=lines,
-   	caption=JSON export of a candidate service cut,
-   	label=code:cut-bookingsample,
-   	frame=shadowbox,
-   	rulesepcolor=\color{gray},
-   	xleftmargin=20pt,
-   	framexleftmargin=15pt,
-   	keywordstyle=\color{blue}\bf,
-   	commentstyle=\color{OliveGreen},
-   	stringstyle=\color{red},
-   	numbers=left,
-   	numberstyle=\tiny,
-   	numbersep=5pt,
-   	breaklines=true,
-   	showstringspaces=false,
-   	basicstyle=\footnotesize}
-\lstinputlisting{code/CandidateServiceCut-BookingSample.json}
+The \gls{ERM} is just one of many user representations to specify a system. Other user representations documented in Section \ref{sec:dataImport} are imported by the \gls{JSON} format defined by the \gls{JSON} Schema in Appendix \ref{appendix:userRepsSchema}.
 
+This JSON file can either be uploaded through the Editor or directly, for example by using the Linux bash:
 
+%TODO MICHI reivew
+\texttt{curl -i -H "Content-Type: application/json" -X POST /} \\
+\-\hspace{40pt}\texttt{http://localhost:8090/engine/import/\{systemId\}/userrepresentations -d \@booking\_2\_user\_representations.json}
+
+\subsubsection{Step 3: Service Decomposition}
+
+Once the user has defined and specified his system, he optionally sets coupling criteria priorities matching his system requirements and then starts the decomposition process. The engine groups nanoentities in a way that a good decomposition solution as described in Section \ref{sec:decompositionRequirements} is found. 
+
+The Editor then presents the candidate service cuts to the user.
+
+\subsection{Step 4: Analyse Service Cuts}
+
+Once candidate service cuts have been presented, the user needs to interpret them and compare it with his own expectations. 
+
+If use cases have been imported as user representations, the Service Cutter defines which candidate service is responsible for which use case. A use case is assigned to the service owning most of the relevant nanoentities of that use case. 
+
+%TODO better formulation
+As use cases are assigned to services, the published language between services can be calculated. The published language contains all nanoentities a service needs from other services to process his use cases. Use case responsibilities and the published language are presented to the user if existing. 
+
+The candidate service cuts can be exported as a \gls{JSON} file as defined by the \gls{JSON} Schema listed in Appendix \ref{appendix:exportSchema}.
+
+\bigskip
+
+After introducing a broad overview, the next sections describe the introduced concepts in more detail. 
+ 
 \section{Service Decomposition using a Weighted Undirected Graph}
 \label{subsec:approach1_graph}
 
@@ -74,9 +112,7 @@ Service decomposition describes the task of grouping nanoentities into services.
 	\setlength{\parskip}{5pt plus 0.1pt}	
 	To create a weighted undirected graph, every nanoentity in the model is represented by a node. Edges define a relationship between two nanoentities. The weight on each edge shows how \textit{close} or \textit{cohesive} two nanoentities are. The higher the weight, the more likely they should belong to the same service. Figure \ref{fig:weighted_graph} shows an abstract example of such a graph.
 \end{minipage}
-\begin{minipage}[t]{0.4\textwidth}
-	
-	
+\begin{minipage}[t]{0.4\textwidth}	
 	\begin{figure}[H]
 		\includegraphics[scale=0.8]{diagrams/weighted_graph.pdf}
 		\caption{Example of a Weighted Graph}
@@ -588,7 +624,7 @@ The Engine offers a RESTful HTTP web service for all Editor components. It conta
 	\item[Importer] contains the importer endpoint and maps user representations to the Engine internal model. 
 	\item[CouplingCriteria] contains an endpoint for the coupling criteria data to be display in the CriteriaBrowser.
 	\item[Solver] runs the scorers to create the graph, starts the algorithm, processes the result with the analyzer, and exposes the candidate service cuts on a web service.
-	\item[Analyzer] analyses the candidate service cuts to determine use case responsibilities and published language between the candidate services.
+	\item[Analyzer] analyzes the candidate service cuts to determine use case responsibilities and published language between the candidate services.
 	\item[Scorer] calculates the scores between nanoentities based on the users system definition and coupling criteria.
 	\item[Model] contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}. %TODO document?
 \end{description}

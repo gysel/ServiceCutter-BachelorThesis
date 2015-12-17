@@ -1,6 +1,94 @@
 \chapter{Implementation Details}
 \label{appendix:implementationDetails}
 
+This appendix contains detail documentation, code, or configuration files used to implement the Service Cutter.
+
+\section{Input and Output Formats}
+\label{appendix:ioFormats}
+
+This section lists all \gls{JSON} Schema for input and output formats.
+
+\subsection{Entity Relation Diagram}
+\label{appendix:erm}
+
+The \gls{JSON} Schema for an \gls{ERM} is listed in Listing \ref{code:ermJsonSchema}
+
+\lstset{
+	language=JavaScript,
+	tabsize=3,
+	%frame=lines,
+	caption=JSON Schema for an ERM.,
+	label=code:ermJsonSchema,
+	frame=shadowbox,
+	rulesepcolor=\color{gray},
+	xleftmargin=20pt,
+	framexleftmargin=15pt,
+	keywordstyle=\color{blue}\bf,
+	commentstyle=\color{OliveGreen},
+	stringstyle=\color{red},
+	numbers=left,
+	numberstyle=\tiny,
+	numbersep=5pt,
+	breaklines=true,
+	showstringspaces=false,
+	basicstyle=\footnotesize}
+\lstinputlisting{code/JSONSchema_1_model.json}
+
+\subsection{User Representations}
+\label{appendix:userRepsSchema}
+
+The \gls{JSON} Schema for user representations is listed in Listing \ref{code:userRepJsonSchema}
+
+\lstset{
+	language=JavaScript,
+	tabsize=3,
+	%frame=lines,
+	caption=JSON Schema for user representations.,
+	label=code:userRepJsonSchema,
+	frame=shadowbox,
+	rulesepcolor=\color{gray},
+	xleftmargin=20pt,
+	framexleftmargin=15pt,
+	keywordstyle=\color{blue}\bf,
+	commentstyle=\color{OliveGreen},
+	stringstyle=\color{red},
+	numbers=left,
+	numberstyle=\tiny,
+	numbersep=5pt,
+	breaklines=true,
+	showstringspaces=false,
+	basicstyle=\footnotesize}
+\lstinputlisting{code/JSONSchema_2_user_representations.json}
+
+\subsection{Candidate Service Export}
+\label{appendix:exportSchema}
+
+The \gls{JSON} Schema for the candidate services export is listed in Listing  \ref{code:exportSchema}
+
+\lstset{
+	language=JavaScript,
+	tabsize=3,
+	%frame=lines,
+	caption=JSON Schema for candidate services export.,
+	label=code:exportSchema,
+	frame=shadowbox,
+	rulesepcolor=\color{gray},
+	xleftmargin=20pt,
+	framexleftmargin=15pt,
+	keywordstyle=\color{blue}\bf,
+	commentstyle=\color{OliveGreen},
+	stringstyle=\color{red},
+	numbers=left,
+	numberstyle=\tiny,
+	numbersep=5pt,
+	breaklines=true,
+	showstringspaces=false,
+	basicstyle=\footnotesize}
+\lstinputlisting{code/JSONSchema_export.json}
+
+
+
+
 \section{Docker Compose}
 \label{appendix:dockerCompose}
 
