@@ -10,7 +10,7 @@ At the beginning of this project we formulated two hypothesizes. We were able to
 	\textit{The driving forces for service decomposition of a software system can be assembled in a comprehensive criteria catalog.}
 \end{quote}
 
-We successfully compiled a catalog of 16 coupling criteria that aims to form a comprehensive but  not conclusive collection. 
+We successfully compiled a catalog of 16 coupling criteria that aims to form a comprehensive but not conclusive collection. 
 
 The catalog helps a software architect to structure driving forces for service decomposition. The developed criteria may provide a basis for a common language amongst architects. 
 
@@ -48,7 +48,7 @@ Table \ref{tab:conclusionFunctional} assesses the provided solution against the 
 	\hline Coupling Criteria & 1 & All coupling criteria have been implemented in the Service Cutter.  \\ 
 	\hline User Representations & 1 & All required user representations are supported by the importer of the Service Cutter. \\ 
 	\hline Priorities & 1 & Priorities are built into the scoring process. \\ 
-	\hline Candidate Service Cuts & 1 & The Service Cutter visualizes a candidate service cut using a chart. The Candidate Services can be exported in a \gls{JSON} format documented in Appendix \ref{appendix:exportSchema} \\ 
+	\hline Candidate Service Cuts & 1 & The Service Cutter visualizes a candidate service cut using a chart. The candidate services can be exported in a \gls{JSON} format documented in Appendix \ref{appendix:exportSchema} \\ 
 	\hline Published Language & 1 & The published language is visualized when selecting a service in the visualization.  \\ 
 	\hline Hard Architectural Decisions & 2 & This feature is not explicitly implemented but partially given by non-deterministic algorithms as discussed in Section \ref{subsec:algoDiscussion}\\
 	\hline 
@@ -71,9 +71,9 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution against t
 	\hline Performance & 2 & The sample domain models can be decomposed in not more than two seconds. Extensive performance tests have not been conducted due to time budget constraints as decided with our stakeholders. \\
 	\hline Logging, \newline Deployment & 1 & Logging is based on SLF4J and a deployment based on Docker is implemented. \\
 	\hline Fault Tolerance & 1 & All errors are handled and occuring errors are logged. \\
-	\hline Maintainability & 1 & The implementation is based on two services (Editor and Engine) both built with suitable application layers. Communication between the layers is implemented with RESTful HTTP communication. Open source tools are used wherever possible. We rate this requirement  as only partially satisfied as the RESTful HTTP interfaces do not meet the richardson maturity level requirements.  \\
+	\hline Maintainability & 1 & The implementation is based on two services (Editor and Engine) both built with suitable application layers. Communication between the layers is implemented with RESTful HTTP communication. Open source tools are used wherever possible. We rate this requirement as only partially satisfied as the RESTful HTTP interfaces do not meet the Richardson maturity level requirements.  \\
 	\hline State-of-the-Art Technology & 1 & The application is based on the technology stack suggested by our industry partner. \\
-	\hline License & 1 & The source code has been released under the Apache 2.0 license. \\
+	\hline License & 2 & The source code has been released under the Apache 2.0 license. The Girvan-Newman algorithm implementation however is published under the GPL license. This dependency should be replaced with other implementations when the Service Cutter is used in a commercial environment. \\
 	\hline 
 	\end{tabular} 
 \end{table}
