@@ -62,25 +62,13 @@ The Service Cutter's decomposition calculation is based on nanoentities. In a fi
 
 In this step all nanoentities of the system to be analyzed are loaded in the Service Cutter. For the prototype, the only way to define a system's nanoentities is by uploading an \gls{ERM}. An entity–relationship model consists of data fields, entities and relationships. The data fields are imported as nanoentities and define the system to be analyzed.  
 
-The \gls{ERM} is defined in a Service Cutter specific \gls{JSON} format defined by the \gls{JSON} Schema\cite{jsonSchema} in Appendix \ref{appendix:erm}. This \gls{JSON} file can either be uploaded through the Editor or directly, for example by using the Linux bash:
-
-%TODO MICHI reivew
-\texttt{curl -i -H "Content-Type: application/json" -X POST /} \\
-\-\hspace{40pt}\texttt{http://localhost:8090/engine/import/ -d \@booking\_1\_model.json}
-
 \subsubsection{Step 2: System Specification}
 
 The second step adds coupling information to the system's nanoentities by uploading user representations. By uploading the \gls{ERM}, the first coupling information have already been added. The entities define the \textit{Identity \& Lifecycle Commonality} criterion data and relationships of type aggregation influence the \textit{Semantic Proximity} criterion.
 
 The Service Cutter considers entities connected with an inheritance or a composition relation to have one identity and lifecycle. The Engine internally combines entities connected by these relations to one group of nanoentities. In order to determine which entities can be combined, we perform a topological sort\cite{pang2015topological} on the \gls{ERM} relations. 
 
-The \gls{ERM} is just one of many user representations to specify a system. Other user representations documented in Section \ref{sec:dataImport} are imported by the \gls{JSON} format defined by the \gls{JSON} Schema in Appendix \ref{appendix:userRepsSchema}.
-
-This JSON file can either be uploaded through the Editor or directly, for example by using the Linux bash:
-
-%TODO MICHI reivew
-\texttt{curl -i -H "Content-Type: application/json" -X POST /} \\
-\-\hspace{40pt}\texttt{http://localhost:8090/engine/import/\{systemId\}/userrepresentations -d \@booking\_2\_user\_representations.json}
+The \gls{ERM} is just one of many user representations listed in Section \ref{sec:dataImport} to specify a system.  
 
 \subsubsection{Step 3: Service Decomposition}
 
@@ -88,7 +76,7 @@ Once the user has defined and specified his system, he optionally sets coupling 
 
 The Editor then presents the candidate service cuts to the user.
 
-\subsection{Step 4: Analyse Service Cuts}
+\subsubsection{Step 4: Analyse Service Cuts}
 
 Once candidate service cuts have been presented, the user needs to interpret them and compare it with his own expectations. 
 
@@ -630,11 +618,6 @@ The Engine offers a RESTful HTTP web service for all Editor components. It conta
 \end{description}
 
 
-\subsection{RESTful HTTP APIs}
-
-%TODO....
-TODO?
-
 \subsection{Technology}
 \label{subsec:technology}
 
@@ -666,11 +649,52 @@ The main reasons were:
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{figure}[H]
 		\includegraphics[scale=1]{diagrams/Technologies.pdf}
-		\caption{Technology overview}
+		\caption{Technology Overview}
 		\label{fig:technologies}
 	\end{figure}
 \end{minipage}
 
+\subsection{RESTful HTTP Interfaces}
+
+This section documents all RESTful HTTP interfaces provided by the Engine. The Editor is built on these interfaces, but they could also be used by another user interface.
+
+The required \gls{JSON} formats are specified by \gls{JSON} Schemas\cite{jsonSchema}. The schemas can be found in the \textit{JSON\_Schemas} folder. An example for a \gls{JSON} Schema is listed in \ref{appendix:exportSchema}, defining the export format of candidate service cuts. 
+
+Table \ref{tab:restApis} outlines all provided RESTful HTTP interfaces and the required \gls{JSON} specifications:
+
+\begin{table}[H]
+	\centering
+	\caption{RESTful HTTP interfaces}
+	\label{tab:restApis}
+	\begin{tabular}{|p{90pt}|p{140pt}|p{40pt}|p{80pt}|p{80pt}|}
+		\hline	
+		\textbf{Title} & \textbf{Path} & \textbf{Method} & \textbf{Request Schema} &\textbf{Response Schema} \\
+		\hline
+		importERM & /engine/import/ & POST & \textit{1\_erm} & \textit{4\_importResult} \\
+		\hline
+		importNanoentities & /engine/import/\{systemId\}/\newline nanoentities/ & POST & \textit{3\_nanoentities} & \textit{5\_userSystem} \\
+		\hline 
+		importUser\newline Representations & /engine/import/\{systemId\}/\newline userrepresentations/ & POST &  \textit{2\_userReps} &  \textit{4\_importResult} \\
+		\hline 
+		getSystems & /engine/systems/ & GET & - &  \textit{5\_userSystem} \\
+		\hline 
+		getSystem & /engine/systems/\{systemId\}/ & GET & - & \textit{5\_userSystem} \\
+		\hline 
+		createSystem & /engine/systems/ & POST & \enquote{\{\textit{name}\}} &  \textit{5\_userSystem} \\
+		\hline
+		solveSystem & /engine/solver/\{systemId\} & POST & \textit{6\_solverConfig} & \textit{7\_solverResult} \\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+This JSON files can either be uploaded through the Editor or directly, for example by using the Linux bash:
+
+%TODO MICHI reivew
+\texttt{curl -i -H "Content-Type: application/json" -X POST /} \\
+\-\hspace{40pt}\texttt{http://localhost:8090/engine/import/\{systemId\}/userrepresentations -d \@booking\_2\_user\_representations.json}
+
+While we leverage the HTTP protocol and its verbs, the interfaces are modeled as operations rather than resources. To comply with level 1 and 2 in the Richardson Maturity Model\cite{fowler2010richardson} for RESTful HTTP, the interfaces could be refactored to represent resources rather than operations. 
 
 \subsection{Deployment}
 \label{subsec:infrastructure}
