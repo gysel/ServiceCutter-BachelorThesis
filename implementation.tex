@@ -614,9 +614,29 @@ The Engine offers a RESTful HTTP web service for all Editor components. It conta
 	\item[Solver] runs the scorers to create the graph, starts the algorithm, processes the result with the analyzer, and exposes the candidate service cuts on a web service.
 	\item[Analyzer] analyzes the candidate service cuts to determine use case responsibilities and published language between the candidate services.
 	\item[Scorer] calculates the scores between nanoentities based on the users system definition and coupling criteria.
-	\item[Model] contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}. %TODO document?
+	\item[Model] contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}.
 \end{description}
 
+The next section outlines the model that is used to persist user systems and the coupling catalog. This data is owned by the engine but imported and utilized by the editor component.
+
+\subsection{Model}
+
+Figure \ref{fig:datamodel} describes the model used to persist a system with its nanoentities and the coupling catalog. All classes are persisted to a relational database using \gls{JPA} annotations and Hibernate\cite{hibernate}.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[scale=0.5]{diagrams/CouplingCriterion.png}
+		\caption{Model of a user system and the coupling catalog}
+		\label{fig:datamodel}
+	\end{center}
+\end{figure}
+
+\begin{itemize}
+\item For each imported system, a \textit{UserSystem} and a set of \textit{Nanoentity} and \textit{CouplingInstance} objects are created.
+\item The imported user representations are transformed into objects of the class \textit{CouplingInstance}. The assigned \textit{InstanceType} is used to keep track of the originating user representation.
+\item A coupling instance is linked to a \textit{CouplingCriterionCharacteristic} for a coupling criterion of type compatibility. Otherwise this relation is null.
+\item \textit{CouplingCriterionCharacteristic} and \textit{CouplingCriterion} only change in case of amendments to the coupling criteria catalog.
+\end{itemize}
 
 \subsection{Technology}
 \label{subsec:technology}
