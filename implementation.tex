@@ -72,7 +72,7 @@ The \gls{ERM} is just one of many user representations listed in Section \ref{se
 
 \subsubsection{Step 3: Service Decomposition}
 
-Once the user has defined and specified his system, he optionally sets coupling criteria priorities matching his system requirements and then starts the decomposition process. The engine groups nanoentities in a way that a good decomposition solution as described in Section \ref{sec:decompositionRequirements} is found. 
+Once the user has defined and specified his system, he optionally sets coupling criteria priorities matching his system requirements and then starts the decomposition process. The Engine groups nanoentities in a way that a good decomposition solution as described in Section \ref{sec:decompositionRequirements} is found. 
 
 The Editor then presents the candidate service cuts to the user.
 
@@ -578,7 +578,7 @@ The Service Cutter is divided into two processes:
 	\item The \textit{Engine} runs in a separate Java \gls{VM} and offers the capability to upload nanoentities and coupling information. This data is then used to calculate candidate service cuts.
 \end{enumerate}
 
-We decided to split the Service Cutter into a web application and a separate engine so that the engine can be reused in a different context without the overhead of a fully fledged \gls{UI}.
+We decided to split the Service Cutter into a web application and a separate Engine so that the Engine can be reused in a different context without the overhead of a fully fledged \gls{UI}.
 
 Figure \ref{fig:packages} introduces the important components and packages of the Service Cutter.
 
