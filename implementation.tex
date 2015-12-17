@@ -227,7 +227,7 @@ In the ordered graph in Figure \ref{fig:girvan-newman-process} Girvan-Newman wou
 	\label{fig:girvan-newman-process}
 \end{figure}
 
-Girvan-Newman receives the number of clusters as a parameter and stops as soon as the desired number has been reached. One iteration might remove multiple edges with the maximum edge betweenness. One iteration can therefore produce numerous new clusters so that the requested number of clusters cannot be provided. In this case the gephi implementation looks for a result having the least difference in number of clusters. 
+Girvan-Newman receives the number of clusters as a parameter and stops as soon as the desired number has been reached. One iteration might remove multiple edges with the maximum edge betweenness. One iteration can therefore produce numerous new clusters so that the requested number of clusters cannot be provided. In this case the gephi implementation looks for a result having the least difference in number of clusters, The Service Cutter displays a warning that the requested number of services could not be provided.
 
 As this algorithm does not include random elements, the proposed clusters are always identical.
 
