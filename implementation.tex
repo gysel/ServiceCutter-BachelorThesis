@@ -24,7 +24,7 @@ The illustration does not show technical representation of the concepts but rath
 
 \begin{itemize}
 	\item A user representation might contain a list of nanoentities and contains data relevant for one or multiple coupling criteria.
-	\item A coupling criterion analyzes one or multiple user representations and is prioritized by its priority. Each coupling criterion has a scorer assigned. 
+	\item A coupling criterion analyzes one or multiple user representations considering the given priority. Each coupling criterion has a scorer assigned. 
 	\item A scorer calculates coupling between nanoentities and is used for one or multiple coupling criteria.
 	\item A nanoentity is imported by a user representation. Its coupling to other nanoentities is scored by scorers containing relevant information.
 \end{itemize}
@@ -78,12 +78,11 @@ The Editor then presents the candidate service cuts to the user.
 
 \subsubsection{Step 4: Analyse Service Cuts}
 
-Once candidate service cuts have been presented, the user needs to interpret them and compare it with his own expectations. 
+Once candidate service cuts have been presented, the user needs to interpret them and compare them with his own expectations. 
 
 If use cases have been imported as user representations, the Service Cutter defines which candidate service is responsible for which use case. A use case is assigned to the service owning most of the relevant nanoentities of that use case. 
 
-%TODO better formulation
-As use cases are assigned to services, the published language between services can be calculated. The published language contains all nanoentities a service needs from other services to process his use cases. Use case responsibilities and the published language are presented to the user if existing. 
+Because use cases are assigned to services, the published language between services can be calculated. The published language contains all nanoentities a service needs from other services to process his use cases. Use case responsibilities and the published language are presented to the user assuming they have been loaded into the Service Cutter. 
 
 The candidate service cuts can be exported as a \gls{JSON} file as defined by the \gls{JSON} Schema listed in Appendix \ref{appendix:exportSchema}.
 
@@ -172,7 +171,6 @@ Our implementation however will unlikely have anything close to the theoretical 
 	\item Coupling of type \textit{Cohesiveness} only adds edges where nanoservices are in a relationship with each other.
 	\item Coupling of type \textit{Compatibility} only adds a negative score (penalty) to existing relationships.
 	\item Coupling of type \textit{Constraint} only removes existing edges.
-	%todo communication
 \end{itemize}
 
 The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoentities which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
@@ -311,9 +309,7 @@ This approach implies two disadvantages:
 \end{enumerate}
 
 
-Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed into the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criteria, as described later in this section, in a way that positive scoring criteria are prioritized higher. 
-
-%TODO: future work, find better solution and create a reference here
+Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed into the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criteria, as described later in this section, in a way that positive scoring criteria are prioritized higher. Section \ref{sec:handling-for-separations} outlines the need for a better concept the handle separations.
 
 \subsection{Scoring Process}
 
@@ -391,24 +387,26 @@ edgeWeight_{AB} = max(0, finalScore_{AB})
 \subsection{Default Priorities}
 \label{sec:defaultPriorities}
 
-\begin{minipage}[t]{0.5\textwidth}
+\begin{minipage}[t]{0.3\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
 
 By reasons of the single dimensionality problem described in Section \ref{subsec:singleDimensionality} we defined the default priorities for coupling criteria in a way that negatively scoring criteria are prioritized lower than positively scoring criteria. This does not apply to constraints as these commonly play an important role in the decomposition process. 
 
+De defined the following defaults for the coupling criteria types.
+
 \begin{itemize}
-\item Cohesiveness criteria: M
-\item Compatibility criteria: XS
-\item Constraints criteria: M
+\item Cohesiveness: M
+\item Compatibility: XS
+\item Constraints: M
 \end{itemize}
 
-%TODO update at the end of the project
-%TODO: ref in text
+Figure \ref{fig:priorities} demonstrates how a user can change the priorities in the Service Cutter.
+
 \end{minipage}
-\begin{minipage}[t]{0.6\textwidth}
+\begin{minipage}[t]{0.75\textwidth}
 	\begin{figure}[H]
 		\begin{center}
-			\includegraphics[scale=0.5]{images/priorities.png}
+			\includegraphics[scale=0.6]{images/priorities.png}
 			\caption{Screenshot of default priorities in the Service Cutter}
 			\label{fig:priorities}
 		\end{center}
@@ -461,10 +459,6 @@ Currently there are four CriterionScorer implementations for different coupling 
 %ZIO: too early to feature implementation?
 
 %ZIO: why this grouping? how / why different from figure in mgmt summary? (catalog overview)
-
-%ZIO: utter jump from high level (CC) to low level implementation
-
-%ZIO: add some table and domain model to bridge gap + allow user / reader to follow. CC->SC
 
 \subsubsection{CohesiveGroupCriteriaScorer}
 
@@ -607,17 +601,15 @@ The \textit{Editor} consists of three components:
 The Engine offers a RESTful HTTP web service for all Editor components. It contains the following packages:
 
 \begin{description}
-	%TODO document engine internal model
-	%TODO: entweder referez auf sections bei allen oder bei keinen
 	\item[Importer] contains the importer endpoint and maps user representations to the Engine internal model. 
-	\item[CouplingCriteria] contains an endpoint for the coupling criteria data to be display in the CriteriaBrowser.
+	\item[CouplingCriteria] contains an endpoint for the coupling criteria data to be displayed in the CriteriaBrowser.
 	\item[Solver] runs the scorers to create the graph, starts the algorithm, processes the result with the analyzer, and exposes the candidate service cuts on a web service.
 	\item[Analyzer] analyzes the candidate service cuts to determine use case responsibilities and published language between the candidate services.
 	\item[Scorer] calculates the scores between nanoentities based on the users system definition and coupling criteria.
 	\item[Model] contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}.
 \end{description}
 
-The next section outlines the model that is used to persist user systems and the coupling catalog. This data is owned by the engine but imported and utilized by the editor component.
+The next section outlines the model that is used to persist user systems and the coupling catalog. This data is owned by the Engine but imported and utilized by the Editor component.
 
 \subsection{Model}
 
@@ -663,8 +655,6 @@ The main reasons were:
 	
 	The \textit{Engine} is the isolated component that holds the logic to calculate candidate service cuts. It is based on Spring technologies and provides a RESTful HTTP interfaces. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in the next Section.
 	
-	%TODO db/orm? -> spring data supports hibernate
-	
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{figure}[H]
@@ -700,19 +690,16 @@ Table \ref{tab:restApis} outlines all provided RESTful HTTP interfaces and the r
 		\hline 
 		getSystem & /engine/systems/\{systemId\}/ & GET & - & \textit{5\_userSystem} \\
 		\hline 
-		createSystem & /engine/systems/ & POST & \enquote{\{\textit{name}\}} &  \textit{5\_userSystem} \\
+		createSystem & /engine/systems/ & POST & \texttt{"name"} &  \textit{5\_userSystem} \\
 		\hline
 		solveSystem & /engine/solver/\{systemId\} & POST & \textit{6\_solverConfig} & \textit{7\_solverResult} \\
 		\hline
 	\end{tabular}
 \end{table}
 
+These JSON files can either be uploaded through the Editor or directly, for example by using the Linux bash:
 
-This JSON files can either be uploaded through the Editor or directly, for example by using the Linux bash:
-
-%TODO MICHI reivew
-\texttt{curl -i -H "Content-Type: application/json" -X POST /} \\
-\-\hspace{40pt}\texttt{http://localhost:8090/engine/import/\{systemId\}/userrepresentations -d \@booking\_2\_user\_representations.json}
+\texttt{curl -i -H "Content-Type: application/json" -X POST \newline http://localhost:8090/engine/import/\{systemId\}/userrepresentations -d \@booking\_2\_user\_representations.json}
 
 While we leverage the HTTP protocol and its verbs, the interfaces are modeled as operations rather than resources. To comply with level 1 and 2 in the Richardson Maturity Model\cite{fowler2010richardson} for RESTful HTTP, the interfaces could be refactored to represent resources rather than operations. 
 
