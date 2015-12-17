@@ -94,7 +94,7 @@ A possible heuristic approach is to take into account one or a few coupling crit
 
 As we tried to find a heuristic approach to calculate candidate cuts, we discovered a new idea for the composition algorithm described in the next section. 
 
-\section{Approach \#3: Constructing Services with a Heuristic Greedy Algorithm}
+\section{Approach \#3: Greedy Service Construction}
 
 While analyzing the decomposition problem we realized that finding a good number of services is one of the key challenges. Cohesiveness criteria are mainly satisfied by consolidating nanoentities in one service while compatibility criteria request exactly the opposite, namely the separation of nanoentities. Figure \ref{fig:numberOfServices} illustrates this dilemma.
 
@@ -135,7 +135,7 @@ By analyzing the Girvan-Newman algorithm documented in Section \ref{subsec:girva
 
 Through further research on the topic we found the algorithm defined by Leung implemented in the GraphStream\cite{leungGraphstream} project and integrated it into the Service Cutter. First tests using the booking sample provided the expected results.
 
-\subsection{Conclusion}
+\section{Conclusion}
 
 While all approaches possibly lead to the desired results, the new findings on the Girvan-Newman and Leung algorithms promised the best results with adequate effort. Rating possible service cuts or heuristic construction of services would both require greater effort. Together with our stakeholders we decided that the effort is not worth taking, considering that the graph clustering provides reasonable results. 
 
