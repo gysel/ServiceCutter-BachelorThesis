@@ -9,21 +9,13 @@ The Service Cutter's benefits, user representations, analysis of service cuts an
 The Service Cutter offers the following benefits:
 
 \begin{itemize}
-	\item By requesting different user representations, an architect is challenged to analyze which user representations and characteristics are relevant in his system. He might use the user representations as a check list for requirements engineering.
-	\item The user representations and coupling criteria can be used to educate junior architects or students on the driving forces of service decomposition.
+	\item By requesting different user representations, an architect is challenged to analyze which user representations and characteristics are relevant in his system. He might use the user representations as a check list for requirement engineering.
+	\item The user representations and coupling criteria can further be used to educate junior architects or students on the driving forces of service decomposition.
 	\item The Service Cutter provides candidate service cuts based on the defined user representations. With these candidate service cuts the architects expectations of the number of services and their definition is either verified or challenged. 
+	\item The greenfield scenario as well as an iterative approach from moving from a monolith to service orientation are supported by the Service Cutter.
 	\item Use cases are assigned to their responsible service. The published language between services is displayed in order to assist the development of services and their interfaces to each other.
 	\item By storing the candidate service cuts, architectural decisions can be persisted and documented (not yet implemented).
-	
-	
 \end{itemize}
-
-%TODO
-%- gute candidate cuts
-%- educational aspects -> referenz auf personas
-
-
-%Benefit: structured catalog, the right questions are asked.
 
 
 %TODO Potential contents of this chapter:
@@ -34,27 +26,22 @@ The Service Cutter offers the following benefits:
 %	\item Recommendations for working with the priorities.
 %\end{itemize}
 
-%This section outlines our proposed usage schemes.
-
-%TODO: Does this chapter make sense? it could cover the process of working with the service cutter, finding the needed information, intepreting the results and using it for decision finding and documentations (ADs). Giersche highly recommended/requested this. 
-
-
 \section{User Representations}
 \label{sec:dataImport}
 
 The Service Cutter provides a data import based on the user representations.
 
-A user representation is a concept familiar to the architect that can be used to feed the criteria information into the Service Cutter. 
+A user representation is a concept familiar to the architect that can be used to feed the criteria information into the Service Cutter. The following user representations are supported:
 
 \begin{itemize}
 \item An \textbf{\gls{ERM}} consists of data fields, entities and relationships. The data fields are imported as nanoentitites, the entities and relationships of type composition/inheritance as\textit{ Identity \& Lifecycle Commonality} and relationships of type aggegation as \textit{Semantic Proximity}.
-\item \textbf{Use cases} primarly describe the \textit{Semantic Proximity} of a group of nanoentities. They can also be marked as latency critical which when results in \textit{Latency}.
-\item \textbf{Shared owner group} represents a person, role or department that is responsible for a group of nanoentities.
-\item An \textbf{aggregate} is a \gls{DDD} pattern. 
-\item The \textbf{entity} is a \gls{DDD} pattern.
-\item A \textbf{predefined service} represents a service that already exists and and therefore is harder or impossible to change.
-\item \textbf{Separated security zones} represent groups of nanoentities that should not be combined into a common service. They are represented as \textit{Security Constraints}.
-\item A \textbf{security access group} represents a group of nanoentities that share a common security context.
+\item \textbf{Use cases} primarly describe the \textit{Semantic Proximity} of a group of nanoentities. They can also be marked as latency critical which then results in \textit{Latency}.
+\item \textbf{Shared owner group} represents a person, role or department that is responsible for a group of nanoentities, defining \textit{Shared Owner}.
+\item An \textbf{aggregate} is a \gls{DDD} pattern defining a group of nanoentities that require consistency to each other which results in \textit{Consistency Constraint}. 
+\item The \textbf{entity} is a \gls{DDD} pattern defining a common lifecycle and identify for a group of nanoentities. This defines \textit{Identity \& Lifecycle Commonality}.
+\item A \textbf{predefined service} represents a service that already exists and therefore is harder or impossible to change. It defines the identically named criterion \textit{Predefined Service}.
+\item \textbf{Separated security zones} represent groups of nanoentities that should not be combined into a common service for security reasons. They are defining the \textit{Security Constraints}.
+\item A \textbf{security access group} represents a group of nanoentities that share a common security context, defining the \textit{Security Contextuality}.
 \item \textbf{Compatibilities} can be used to import all coupling criteria of type \enquote{Compatability}.
 \end{itemize}
 
@@ -68,7 +55,7 @@ Figure \ref{fig:userrep} lists all user representations and indicates which coup
 	\end{center}
 \end{figure}
 
-The technical format including \gls{JSON} schema files of all user representations is documented in detail on GitHub\cite{githubWiki}.
+The technical format including \gls{JSON} schema files of all user representations is documented in Section \ref{subsec:restApis} or in more detail on GitHub\cite{githubWiki}. 
 
 \section{Service Cut Analysis}
 
@@ -90,10 +77,13 @@ The published language of Service D is visible in Figure \ref{fig:service-publan
 
 \section{Usage Scenarios}
 
-%TODO take from tutorial
+\subsubsection{Monolith First}
 
+The most likely scenario with existing software is the transition from a monolith to a service oriented architecture. Martin Fowler recommends to use this approach for every project and to not start a project with services\cite{fowlerMonolithFirst}. The Service Cutter is able to identify candidate service cuts with a given number of services. With the algorithm set to Girvan-Newman and the number of services to 2, the Service Cutter suggests a first service to be extracted from the monolith. by iteratively increasing the number of services one can see a possible path towards a service oriented architecture .
 
+\subsubsection{Greenfield scenario}
 
-%TODO rewrite
-After introducing usage scenarios of the service cutter, the next chapter assesses the decomposition approach and the practicability of the Service Cutter
+The other scenario is the greenfield scenario when the system is not yet developed but partially specified and designed. The requested user representations can be used as checklist during requirements engineering and design processes. Specification artifacts are then loaded into the Service Cutter and candidate service cuts can be the basis for an inspiring discussion between architects. Once agreed on service cuts, the assigned use cases and published language helps to develop the services and their interfaces ot each other. 
 
+\bigskip
+The next chapter discusses the results of the thesis with the defined hypothesis's and requirements. 
