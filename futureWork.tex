@@ -22,7 +22,7 @@ An assessment of the MCL algorithm may produce better results compared to the ot
 
 \subsection{Alternative Algorithms and Optimizations of Existing Algorithms}
 
-Our evaluation of suitable graph clustering algorithms was limited to the ones having a stable Java implementation. Further research may prove that other algorithms are capable of calculating even candidate service cuts better according to the defined criteria\ref{sec:decompositionRequirements}.
+Our evaluation of suitable graph clustering algorithms was limited to the ones having a stable Java implementation. Further research may prove that other algorithms are capable of calculating candidate service cuts even better according to the defined criteria in Section \ref{sec:decompositionRequirements}.
 
 Furthermore existing algorithms may be improved with optimizations. For instance Lancichinetti and Fortunato\cite{lancichinetti2009community} valuated a set of improved versions of the Girvan-Newman algorithm as well as a collection of alternative algorithms.
 
@@ -36,7 +36,7 @@ A set of enhancements of the Service Cutter as a tool may increase its value to 
 
 It is important that the calculated data is presented to the user in a way for him to understand why the candidate service cuts have been selected. By visualizing the user's input on candidate service cuts, the user gets a better understanding of how his input and definitions affect the suggested decomposition. 
 
-Along with the user representations, the scores could be visualized per coupling criterion so that the user understands the impact of priority changes and input enhancements. However, this feature should be disabled for a novice user. 
+Along with the user representations, the scores could be visualized per coupling criterion so that the user understands the impact of priority changes and input enhancements. However, this feature should be disabled by default a novice user. 
 
 \subsection{Adjust Suggested Solutions}
 
@@ -62,7 +62,9 @@ One solution would be to persist candidate service cuts and the used priorities.
 
 \subsection{Candidate Cuts Comparison}
 
-To compare two different candidate service cuts, a feature should be added to visually illustrate differences. A history is another feature to help compare different solutions. Changes to priorities could be undone and earlier calculated results would be reloaded.
+To compare two different candidate service cuts, a feature should be added to visually illustrate differences between two solutions. 
+
+A history or back and forward buttons would be other features to help compare different solutions. Changes to parameters could be undone and earlier calculated results could be revisited.
 
 \subsection{Candidate Cuts Grading}
 \label{sec:suggested-cut-grades}
@@ -95,7 +97,7 @@ Writing the required input is a significant effort. The model containing nanoent
 
 As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between services. 
 
-Depending on the communication layer used to communicate between services, these \gls{API}s look differently. In a messaging based system the Service Cutter could generate a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter is able to generate Swagger\cite{swagger} \gls{API} definitions for the resources which need to be part of the published language of the system. 
+Depending on the communication layer used to communicate between services, these \gls{API}s look differently. In a messaging based system the Service Cutter could generate a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter could generate Swagger\cite{swagger} \gls{API} definitions for the resources which need to be part of the published language. 
 
 \section{Scoring}
 
@@ -111,7 +113,7 @@ As introduced as \textit{single dimensionality} in Section \ref{subsec:singleDim
 As part of this project we only implemented 14 out of 16 identified coupling criteria. The following two criteria are solely described as part of the decomposition model in Chapter \ref{cha:decomposition}.
 
 \begin{itemize}
-\item \textit{Mutability} defined whether a nanoentity is mutable or immutable.
+\item \textit{Mutability} defines whether a nanoentity is mutable or immutable.
 \item \textit{Network Traffic Suitability} illustrates the network traffic implications when this nanoentity is exposed to a remote interface.
 \end{itemize}
 
@@ -134,8 +136,7 @@ Besides the technical enhancements, we also collected a set of conceptual improv
 
 As outlined in Section \ref{sec:serviceIntro}, services can be analyzed from different views like the logical or physical view. Udi Dahan describes the confusion of these views as one of the common pitfalls in implementing \gls{SOA}\cite{udiViews}.
 
-In Section\ref{subsec:couplingCriteriaOverview} we categorized the coupling criteria into the views \textit{Domain}, \textit{Quality}, \textit{Physical}, and \textit{Security}. These views should be further analyzed and integrated in the Service Cutter to improve an architect's understanding of different views on his system and the definition of a service. For example, service decomposition could start with candidate bounded contexts by only considering domain criteria. These bounded contexts would further be split into services to when taking the other views into consideration.
-
+In Section\ref{subsec:couplingCriteriaOverview} we categorized the coupling criteria into the views \textit{Domain}, \textit{Quality}, \textit{Physical}, and \textit{Security}. These views should be further analyzed and integrated in the Service Cutter to improve an architect's understanding of different views on his system and the definition of a service. For example, service decomposition could start with candidate bounded contexts by only considering domain criteria. These bounded contexts would further be split into physical services by taking the other views into consideration.
 
 \subsection{Caching}
 
@@ -144,7 +145,7 @@ Caching is data redundancy that is used to reduce the cost of coupling between s
 \subsection{Document Architectural Decisions}
 
 \begin{quote}
-	Architectural decisions capture key design issues and the rationale behind chosen solutions.\cite{zioAD}
+	\textit{Architectural decisions capture key design issues and the rationale behind chosen solutions.}\cite{zioAD}
 \end{quote}
 
 Documenting architectural decisions is a significant documentation artifact of every long-term software project. In order to retrace architectural decisions taken with help of the Service Cutter, important solutions enhanced with discussion notes could be saved persistently. These notes could be captures as free text, Y-Templates\cite{zimmermann2012yTemplate} or other architectural decision templates\footnote{O. Zimmermann \textit{et al} compiled a comparison of seven publicly available decision templates\cite[p. 3]{zimmermann2015architectural}}.

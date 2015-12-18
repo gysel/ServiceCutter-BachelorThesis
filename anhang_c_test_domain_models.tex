@@ -91,17 +91,17 @@ The following ten use cases describe the supported functionality of the applicat
 \item Create Account
 	\begin{itemize}
 	\item Nanoentities written: Account.number
-	\item Nanoentities read: AccountOwner.address, NaturalPerson.name, Company.companyName
+	\item Nanoentities read: AccountOwner.address, NaturalPerson.name, \newline Company.companyName
 	\end{itemize}
 \item Create Account Owner
 	\begin{itemize}
-	\item Nanoentities written: AccountOwner.address, NaturalPerson.name, Company.companyName
+	\item Nanoentities written: AccountOwner.address, NaturalPerson.name, \newline Company.companyName
 	\item Nanoentities read: -
 	\end{itemize}
 \item View Portfolio
 	\begin{itemize}
 	\item Nanoentities written: -
-	\item Nanoentities read: Account.number, Position.balance, Stock.identifier, Stock.stockName, Order.triggerPrice, Order.amount, Order.posted, Order.expires, Order.executed, Order.type
+	\item Nanoentities read: Account.number, Position.balance, Stock.identifier, \newline Stock.stockName, Order.triggerPrice, Order.amount, Order.posted, Order.expires, Order.executed, Order.type
 	\end{itemize}
 \end{enumerate}
 
@@ -292,7 +292,7 @@ The following use cases describe the supported functionality of the application.
 	\item ViewTracking
 	\begin{itemize}
 		\item Nanoentities written: -
-		\item Nanoentities read: Cargo.trackingId, HandlingEvent.type, HandlingEvent.location, HandlingEvent.completionTime, Delivery.transportStatus, Delivery.estimatedArrivalTime, Delivery.misdirected, Voyage.voyageNumber, RouteSpecification.destination, Stock.stockName
+		\item Nanoentities read: Cargo.trackingId, HandlingEvent.type, HandlingEvent.location, HandlingEvent.completionTime, Delivery.transportStatus,\newline Delivery.estimatedArrivalTime, Delivery.misdirected, Voyage.voyageNumber, RouteSpecification.destination, Stock.stockName
 	\end{itemize}
 	
 	\item ViewCargos
@@ -315,8 +315,8 @@ The following use cases describe the supported functionality of the application.
 	
 	\item RouteCargo
 	\begin{itemize}
-		\item Nanoentities written: Itinerary.itineraryNumber, Leg.loadLocation, Leg.unloadLocation, Leg.loadTime, Leg.unloadTime
-		\item Nanoentities read: Cargo.trackingId, RouteSpecification.destination, RouteSpecification.origin, RouteSpecification.arrivalDeadline, Location.unLocode, Voyage.voyageNumber, CarrierMovement.departureLocation, CarrierMovement.arrivalLocation, CarrierMovement.departureTime, CarrierMovement.arrivalTime
+		\item Nanoentities written: Itinerary.itineraryNumber, \newline Leg.loadLocation, Leg.unloadLocation, Leg.loadTime, Leg.unloadTime
+		\item Nanoentities read: Cargo.trackingId, RouteSpecification.destination, RouteSpecification.origin, RouteSpecification.arrivalDeadline, Location.unLocode, Voyage.voyageNumber, CarrierMovement.departureLocation,\newline CarrierMovement.arrivalLocation, CarrierMovement.departureTime, CarrierMovement.arrivalTime
 	\end{itemize}
 	
 	\item Create Location
@@ -333,13 +333,13 @@ The following use cases describe the supported functionality of the application.
 	
 	\item Add CarrierMovement
 	\begin{itemize}
-		\item Nanoentities written: CarrierMovement.departureLocation, CarrierMovement.arrivalLocation, CarrierMovement.departureTime, CarrierMovement.arrivalTime
+		\item Nanoentities written: CarrierMovement.departureLocation,\newline CarrierMovement.arrivalLocation, CarrierMovement.departureTime, CarrierMovement.arrivalTime
 		\item Nanoentities read: Voyage.voyageNumber
 	\end{itemize}
 	
 	\item Handle Cargo Event
 	\begin{itemize}
-		\item Nanoentities written: HandlingEvent.type, HandlingEvent.completionTime, HandlingEvent.registrationTime, HandlingEvent.location, Delivery.transportStatus, Delivery.misdirected, Delivery.estimatedArrivalTime, Delivery.isUnloadedAtDestination, Delivery.routingStatus
+		\item Nanoentities written: HandlingEvent.type, HandlingEvent.completionTime, HandlingEvent.registrationTime, HandlingEvent.location, Delivery.transportStatus, Delivery.misdirected, Delivery.estimatedArrivalTime, \newline Delivery.isUnloadedAtDestination, Delivery.routingStatus
 		\item Nanoentities read: Voyage.voyageNumber, Cargo.trackingId
 	\end{itemize}
 \end{enumerate}
@@ -414,7 +414,7 @@ For the Cargo Tracking System we adjusted the default priorities to the followin
 The resulting candidate service cuts by the Girvan-Newman algorithm for 4 services are shown in Figure \ref{fig:dddGirvanNewman}.
 
 \begin{figure}[H]
-	\includegraphics[scale=0.7]{images/ddd_girvan_4.png}
+	\includegraphics[scale=0.6]{images/ddd_girvan_4.png}
 	\caption{Cargo Tracking System service cuts by Girvan-Newman.}
 	\label{fig:dddGirvanNewman}
 \end{figure}
@@ -426,7 +426,7 @@ None of the service contains the nanoentities as expected by us and only Service
 The split of location might be due to the fact that in most use cases only Location.unLocode is used and not Location.name. We changed the priority for \textit{Semantic Proximity} from \textit{M} to \textit{S} which resulted in the candidate service cuts shown in Figure \ref{fig:dddGirvanNewmanS}
 
 \begin{figure}[H]
-	\includegraphics[scale=0.7]{images/ddd_girvan_4_proximity_s.png}
+	\includegraphics[scale=0.6]{images/ddd_girvan_4_proximity_s.png}
 	\caption{Semantic Proximity with priority S instead of M.}
 	\label{fig:dddGirvanNewmanS}
 \end{figure}

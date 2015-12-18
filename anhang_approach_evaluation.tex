@@ -45,7 +45,7 @@ The distinct clusters requirement is satisfied by the original MCL algorithm wri
 \end{figure}
 
 Figure \ref{fig:bookingExampleGirvan} shows the unsatisfying result provided by Girvan-Newman. By reasons of these unexpected results, we consulted a professor of mathematics as documented in Appendix \ref{sec:feasibilityAssessment} which lead to the alternative approaches described in the next Sections.
-
+\clearpage
 \section{Approach \#2: Rating of Possible Service Cuts}
 
 The idea this approach introduces is to create a set of all possible service cuts and rate the cuts isolated per coupling criteria. The approach is illustrated in Figure \ref{fig:setProcess}.
@@ -63,7 +63,7 @@ This approach is processed in three steps:
 
 \begin{description}
 	\item[Partitioning] Based on the nanoentities, a set of all possible candidate service cuts is calculated. This includes every theoretically possible service cut for any number of services. For practical usage, this step needs to be optimized. 
-	\item[Assessment] For all coupling criteria a processor assesses all service cuts with a score describing how well the criteria's requirements are met. The score is a number between 0 and 10, while 10 implies that all requirements are perfectly satisfied. 
+	\item[Assessment] For all coupling criteria a scorer assesses all service cuts with a score describing how well the criteria's requirements are met. The score is a number between 0 and 10, while 10 implies that all requirements are perfectly satisfied. 
 	\item[Evaluation] The user optionally defines priorities how important each criteria is for his system. The priorities are defined with approximately exponential numbers like the Fibonacci sequence. These priorities are applied on the service cut scores. The resulting best candidate cut is then presented to the user.
 \end{description}
 
@@ -92,7 +92,7 @@ During a discussion with our industry partner and supervisor documented in Appen
 
 A possible heuristic approach is to take into account one or a few coupling criteria information about the system to find service candidates. A simple example would be to only analyze cuts where nanoentities of the same entity are not split across services so that only entities and not its nanoentities need to be considered.
 
-As we tried to find a heuristic approach to calculate candidate cuts, we discovered a new idea for the composition algorithm described in the next section. 
+As we tried to find a heuristic approach to calculate candidate cuts, we discovered a new idea for the clustering algorithm described in the next section. 
 
 \section{Approach \#3: Greedy Service Construction}
 
@@ -102,7 +102,7 @@ While analyzing the decomposition problem we realized that finding a good number
 	\begin{center}
 		\includegraphics[scale=1]{diagrams/HeuristicApproach.pdf}
 	\end{center}
-	\caption{Finding a good number of services is a key challenge of service decomposition}
+	\caption{Finding a good number of services is a key challenge of service decomposition.}
 	\label{fig:numberOfServices}
 \end{figure}
 
@@ -133,7 +133,7 @@ Parallel to finding new approaches we continued to investigate the graph cluster
 By analyzing the Girvan-Newman algorithm documented in Section \ref{subsec:girvanNewman}, we were able to identify the problem encountered with the booking sample. As the sample only provides \textit{Lifecycle \& Identity Commonality} data, every pair of nanoentities in the graph was either directly or not connected at all. The calculated edge betweenness, which Girvan-Newman is based on, is therefore equal for all edges in the graph as every shortest path only passes one edge. The Gephi\cite{gephi} implementation of Girvan-Newman then consequently removes all edges in the first iteration leaving every nanoentity isolated which then results in one service per nanoentity. Adding only one more information like nanoentity characteristics or use cases solved this problem.
 
 Through further research on the topic we found the algorithm defined by Leung implemented in the GraphStream\cite{leungGraphstream} project and integrated it into the Service Cutter. First tests using the booking sample provided the expected results.
-
+\clearpage
 \section{Conclusion}
 
 While all approaches possibly lead to the desired results, the new findings on the Girvan-Newman and Leung algorithms promised the best results with adequate effort. Rating possible service cuts or heuristic construction of services would both require greater effort. Together with our stakeholders we decided that the effort is not worth taking, considering that the graph clustering provides reasonable results. 

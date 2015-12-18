@@ -9,18 +9,20 @@ We identified two usage scenarios suitable for the Service Cutter.
 \subsubsection{Monolith First}
 \label{subsec:monolithFirst}
 
-The most likely scenario with existing software is the transition from a monolith to a service oriented architecture. Martin Fowler recommends to use this approach for every project and to not start a project with services\cite{fowlerMonolithFirst}. The Service Cutter is able to identify candidate service cuts with a given number of services. With the algorithm set to Girvan-Newman and the number of services to 2, the Service Cutter suggests a first service to be extracted from the monolith. by iteratively increasing the number of services one can see a possible path towards a service oriented architecture .
+The most likely scenario with existing software is the transition from a monolith to a service oriented architecture. Martin Fowler recommends to use this approach for every project and to not start a project with services\cite{fowlerMonolithFirst}. The Service Cutter is able to identify candidate service cuts with a given number of services. With the algorithm set to Girvan-Newman and the number of services to 2, the Service Cutter suggests a first service to be extracted from the monolith. by iteratively increasing the number of services the user can plan his process towards a service oriented architecture.
 
 \subsubsection{Greenfield Scenario}
 
-The other scenario is the greenfield scenario when the system is not yet developed but partially specified and designed. The requested user representations can be used as checklist during requirements engineering and design processes. Specification artifacts are then loaded into the Service Cutter and candidate service cuts can be the basis for an inspiring discussion between architects. Once agreed on service cuts, the assigned use cases and published language help to implement the services and their interfaces ot each other. 
+The other scenario is the greenfield scenario when the system is not yet developed but partially specified and designed. The requested user representations can be used as checklist during requirements engineering and design processes. Specification artifacts are then loaded into the Service Cutter and candidate service cuts can be the basis for an discussion between architects. Once agreed on service cuts, the assigned use cases and published language help to implement the services and their interfaces ot each other. 
+
+\clearpage
 
 \section{Benefits}
 
 The Service Cutter offers the following benefits:
 
 \begin{itemize}
-	\item By requesting different user representations, an architect is challenged to analyze which user representations and characteristics are relevant in his system. He might use the user representations as a check list for requirement engineering.
+	\item By requesting different user representations, an architect is challenged to analyze which user representations and characteristics are relevant in his system. He might use the user representations as a checklist for requirement engineering.
 	\item The user representations and coupling criteria can further be used to educate junior architects or students on the driving forces of service decomposition.
 	\item The Service Cutter provides candidate service cuts based on the defined user representations. With these candidate service cuts the architects expectations of the number of services and their definition is either verified or challenged. 
 	\item The greenfield scenario as well as an iterative approach from moving from a monolith to service orientation are supported by the Service Cutter.
@@ -39,14 +41,14 @@ All requirements are rated with a rating from $1-3$.
 \item[2] The requirement is partially satisfied.
 \item[3] The requirement is not satisfied.
 \end{description}
-
+\clearpage
 \subsection{Functional Requirements}
 
 Table \ref{tab:conclusionFunctional} assesses the provided solution against the defined functional requirements described in Section \ref{sec:functionalRequirements}.
 
 \begin{table}[H]
 	\centering
-	\caption{Assessment of functional requirements}
+	\caption{Assessment of functional requirements.}
 	\label{tab:conclusionFunctional}
 	\begin{tabular}{|p{100pt}|l|p{250pt}|}
 	\hline \textbf{Requirement} & \textbf{Rating} & \textbf{Assessment} \\ 
@@ -67,7 +69,7 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution against t
 
 \begin{table}[H]
 	\centering
-	\caption{Assessment of non-functional requirements}
+	\caption{Assessment of non-functional requirements.}
 	\label{tab:conclusionNonFunctional}
 	\begin{tabular}{|p{100pt}|l|p{250pt}|}
 	\hline \textbf{Requirement} & \textbf{Rating} & \textbf{Assessment} \\ 
@@ -75,10 +77,10 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution against t
 	\hline Simplicity & 1 & A simple analysis can be performed with 5 mouse clicks. \\
 	\hline Performance & 2 & The sample systems can be decomposed in not more than two seconds. Extensive performance tests have not been conducted due to time budget constraints as decided with our stakeholders. Section \ref{sec:future-tuning} lists this as a future activity. \\
 	\hline Logging, \newline Deployment & 1 & Logging is based on SLF4J and a deployment based on Docker is implemented. \\
-	\hline Fault Tolerance & 1 & All errors are handled and occuring errors are logged. \\
-	\hline Maintainability & 1 & The implementation is based on two services (Editor and Engine) both built with suitable application layers. Communication between the layers is implemented with RESTful HTTP communication. Open source tools are used wherever possible. We rate this requirement as only partially satisfied as the RESTful HTTP interfaces do not meet the Richardson maturity level requirements.  \\
+	\hline Fault Tolerance & 1 & All errors are handled and occuring errors are logged. The Service Cutter has remained robust even if exceptions or errors occurred. The user receives detailed validation feedback if a problem occurs while uploading JSON files. \\
+	\hline Maintainability & 2 & The implementation is based on two services (Editor and Engine) both built with suitable application layers. Communication between the layers is implemented with RESTful HTTP communication. Open source tools are used wherever possible. We rate this requirement as only partially satisfied as the RESTful HTTP interfaces do not meet the Richardson maturity level requirements.  \\
 	\hline State-of-the-Art Technology & 1 & The application is based on the technology stack suggested by our industry partner. \\
-	\hline License & 2 & The source code has been released under the Apache 2.0 license. The Girvan-Newman algorithm implementation however is published under the GPL license. This dependency should be replaced with other implementations when the Service Cutter is used in a commercial environment. Section \ref{sec:future-license} lists this task. \\
+	\hline License & 2 & The source code has been released under the Apache 2.0 license. The Girvan-Newman algorithm implementation however is published under the GPL license. This dependency should be replaced when the Service Cutter is used in a commercial environment. Section \ref{sec:future-license} lists this task. \\
 	\hline 
 	\end{tabular} 
 \end{table}
@@ -87,7 +89,7 @@ After discussing the Service Cutter's usage scenarios, benefits, and assessing t
 
 \chapter{Conclusion}
 
-This chapter evaluates the outcome of the thesis with its hypothesis's and closes with a conclusion.
+This chapter evaluates the outcome of the thesis with its hypothesis's and closes with a summary and outlook.
 
 \section{Hypothesis Evaluation}
 
@@ -114,12 +116,14 @@ In the Service Cutter assessment documented in Appendix \ref{appendix:serviceCut
 
 The hypothesis's could be validated by producing the coupling criteria catalog and the service cutter prototype. Most of the requirements were successfully implemented. The goals of the initial project definition document in Appendix \ref{appendix:projectDefinition} could be reached.
 
-The Service Cutter as of now is not a production grade architectural tool but a proof that our concept of structured and automated decomposition optimization generally works and is worth further investigations. We trust that the great value to its users will become apparent when further efforts are put in the following aspects:
+The Service Cutter as of now is not a production grade architectural tool but a proof that our concept of structured and automated decomposition optimization generally works and is worth further investigations. 
+
+Without more sophisticated means to define or import a systems specification the effort to specify a system is likely to high for an average user. We trust that the great value to its users will become apparent when further efforts are put in the following aspects:
 
 \begin{enumerate}
-	\item \textbf{Graph clustering algorithms} should further be analyzed and optimized. Possible alternative approaches as documented in Appendix \ref{appendix:decompositionAppraoches} could furthermore solve some of the conceptual challenges of the scoring process.
 	\item The \textbf{Service Cutter Prototype} should be enhanced to a production ready tool with graphical user interfaces for defining, editing, and storing a user's system specification and candidate service cuts. 
-	\item The idea of the Service Cutter should be integrated into a \textbf{toolkit chain}. The input could automatically be generated from other tools or diagrams and the output used for code or \gls{API} generation.
+	\item The Service Cutter should be integrated into a \textbf{toolkit chain}. The input could automatically be generated from other tools or diagrams and the output used for code or \gls{API} generation.
+	\item \textbf{Graph clustering algorithms} should further be analyzed and optimized. Possible alternative approaches as documented in Appendix \ref{appendix:decompositionAppraoches} could furthermore solve some of the conceptual challenges of the scoring process.
 	\item The \textbf{scoring process} for the different type of criteria should further be analyzed and tested. More sophisticated solutions for conceptual challenges like the single dimensionality problem documented in Section \ref{subsec:singleDimensionality} could improve the accuracy and meaningfulness of results. 
 \end{enumerate}
 

@@ -51,7 +51,7 @@ The algorithms listed in Table \ref{tab:algorithmEvaluation} were found by consu
 		\hline
 		HCS - Highly Connected Subgraphs\cite{hcs} & A clustering algorithm working on unweighted undirected graphs. The CLICK clustering algorithm enhances HCS for weighted edges. & Implementations only available in R. & No Java implementation  \\
 		\hline
-		Girvan–\newline Newman\cite{girvan} & A clustering algorithm working on weighted undirected graphs based on Edge-Betweenness \footnote{The amount of shortest paths between nodes going through a specific edge.}. & Java implementations exist as part of the Jung\cite{jung} framework (only unweighted graphs) and as a plugin\cite{girvanGephi} of the Gephi\cite{gephi} platform. & Positive \\
+		Girvan–\newline Newman\cite{girvan} & A clustering algorithm working on weighted undirected graphs based on Edge-Betweenness. & Java implementations exist as part of the Jung\cite{jung} framework (only unweighted graphs) and as a plugin\cite{girvanGephi} of the Gephi\cite{gephi} platform. & Positive \\
 		\hline	
 		K-means\cite{kmeans} & A clustering algorithm working with vectors in an n-dimensional space. & Multiple implementations, for example as part of the Spark\cite{spark} framework, are available. & No simple way to transform the problem from a graph to vector based representation found. \\
 		\hline
@@ -62,5 +62,5 @@ The algorithms listed in Table \ref{tab:algorithmEvaluation} were found by consu
 	\end{tabular}
 \end{table}
 
-
+The three algorithms positively assessed are MCL, Girvan-Newman and Epidemic Label Propagation. These algorithms haven been tested and further evaluated as described in Section \ref{sec:algorithms}
 

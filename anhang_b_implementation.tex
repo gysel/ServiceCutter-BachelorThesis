@@ -1,7 +1,36 @@
 \chapter{Implementation Details}
 \label{appendix:implementationDetails}
 
-This appendix contains detail documentation, code, or configuration files used to implement the Service Cutter.
+This appendix documents miscellaneous implementation details.
+
+\section{Docker Compose}
+\label{appendix:dockerCompose}
+
+A \gls{yaml} file is used to configure and start all Docker containers required for the Service Cutter. The file shown in Listing \ref{code:dockercompose} is delivered as \texttt{docker-compose.yml} in the source code of the Service Cutter.
+
+In a productive environment the default passwords have to be changed.
+
+\lstset{
+	language=,
+	tabsize=3,
+	%frame=lines,
+	caption=Docker Compose definition for the Service Cutter.,
+	label=code:dockercompose,
+	frame=shadowbox,
+	rulesepcolor=\color{gray},
+	xleftmargin=20pt,
+	framexleftmargin=15pt,
+	keywordstyle=\color{blue}\bf,
+	commentstyle=\color{OliveGreen},
+	stringstyle=\color{red},
+	numbers=left,
+	numberstyle=\tiny,
+	numbersep=5pt,
+	breaklines=true,
+	showstringspaces=false,
+	basicstyle=\footnotesize}
+\lstinputlisting{code/docker-compose.yml}
+
 
 \section{JSON Schema Export}
 \label{appendix:exportSchema}
@@ -29,36 +58,9 @@ Listing \ref{code:exportSchema} lists the JSON Schema that specifies the export 
 	basicstyle=\footnotesize}
 \lstinputlisting{code/JSONSchema_export.json}
 
-\section{Docker Compose}
-\label{appendix:dockerCompose}
-
-A \gls{yaml} file is used to configure and start all Docker containers required for the Service Cutter. The file shown in Listing \ref{code:dockercompose} is delivered as \texttt{docker-compose.yml} in the source code of the Service Cutter.
-
-In a productive environment the default passwords as defined in the Docker Compose file have to be changed.
-
-\lstset{
-   	language=,
-   	tabsize=3,
-   	%frame=lines,
-   	caption=Docker Compose definition for the Service Cutter,
-   	label=code:dockercompose,
-   	frame=shadowbox,
-   	rulesepcolor=\color{gray},
-   	xleftmargin=20pt,
-   	framexleftmargin=15pt,
-   	keywordstyle=\color{blue}\bf,
-   	commentstyle=\color{OliveGreen},
-   	stringstyle=\color{red},
-   	numbers=left,
-   	numberstyle=\tiny,
-   	numbersep=5pt,
-   	breaklines=true,
-   	showstringspaces=false,
-   	basicstyle=\footnotesize}
-\lstinputlisting{code/docker-compose.yml}
 
 
-\subsection{Performance}
+\section{Performance}
 \label{app:performance}
 
 This section theoretically discusses whether the Service Cutter scales to support large data volumes.
@@ -73,9 +75,9 @@ The number of edges grows almost quadratically with up to 1'999'000 edges for 20
 
 Our implementation however will unlikely have anything close to the theoretical number of edges as:
 \begin{itemize}
-	\item Coupling of type \textit{Cohesiveness} only adds edges where nanoservices are in a relationship with each other.
-	\item Coupling of type \textit{Compatibility} only adds a negative score (penalty) to existing relationships.
-	\item Coupling of type \textit{Constraint} only removes existing edges.
+	\item Coupling of type \textit{cohesiveness} only adds edges where nanoservices are in a relationship with each other.
+	\item Coupling of type \textit{compatibility} only adds a negative score (penalty) to existing relationships.
+	\item Coupling of type \textit{constraint} only removes existing edges.
 \end{itemize}
 
-The number of edges can therefore only cause problems when a Cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoentities which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.
+The number of edges can therefore only cause problems when a cohesiveness coupling is specified that includes a large number of nodes. An example of such a coupling is for a use case including a very large number of nanoentities which is a very unlikely case. We therefore conclude that the number of edges is probably not an issue.

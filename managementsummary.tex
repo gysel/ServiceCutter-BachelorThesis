@@ -9,7 +9,7 @@ Several methodologies exist to guide a software architect when he or she designs
 
 \subsubsection{A Structured Approach to Service Decomposition}
 
-We found no extensive description of architecturally significant requirements in existing literature on distributed systems that optimize loose coupling and high cohesion in service decomposition. We therefore compiled a catalog of 16 \glspl{couplingCriterion} that aims to form a comprehensive but not conclusive collection based on literature and the input of our industry partner and our advisor. 
+We found no extensive description of architecturally significant requirements in existing literature of distributed systems that optimize loose coupling and high cohesion in service decomposition. We therefore compiled a catalog of 16 \glspl{couplingCriterion} that aims to form a comprehensive but not conclusive collection based on literature and the input of our industry partner and our advisor. 
 
 These coupling criteria help a software architect to structure architecturally significant requirements influencing the service decomposition decisions. Figure \ref{fig:cc-catalog-mgmt-summary} outlines the criteria catalog structured in viewpoints (rows) and criteria types (columns).
  
@@ -24,9 +24,7 @@ These coupling criteria help a software architect to structure architecturally s
 
 Complementary to the catalog we described an approach to process coupling criteria in a software to optimize loose coupling between services and high cohesion within services. We prototypically implemented the Service Cutter, shown in Figure \ref{fig:ServiceCutter-mgmt-summary}, to verify this approach.
 
-The Service Cutter analyzes a user's \gls{system} based on its nanoentities. Nanoentities are elements used by a service to provide business capabilities. They are defined either as data fields, operations or artifacts. 
-
-The System is decomposed into services by defining a certain number of services and assigning all nanoentities to exactly one service.
+The Service Cutter analyzes a user's \gls{system} based on its nanoentities. Nanoentities are elements used by a service to provide business capabilities. They are defined either as data fields, operations or artifacts. The system is decomposed into services by defining a certain number of services and assigning all nanoentities to exactly one service.
 
 A user can specify his system by means of well established software artifacts such as the entity-relationship model or use cases. Based on these specifications, the coupling between nanoentities is quantified with a score for each coupling criterion. 
 
@@ -40,7 +38,7 @@ The exact importance of coupling is highly dependent on the context of a softwar
 
 \subsubsection{Decomposition by Graph Clustering}
 
-All scores are collected and utilized to construct a weighted undirected graph. The vertices represent nanoentities and the weighted edges embody the strength of the coupling between two nanoentities.	
+All scores are collected and utilized to construct a weighted, undirected graph. The vertices represent nanoentities and the weighted edges embody the strength of the coupling between two nanoentities.	
 
 Once the graph is constructed, a graph clustering algorithm calculates clusters cutting as few edges as possible. A cluster represents a candidate service. Edges connecting nodes of two clusters represent coupling between the services. This process produces candidate service cuts with high cohesion and low coupling. Figure \ref{fig:mgmt-summary-graph} illustrates a graph created to analyze a sample application.
 
@@ -63,4 +61,4 @@ We performed tests based on an imaginary \enquote{Trading System}, heavily inspi
 \subsubsection{Conclusion}
 In our thesis, we structured the architecturally significant requirements for service decomposition into the coupling criteria catalog. The test results suggest that these criteria are quantifiable and can be optimized leveraging algorithms and software. 
 
-The Service Cutter structures and assists the decision making process for new or already existing systems. We suggest that future projects either focus on tool development to integrate the Service Cutter into existing software development processes or invest in further research on the scoring and the algorithms. 
+The Service Cutter structures and assists the decision making process for new or already existing systems. We suggest that future projects either focus on tool development to integrate the Service Cutter into existing software development processes or invest in further research scoring and algorithms. 

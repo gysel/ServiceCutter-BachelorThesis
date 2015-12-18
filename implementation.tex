@@ -19,7 +19,7 @@ Figure \ref{fig:concepts} illustrates the important concepts the Service Cutter 
 		\label{fig:concepts}
 	\end{center}
 \end{figure}
-
+\clearpage
 The illustration does not show technical representation of the concepts but rather their logical relations:
 
 \begin{itemize}
@@ -31,14 +31,14 @@ The illustration does not show technical representation of the concepts but rath
 
 \subsection{Service Cutter Layers}
 
-\begin{minipage}[t]{0.5\textwidth}
+\begin{minipage}[t]{0.6\textwidth}
 	\setlength{\parskip}{5pt plus 0.1pt}	
-	The Service Cutter is split into two layers shown in \ref{fig:overviewLayers}. The \textit{Engine} contains all coupling criteria information, stores a user's system specification, and calculates candidate service cuts. The Engine provides a RESTful HTTP web service for all relevant interactions. Based on this \gls{API}, the web based \textit{Editor} provides a graphical user interface.
+	The Service Cutter is split into two layers shown in Figure \ref{fig:overviewLayers}. The \textit{Engine} contains all coupling criteria information, stores a user's system specification, and calculates candidate service cuts. The Engine provides a RESTful HTTP web service for all relevant interactions. Based on this \gls{API}, the web based \textit{Editor} provides a graphical user interface.
 \end{minipage}
-\begin{minipage}[t]{0.5\textwidth}	
+\begin{minipage}[t]{0.4\textwidth}	
 	\begin{figure}[H]
 		\begin{center}
-		\includegraphics[scale=1]{diagrams/overviewLayers.pdf}
+		\includegraphics[scale=0.8]{diagrams/overviewLayers.pdf}
 		\caption{Service Cutter Layers}
 		\label{fig:overviewLayers}
 		\end{center}
@@ -97,7 +97,7 @@ After introducing a broad overview, the next sections describe the introduced co
  A user representation is a concept familiar to the architect that can be used to feed the criteria information into the Service Cutter. The following user representations are supported:
  
  \begin{itemize}
- 	\item An \textbf{\gls{ERM}} consists of data fields, entities and relationships. The data fields are imported as nanoentitites, the entities and relationships of type composition/inheritance as\textit{ Identity \& Lifecycle Commonality} and relationships of type aggegation as \textit{Semantic Proximity}.
+ 	\item An \textbf{\gls{ERM}} consists of data fields, entities and relationships. The data fields are imported as nanoentitites, the entities and relationships of type composition or inheritance as\textit{ Identity \& Lifecycle Commonality} and relationships of type aggegation as \textit{Semantic Proximity}.
  	\item \textbf{Use cases} primarly describe the \textit{Semantic Proximity} of a group of nanoentities. They can also be marked as latency critical which then results in \textit{Latency}.
  	\item \textbf{Shared owner group} represents a person, role or department that is responsible for a group of nanoentities, defining \textit{Shared Owner}.
  	\item An \textbf{aggregate} is a \gls{DDD} pattern defining a group of nanoentities that require consistency to each other which results in \textit{Consistency Constraint}. 
@@ -105,7 +105,7 @@ After introducing a broad overview, the next sections describe the introduced co
  	\item A \textbf{predefined service} represents a service that already exists and therefore is harder or impossible to change. It defines the identically named criterion \textit{Predefined Service}.
  	\item \textbf{Separated security zones} represent groups of nanoentities that should not be combined into a common service for security reasons. They are defining the \textit{Security Constraints}.
  	\item A \textbf{security access group} represents a group of nanoentities that share a common security context, defining the \textit{Security Contextuality}.
- 	\item \textbf{Compatibilities} can be used to import all coupling criteria of type \enquote{Compatability}.
+ 	\item \textbf{Compatibilities} can be used to import all coupling criteria of type \textit{Compatability}.
  \end{itemize}
  
  Figure \ref{fig:userrep} lists all user representations and indicates which coupling criteria they are linked to.
@@ -118,9 +118,9 @@ After introducing a broad overview, the next sections describe the introduced co
  	\end{center}
  \end{figure}
  
- The technical format including \gls{JSON} schema files of all user representations is documented in Section \ref{subsec:restApis} or in more detail on GitHub\cite{githubWiki}. 
+ The technical format including \gls{JSON} schema files of all user representations is documented in Section \ref{subsec:restApis} or in more detail on the GitHub wiki\cite{githubWiki}. 
  
- 
+ \clearpage
 \section{Decomposition by Graph Clustering}
 \label{subsec:approach1_graph}
 
@@ -144,7 +144,7 @@ Service decomposition describes the task of grouping nanoentities into services.
 	
 	%ZIO: a bit abstract. concrete example needed to appreciate. input/output jedes schrittes nennen/zeigen
 	
-	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations like an \gls{ERM} or use cases are imported. The \textit{importer} component extracts the nanoentities and the coupling meta data stores this information in a database.
+	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations like an \gls{ERM} or use cases are imported. The \textit{Importer} component extracts the nanoentities and the coupling meta data and stores this information in a database.
 	
 	The \textit{Solver} then creates all vertices from the nanoentities and builds weighted edges between them according to the stored coupling criteria instances. This task is complex for the following reasons:
 	
@@ -226,17 +226,26 @@ As this algorithm does not include random elements, the proposed clusters are al
 
 In 2009 Leung \textit{et al}\cite{leung} refined the \enquote{Epidemic Label Propagation} algorithm as proposed by Raghavan \textit{et al}\cite{raghavan} in 2007. 
 
-Raghvan described the algorithm as follows: \enquote{Each node in the network chooses to
+Raghvan described the algorithm as follows: 
+
+\begin{quote}
+\textit{Each node in the network chooses to
 join the community to which the maximum number of its neighbors belong to, with ties broken uniformly randomly. We initialize every node with unique labels and let the labels propagate through the network. As the labels propagate, densely connected groups of nodes quickly reach a consensus on a unique label.}\cite[p. 4]{raghavan}.
+\end{quote}
 
 Leung does not specify an order in which nodes are to be processed. Therefore the labels may spread differently in repeated runs. We witnessed varying clusters while testing the Service Cutter as document in Appendix \ref{appendix:serviceCutterAssessment}.
 
 The algorithm occasionally forms so called \enquote{monster} families as described by Leung \textit{et al} resulting in a drop of cohesion in a cluster. 
 
-\enquote{[\dots] certain communities do not form strong enough links to prevent a foreign \enquote{epidemic} to sweep through.}\cite[p. 5]{leung}
+\begin{quote}
+\textit{[\dots] certain communities do not form strong enough links to prevent a foreign \enquote{epidemic} to sweep through.}\cite[p. 5]{leung}
+\end{quote}
 
-Leung \textit{et al} therefore refined the algorithm by adding a \enquote{Hop Attenuation Factor} $\delta$ to prevent labels from spreading across two clusters. He explains: \enquote{The value $\delta$ governs how far a particular label can spread as a function of the geodesic distance from its origin. This additional parameter adds in extra uncertainties
-to the algorithm but may encourage a stronger local community to form before a large cluster start to dominate.}\cite[p. 5]{leung}
+Leung \textit{et al} therefore refined the algorithm by adding a \enquote{Hop Attenuation Factor} $\delta$ to prevent labels from spreading across two clusters. He explains:
+
+\begin{quote}
+ \textit{The value $\delta$ governs how far a particular label can spread as a function of the geodesic distance from its origin. This additional parameter adds in extra uncertainties to the algorithm but may encourage a stronger local community to form before a large cluster start to dominate.}\cite[p. 5]{leung}
+\end{quote}
 
 This parameters decelerates the propagation of a cluster from its origin and therefore encourages a stronger local cluster to form before a large cluster starts to dominate.
 
@@ -264,6 +273,10 @@ Furthermore the parameter allows to help in the process of emerging from a monol
 Nevertheless, algorithms requesting the number of services as a parameter hand over the responsibility to answer this critical question to the user instead of answering it itself. Our industry partner pointed out that architects are often prejudiced on the number of services their system should be composed of. Having the Service Cutter providing not only the content of each service but also the number of services challenges the user to reassess his ideas against the candidate service cuts provided. 
 
 After analyzing and evaluating  different algorithms, the next section documents the scoring process used to define the weights between on edges between nodes.
+
+\bigskip
+
+After documenting the algorithm evaluation, the next section describes the scoring process used to define the weights of the edges in the graph.
 
 \section{Scoring}
 \label{sec:scores}
@@ -301,7 +314,7 @@ Nevertheless, the practical assessment documented in Appendix \ref{appendix:serv
 
 \subsection{Scoring Process}
 
-To determine the final score between two nanoentities three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Finally the prioritized scores of all criteria are summed up to a final score.
+To determine the final score between two nanoentities, three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Finally the prioritized scores of all criteria are summed up to a final score.
 
 \subsubsection{Step 1: Score by Coupling Criterion}
 
@@ -348,7 +361,7 @@ In the second step, the coupling criteria are prioritized relatively to each oth
 
 The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of our industry partner and inspired by agile estimation scales\footnote{Alex Yakyma wrote an insightful paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
 
-Having very high values allows analyzing a system in the Service Cutter with focus on one or two coupling criteria only as giving a criterion the priority XXL quickly makes it more important than many of the other criteria together. With progressive values we obtain this ability while still keeping the number of priorities small in order to make it simpler to map each criterion to a priority. 
+Having very high values, allows analyzing a system in the Service Cutter with focus on one or two coupling criteria only, as giving a criterion the priority XXL quickly makes it more important than many of the other criteria together. With progressive values we obtain this ability while still keeping the number of priorities small in order to make it simpler to map each criterion to a priority. 
 
 The priority of each criterion is multiplied with all scores given by that criterion. 
 \begin{displaymath}
@@ -375,12 +388,12 @@ edgeWeight_{AB} = max(0, finalScore_{AB})
 \subsection{Default Priorities}
 \label{sec:defaultPriorities}
 
-\begin{minipage}[t]{0.3\textwidth}
+\begin{minipage}[t]{0.4\textwidth}
 \setlength{\parskip}{5pt plus 0.1pt}
 
 By reasons of the single dimensionality problem described in Section \ref{subsec:singleDimensionality} we defined the default priorities for coupling criteria in a way that negatively scoring criteria are prioritized lower than positively scoring criteria. This does not apply to constraints as these commonly play an important role in the decomposition process. 
 
-De defined the following defaults for the coupling criteria types.
+We defined the following defaults for the coupling criteria types.
 
 \begin{itemize}
 \item Cohesiveness: M
@@ -391,7 +404,7 @@ De defined the following defaults for the coupling criteria types.
 Figure \ref{fig:priorities} demonstrates how a user can change the priorities in the Service Cutter.
 
 \end{minipage}
-\begin{minipage}[t]{0.75\textwidth}
+\begin{minipage}[t]{0.6\textwidth}
 	\begin{figure}[H]
 		\begin{center}
 			\includegraphics[scale=0.6]{images/priorities.png}
@@ -415,8 +428,7 @@ Figure \ref{fig:scorer} shows the CriterionScorer interface used to calculate cr
 	\end{center}
 \end{figure}
 
-
-Currently there are four CriterionScorer implementations for different coupling criteria. Not all criteria have a suitable implementation yet, as we prioritized the criteria during the project as there was not enough time to implement the scoring for all criteria. Table \ref{tab:scorer} outlines which implementation is used for which coupling criterion.
+Table \ref{tab:scorer} outlines which implementation is used for which coupling criterion.
 
 \begin{table}[H]
 	\centering
@@ -479,7 +491,7 @@ SCORE\_READ\_ACCESS: 3  \newline
 SCORE\_MIXED\_ACCESS: 3 \newline 
 SCORE\_AGGREGATION: 1 \newline 
 
-These values are only used for the intermediate score and are not to be confound with the criterion score of $-10$ to $10$. More important than the actual numbers are the relative differences to each other which define the importance of the occurrences. Our defaults listed above put a strong emphasis on mutual write access. 
+More important than the actual numbers are the relative differences to each other which define the importance of the occurrences. Literature for \textit{Semantic Proximity} listed in Chapter \ref{cha:decomposition} suggests that one of the important coupling criteria is, which nanoentities are changed by the same use cases. We therefore set the default values above in a way that emphasizes common write occurrences the most. 
 
 To reduce the intermediate score to the criterion score, the following rules are applied:
 
@@ -489,7 +501,6 @@ To reduce the intermediate score to the criterion score, the following rules are
 \end{itemize}
 
 The calculation for the lower 90\% works as following:
-
 
 \begin{equation}
 \frac{referenceIntermediateScore}{x} = 10
@@ -501,7 +512,7 @@ x = \frac{referenceIntermediateScore}{10}
 criterionScore_{AB} = \frac{intermediateScore_{AB}}{X}
 \end{equation}
 
-Both the numbers counted for access or aggregation occurrences and the reduction to the criterion score have been experimentally evaluated. The algorithm documented here has proven to produce reasonable results for the example systems tested but might require further investigations for other systems. 
+Both the numbers counted for access or aggregation occurrences and the reduction to the criterion score have been experimentally evaluated. The algorithm documented here has proven to produce reasonable results for the example systems but might require further investigations for other systems. 
 
 \subsubsection{CharacteristicsCriteriaScorer}
 
@@ -517,11 +528,9 @@ Two nanoentities with different characteristics receive a negative score with th
 
 It is important that the highest and lowest number have a difference of $10$ to fully use the range a criterion has to rate a relation. \newline In this case there is an intermediate value of $4$ for the \textit{normal} characteristic. In our experience the often changing nanoentities are the most interesting and have the highest impact on service decomposition. With using the number $4$ instead of $5$ for \textit{normal} we put an emphasis on \textit{often} as the differences to this characteristics become bigger. 
 
-To improve usability we introduced default values so that a user does not need to define characteristics of all criteria for all nanoentities. 
+To improve usability we introduced default characteristics so that a user does not need to define characteristics of all criteria for all nanoentities. 
 
-Table \ref{tab:characteristics} outlines characteristics of all criteria with their values and defaults. Both, the numbers and defaults are configurable for advanced users to better suit a systems requirements. 
-
-%ZIO: sorry, i'm lost (in details)...
+Table \ref{tab:characteristics} outlines characteristics of all criteria with their values and defaults. 
 
 \begin{table}[H]
 	\centering
@@ -546,9 +555,13 @@ Table \ref{tab:characteristics} outlines characteristics of all criteria with th
 	\end{tabular}
 \end{table}
 
+\bigskip
+
+After covering the algorithm evaluation and scoring process, the next section documents the implementation and design of  the prototype.
+
 \section{Prototype} 
 
-This section introduces the prototypical implementation of the Service Cutter to verify the feasibility of the decomposition approach presented in the previous section.
+This section introduces the prototypical implementation of the Service Cutter.
 
 \subsection{Design}
 
@@ -586,8 +599,8 @@ The Engine offers a RESTful HTTP web service for all Editor components. It conta
 	\item[CouplingCriteria] contains an endpoint for the coupling criteria data to be displayed in the CriteriaBrowser.
 	\item[Solver] runs the scorers to create the graph, starts the algorithm, processes the result with the analyzer, and exposes the candidate service cuts on a web service.
 	\item[Analyzer] analyzes the candidate service cuts to determine use case responsibilities and published language between the candidate services.
-	\item[Scorer] calculates the scores between nanoentities based on the users system definition and coupling criteria.
-	\item[Model] contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database. All repositories are based on Spring Data\cite{springdata}.
+	\item[Scorer] calculates the scores between nanoentities based on the users system specification and coupling criteria.
+	\item[Model] contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database.
 \end{description}
 
 The next section outlines the model that is used to persist user systems and the coupling catalog. This data is owned by the Engine but imported and utilized by the Editor component.
@@ -598,7 +611,7 @@ Figure \ref{fig:datamodel} describes the model used to persist a system with its
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[scale=0.5]{diagrams/CouplingCriterion.png}
+		\includegraphics[scale=0.7]{diagrams/CouplingCriterion.png}
 		\caption{Model of a user system and the coupling catalog.}
 		\label{fig:datamodel}
 	\end{center}
@@ -620,7 +633,7 @@ The main reasons were:
 
 \begin{itemize}
 	\item Our industry partner uses them successfully.
-	\item Spring Boot is considered the way to go for Spring based applications nowadays.
+	\item Spring Boot is considered state-of-the-art for Spring based applications nowadays.
 	\item JHipster is based on established technologies that are partially already familiar to us. Furthermore it provides a code generator and samples. This can noticeable speed up development especially in the prototyping area.
 	\item We were able to implement a technological proof of concept in a few days and did not face major obstacles.
 \end{itemize}
@@ -630,11 +643,11 @@ The main reasons were:
 \setlength{\parskip}{5pt plus 0.1pt}
 	The Service Cutter is implemented as a three tier application.
 	
-	The first tier is the web \textit{browser} of the user. The single-page application is based on AngularJS\cite{angularjs} and uses a template based on Bootstrap\cite{bootstrap}. A RESTful HTTP interface provides access to the Editor tier. Graph visualizations are implemented using the vis.js library\cite{visjs}.
+	The first tier is the web \textit{browser} of the user. The application is based on AngularJS\cite{angularjs} and uses a template based on Bootstrap\cite{bootstrap}. A RESTful HTTP interface provides access to the Editor tier. Graph visualizations are implemented using the vis.js library\cite{visjs}.
 	
 	The \textit{Editor} component is a web application based on the JHipster\cite{jhipster} framework. It provides the user the possibility to import system information using a JSON upload and feeds this information into the Engine. All security and user interface aspects are handled in this layer.
 	
-	The \textit{Engine} is the isolated component that holds the logic to calculate candidate service cuts. It is based on Spring technologies and provides a RESTful HTTP interfaces. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in the next Section.
+	The \textit{Engine} is the isolated component that holds the logic to calculate candidate service cuts. It is based on Spring technologies and provides RESTful HTTP interfaces. The Engine does not provide any security measures and it is therefore necessary to restrict access to the Engine. We recommend to achieve this using a Docker\cite{docker} internal network as described in Section \ref{subsec:infrastructure}.
 	
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
@@ -658,13 +671,13 @@ Table \ref{tab:restApis} outlines all provided RESTful HTTP interfaces and the r
 	\centering
 	\caption{RESTful HTTP Interfaces}
 	\label{tab:restApis}
-	\begin{tabular}{|p{90pt}|p{140pt}|p{40pt}|p{80pt}|p{80pt}|}
+	\begin{tabular}{|p{70pt}|p{140pt}|p{40pt}|p{70pt}|p{70pt}|}
 		\hline	
 		\textbf{Title} & \textbf{Path} & \textbf{Method} & \textbf{Request Schema} &\textbf{Response Schema} \\
 		\hline
 		importERM & /engine/import/ & POST & \textit{1\_erm} & \textit{4\_importResult} \\
 		\hline
-		importNanoentities & /engine/import/\{systemId\}/\newline nanoentities/ & POST & \textit{3\_nanoentities} & \textit{5\_userSystem} \\
+		import\newline Nanoentities & /engine/import/\{systemId\}/\newline nanoentities/ & POST & \textit{3\_nanoentities} & \textit{5\_userSystem} \\
 		\hline 
 		importUser\newline Representations & /engine/import/\{systemId\}/\newline userrepresentations/ & POST &  \textit{2\_userReps} &  \textit{4\_importResult} \\
 		\hline 
@@ -710,4 +723,4 @@ The uploaded data models are shared amongst all registered users.
 
 
 \bigskip
-After covering the important design and implementation aspects, the next chapter explains how an architect can work with the Service Cutter.
+After covering the important design and implementation aspects, the next chapter discusses the provided results.
