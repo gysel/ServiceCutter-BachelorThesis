@@ -432,7 +432,7 @@ Currently there are four CriterionScorer implementations for different coupling 
 		\hline	
 		\textbf{Coupling Criteria} & \textbf{Scorer Implementation}  \\
 		\hline
-		Shared Owner \newline Consistency Constraint \newline Identity \& Lifecycle Commonality  & CohesiveGroupCriteriaScorer \\
+		Shared Owner \newline Consistency Constraint \newline Identity \& Lifecycle Commonality \newline Latency \newline Security Contextuality & CohesiveGroupCriteriaScorer \\
 		\hline
 		Predefined Service Constraint  & ExclusiveGroupCriteriaScorer \\ 
 		\hline
@@ -442,7 +442,7 @@ Currently there are four CriterionScorer implementations for different coupling 
 		\hline
 		Content Volatility \newline Consistency Criticality \newline Availability Criticality \newline Volatility \newline Storage Similarty \newline Security Criticality & CharacteristicsCriteriaScorer  \\
 		\hline
-		Mutability \newline Network Traffic Suitability \newline Latency \newline Security Contextuality & No Implementation  \\
+		Mutability \newline Network Traffic Suitability  & No Implementation  \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -453,7 +453,7 @@ Currently there are four CriterionScorer implementations for different coupling 
 
 \subsubsection{CohesiveGroupCriteriaScorer}
 
-A CohesiveGroupCriteriaScorer is used for the criteria \textit{Consistency Constraint}, \textit{Identity \& Lifecycle Commonality} and \textit{Responsibiltiy}. These criteria define one or more groups of nanoentities that for some reason should be kept together in one service.
+The criteria using the CohesiveGroupCriteriaScorer define one or more groups of nanoentities that for some reason should be kept together in one service.
 
 The scorer sets the maximum score of $10$ for every relation between nanoentities inside a group. 
 
