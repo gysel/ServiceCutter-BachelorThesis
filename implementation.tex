@@ -253,7 +253,7 @@ Results of a deterministic algorithm like Girvan-Newman can be reproduced by run
 
 A non-deterministic algorithm like Leung complicates analysis since changes in results cannot clearly be identified as consequence of changes in input or randomness. Furthermore results always need to be safely persisted and reloaded since they cannot be reliably reproduced. 
 
-Nevertheless, the representative of our industry partner, W. Giersche, accurately pointed out that an element of randomness is not only a disadvantage. Running multiple algorithm cycles presents different solutions and outlines where the difficult architectural decisions reside.
+Nevertheless, our industry partner accurately pointed out that an element of randomness is not only a disadvantage. Running multiple algorithm cycles presents different solutions and outlines where the difficult architectural decisions reside.
 
 \subsubsection{Number of Clusters Parameter}
 
@@ -261,7 +261,7 @@ Providing the number of clusters as a parameter to the algorithm has the advanta
 
 Furthermore the parameter allows to help in the process of emerging from a monolithic architecture to service orientation as described in Section \ref{subsec:monolithFirst}.
 
-Nevertheless, algorithms requesting the number of services as a parameter hand over the responsibility to answer this critical question to the user instead of answering it itself. W. Giersche pointed out that architects are often prejudiced on the number of services their system should be composed of. Having the Service Cutter providing not only the content of each service but also the number of services challenges the user to reassess his ideas against the candidate service cuts provided. 
+Nevertheless, algorithms requesting the number of services as a parameter hand over the responsibility to answer this critical question to the user instead of answering it itself. Our industry partner pointed out that architects are often prejudiced on the number of services their system should be composed of. Having the Service Cutter providing not only the content of each service but also the number of services challenges the user to reassess his ideas against the candidate service cuts provided. 
 
 After analyzing and evaluating  different algorithms, the next section documents the scoring process used to define the weights between on edges between nodes.
 
@@ -346,7 +346,7 @@ In the second step, the coupling criteria are prioritized relatively to each oth
 	\end{tabular}
 \end{table}
 
-The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of W. Giersche, a representative of our industry partner, and inspired by agile estimation scales\footnote{Alex Yakyma wrote an insightful paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
+The priorities are represented by t-shirt sizes each defining a priority value. By recommendation of our industry partner and inspired by agile estimation scales\footnote{Alex Yakyma wrote an insightful paper on why progressive estimations are efficient for teams\cite{estimation}.}, we chose a progressive and nearly exponential value sequence. 
 
 Having very high values allows analyzing a system in the Service Cutter with focus on one or two coupling criteria only as giving a criterion the priority XXL quickly makes it more important than many of the other criteria together. With progressive values we obtain this ability while still keeping the number of priorities small in order to make it simpler to map each criterion to a priority. 
 
