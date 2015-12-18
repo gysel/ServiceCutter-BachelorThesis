@@ -188,9 +188,9 @@
   \end{picture}  
   
   
-    \vskip 10mm%
+    \vskip 0mm%
     {\large\sc\@author}
-    \vskip 30mm%
+    \vskip 25mm%
     {\Large B\,A\,C\,H\,E\,L\,O\,R\, \,T\,H\,E\,S\,I\,S}
     % S\,E\,M\,E\,S\,T\,E\,R\, \,T\,H\,E\,S\,I\,S
     %  B\,A\,C\,H\,E\,L\,O\,R\,A\,R\,B\,E\,I\,T
@@ -202,10 +202,14 @@
     \vskip 4mm%
     {\large in \@studienort}%
     \vskip 16mm%
-    {\large Supervised by Prof. Dr.  Olaf Zimmermann}%
-    \vskip 4mm%
-    {\large Supported by Zühlke Engineering}%
-    \vskip 4mm%
+    {\large Advised by Prof. Dr.  Olaf Zimmermann}%
+    \vskip 2mm%
+    {\large Co-Examined Internally by Prof. Dr. Andreas Rinkel}%
+    \vskip 2mm%
+    {\large Co-Examined Externally by Dr. Gerald Reif}%
+    \vskip 2mm%
+    {\large Supported by Zühlke Engineering AG}%
+    \vskip 2mm%
     {\large \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
 \end{center}\par
   \vfil\null
