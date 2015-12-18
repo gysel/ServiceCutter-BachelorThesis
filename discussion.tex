@@ -1,27 +1,31 @@
 \chapter{Discussion}
 
-This chapter discusses the outcome of the thesis and its impact for future work.
+This chapter discusses the outcome of the thesis. It starts with usage scenarios and benefits of the Service Cutter and concludes with a requirements assessment.
 
-\section{Hypothesis Evaluation}
+\section{Usage Scenarios}
 
-At the beginning of this project we formulated two hypothesizes. We were able to produce results validating both.
+We identified two usage scenarios suitable for the Service Cutter.
 
-\begin{quote}
-	\textit{The driving forces for service decomposition of a software system can be assembled in a comprehensive criteria catalog.}
-\end{quote}
+\subsubsection{Monolith First}
 
-We successfully compiled a catalog of 16 coupling criteria that aims to form a comprehensive but not conclusive collection. 
+The most likely scenario with existing software is the transition from a monolith to a service oriented architecture. Martin Fowler recommends to use this approach for every project and to not start a project with services\cite{fowlerMonolithFirst}. The Service Cutter is able to identify candidate service cuts with a given number of services. With the algorithm set to Girvan-Newman and the number of services to 2, the Service Cutter suggests a first service to be extracted from the monolith. by iteratively increasing the number of services one can see a possible path towards a service oriented architecture .
 
-The catalog helps a software architect to structure driving forces for service decomposition. The developed criteria may provide a basis for a common language amongst architects. 
+\subsubsection{Greenfield Scenario}
 
-%Ziel erreicht. umfassend - aber nicht abschliessend. der katalog kann aus unserer sicht einen diskussionsbeitrag liefern und zum beispiel eine grundlage für eine gemeinsame sprache für architekten liefern.
+The other scenario is the greenfield scenario when the system is not yet developed but partially specified and designed. The requested user representations can be used as checklist during requirements engineering and design processes. Specification artifacts are then loaded into the Service Cutter and candidate service cuts can be the basis for an inspiring discussion between architects. Once agreed on service cuts, the assigned use cases and published language help to implement the services and their interfaces ot each other. 
 
-\begin{quote}
-	\textit{Based on the criteria catalog, a system's specification artifacts can be processed in a software to optimize loose coupling between services and high cohesion within services in a structured and automated way.}
-\end{quote}
-%Die Informationen aus den \enquote{Coupling Criteria} können strukturiert verarbeitet werden, um die Entkopplung von Softwarekomponenten zu optimieren.}
+\section{Benefits}
 
-In the Service Cutter assessment documented in Appendix \ref{appendix:serviceCutterAssessment}, we tested two sample applications with the algorithms Girvan-Newman and Leung. Girvan-Newman provided expected and therefore satisfying results in only one of the two example systems. Leung on the other hand did not only provide expected service cuts for both systems but surprised us with suggestions that were unexpected but definitely reasonable.  
+The Service Cutter offers the following benefits:
+
+\begin{itemize}
+	\item By requesting different user representations, an architect is challenged to analyze which user representations and characteristics are relevant in his system. He might use the user representations as a check list for requirement engineering.
+	\item The user representations and coupling criteria can further be used to educate junior architects or students on the driving forces of service decomposition.
+	\item The Service Cutter provides candidate service cuts based on the defined user representations. With these candidate service cuts the architects expectations of the number of services and their definition is either verified or challenged. 
+	\item The greenfield scenario as well as an iterative approach from moving from a monolith to service orientation are supported by the Service Cutter.
+	\item Use cases are assigned to their responsible service. The published language between services is displayed in order to assist the development of services and their interfaces to each other.
+	\item By storing the candidate service cuts, architectural decisions can be persisted and documented (not yet implemented).
+\end{itemize}
 
 \section{Requirements Assessment}
 
@@ -78,7 +82,34 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution against t
 	\end{tabular} 
 \end{table}
 
-\section{Conclusion}
+After discussing the Service Cutter's usage scenarios, benefits, and assessing the defined requirement, the next chapter documents our conclusion.
+
+\chapter{Conclusion}
+
+This chapter evaluates the outcome of the thesis with its hypothesis's and closes with a conclusion.
+
+\section{Hypothesis Evaluation}
+
+At the beginning of this project we formulated two hypothesizes. We were able to produce results validating both.
+
+\begin{quote}
+	\textit{The driving forces for service decomposition of a software system can be assembled in a comprehensive criteria catalog.}
+\end{quote}
+
+We successfully compiled a catalog of 16 coupling criteria that aims to form a comprehensive but not conclusive collection. 
+
+The catalog helps a software architect to structure driving forces for service decomposition. The developed criteria may provide a basis for a common language amongst architects. 
+
+%Ziel erreicht. umfassend - aber nicht abschliessend. der katalog kann aus unserer sicht einen diskussionsbeitrag liefern und zum beispiel eine grundlage für eine gemeinsame sprache für architekten liefern.
+
+\begin{quote}
+	\textit{Based on the criteria catalog, a system's specification artifacts can be processed in a software to optimize loose coupling between services and high cohesion within services in a structured and automated way.}
+\end{quote}
+%Die Informationen aus den \enquote{Coupling Criteria} können strukturiert verarbeitet werden, um die Entkopplung von Softwarekomponenten zu optimieren.}
+
+In the Service Cutter assessment documented in Appendix \ref{appendix:serviceCutterAssessment}, we tested two sample applications with the algorithms Girvan-Newman and Leung. Girvan-Newman provided expected and therefore satisfying results in only one of the two example systems. Leung on the other hand did not only provide expected service cuts for both systems but surprised us with suggestions that were unexpected but definitely reasonable.  
+
+\section{Summary and Outlook}
 
 The hypothesis's could be validated by producing the coupling criteria catalog and the service cutter prototype. Most of the requirements were successfully implemented. The goals of the initial project definition document in Appendix \ref{appendix:projectDefinition} could be reached.
 

@@ -69,23 +69,7 @@ The theoretical number of edges may cause performance problems. The maximum numb
 e = \frac{n(n-1)}{2}
 \end{displaymath}
 
-The number of edges grows almost quadratically as shown in Table \ref{tab:edgesCount}.
-
-\begin{table}[H]
-	\centering
-	\caption{Maximum number of edges in an undirected graph}
-	\label{tab:edgesCount}
-	\begin{tabular}{|r|r|}
-		\hline \textbf{Nodes} $n$ & \textbf{Edges} $e$ \\ 
-		\hline 2 & 1 \\ 
-		\hline 3 & 3 \\ 
-		\hline 20 & 190 \\ 
-		\hline 50 & 1'225 \\ 
-		\hline 100 & 4'950 \\ 
-		\hline 2000 & 1'999'000 \\ 
-		\hline 
-	\end{tabular} 
-\end{table}
+The number of edges grows almost quadratically with up to 1'999'000 edges for 2000 nodes.
 
 Our implementation however will unlikely have anything close to the theoretical number of edges as:
 \begin{itemize}

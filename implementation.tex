@@ -90,6 +90,38 @@ The candidate service cuts can be exported as a \gls{JSON} file as defined by th
 
 After introducing a broad overview, the next sections describe the introduced concepts in more detail. 
  
+ \section{User Representations}
+ \label{sec:dataImport}
+ 
+ The Service Cutter provides a data import based on the user representations.
+ 
+ A user representation is a concept familiar to the architect that can be used to feed the criteria information into the Service Cutter. The following user representations are supported:
+ 
+ \begin{itemize}
+ 	\item An \textbf{\gls{ERM}} consists of data fields, entities and relationships. The data fields are imported as nanoentitites, the entities and relationships of type composition/inheritance as\textit{ Identity \& Lifecycle Commonality} and relationships of type aggegation as \textit{Semantic Proximity}.
+ 	\item \textbf{Use cases} primarly describe the \textit{Semantic Proximity} of a group of nanoentities. They can also be marked as latency critical which then results in \textit{Latency}.
+ 	\item \textbf{Shared owner group} represents a person, role or department that is responsible for a group of nanoentities, defining \textit{Shared Owner}.
+ 	\item An \textbf{aggregate} is a \gls{DDD} pattern defining a group of nanoentities that require consistency to each other which results in \textit{Consistency Constraint}. 
+ 	\item The \textbf{entity} is a \gls{DDD} pattern defining a common lifecycle and identify for a group of nanoentities. This defines \textit{Identity \& Lifecycle Commonality}.
+ 	\item A \textbf{predefined service} represents a service that already exists and therefore is harder or impossible to change. It defines the identically named criterion \textit{Predefined Service}.
+ 	\item \textbf{Separated security zones} represent groups of nanoentities that should not be combined into a common service for security reasons. They are defining the \textit{Security Constraints}.
+ 	\item A \textbf{security access group} represents a group of nanoentities that share a common security context, defining the \textit{Security Contextuality}.
+ 	\item \textbf{Compatibilities} can be used to import all coupling criteria of type \enquote{Compatability}.
+ \end{itemize}
+ 
+ Figure \ref{fig:userrep} lists all user representations and indicates which coupling criteria they are linked to.
+ 
+ \begin{figure}[H]
+ 	\begin{center}
+ 		\includegraphics[scale=0.6]{diagrams/UserRep-CC.pdf}
+ 		\caption{User representations and the related coupling criteria}
+ 		\label{fig:userrep}
+ 	\end{center}
+ \end{figure}
+ 
+ The technical format including \gls{JSON} schema files of all user representations is documented in Section \ref{subsec:restApis} or in more detail on GitHub\cite{githubWiki}. 
+ 
+ 
 \section{Decomposition by Graph Clustering}
 \label{subsec:approach1_graph}
 
@@ -522,7 +554,6 @@ Table \ref{tab:characteristics} outlines characteristics of all criteria with th
 		\hline
 	\end{tabular}
 \end{table}
-
 
 \section{Prototype} 
 
