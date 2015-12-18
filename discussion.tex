@@ -7,6 +7,7 @@ This chapter discusses the outcome of the thesis. It starts with usage scenarios
 We identified two usage scenarios suitable for the Service Cutter.
 
 \subsubsection{Monolith First}
+\label{subsec:monolithFirst}
 
 The most likely scenario with existing software is the transition from a monolith to a service oriented architecture. Martin Fowler recommends to use this approach for every project and to not start a project with services\cite{fowlerMonolithFirst}. The Service Cutter is able to identify candidate service cuts with a given number of services. With the algorithm set to Girvan-Newman and the number of services to 2, the Service Cutter suggests a first service to be extracted from the monolith. by iteratively increasing the number of services one can see a possible path towards a service oriented architecture .
 

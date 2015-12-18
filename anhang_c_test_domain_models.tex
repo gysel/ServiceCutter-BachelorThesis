@@ -4,21 +4,19 @@
 We used two example systems to test the Service Cutter. After defining the input used to describe the systems we discussed and documented our expectations on how service decomposition of the systems would make sense from our experience. In order to rate the candidate service cuts provided by the service cutter we defined three categories of cuts:
 
 \begin{description}
+	\item[Excellent Service Cut] The cut is not the way we expected it but we find reasons why the cut makes sense from an architects perspective. It is therefore improves our own view of the analyzed system.
 	\item[Expected Service Cut] The cut is exactly the way we expected it. 
-	\item[Reasonable Service Cut] The cut is not the way we expected it but we find reasons why the cut could make sense from an architects perspective.
 	\item[Unreasonable Service Cut] The cut is not as we expected it and we do not find reasons why the cut would provide any benefits to a systems architecture. 
 \end{description}
 
 To assess the Service Cutter's output the following language is used:
 
 \begin{itemize}
+	\item An \textit{excellent} output contains zero unreasonable service cuts and at least one excellent service cut.
 	\item An \textit{good} output contains zero unreasonable service cuts.
 	\item An \textit{acceptable} output contains at most one unreasonable service cut.
 	\item A \textit{bad} output contains two or more unreasonable service cuts.
 \end{itemize}
-
-%TODO discuss ratings / language
-% Excellent / perfect service cut? (only expected?)
 
 We evaluated the service cuts of the following test systems:
 
@@ -233,9 +231,7 @@ As Girvan-Newman receives a number of services parameter we can analyze how a mo
 	\end{tabular}
 \end{table}
 
-Reasonable cuts are presented for up to 8 different services. The results produced by Girvan-Newman with the Trading System example are very satisfying as \textit{good} results are presented with almost all combinations of parameters. %TODO _almost_ ZIO: be precise!
-
-%TODO ZIO: a bit hard to compare. show table E - R - C or figure with both service cuts
+Reasonable cuts are presented for up to 8 different services. The results produced by Girvan-Newman with the Trading System example are considered \textit{good}.
 
 \subsection{Leung Algorithm Assessment}
 
@@ -255,7 +251,7 @@ As already mentioned we cannot assess the priority sensitivity with Leung. Chang
 	\item A service combining News and Stock.
 \end{itemize}
 
-Except of the last cut we find reasonable justifications for all cases. In fact, combining PaymentInfo, Account and Position into one service seems to be a considerable suggestion we have not thought of before. These entities are closely related to an account while the other entities in the order service are more focused on the trading itself. 
+Except of the last cut we find reasonable justifications for all cases. In fact, combining PaymentInfo, Account and Position into one service seems to be a considerable suggestion we have not thought of before and is therefore considered an \textit{excellent} solution. These entities are closely related to an account while the other entities in the order service are more focused on the trading itself. 
 
 \subsubsection{Number of Services}
 
@@ -263,12 +259,9 @@ The number of services suggested by Leung vary between 2 and 7 services. There i
 
 With only small changes to the priorities Leung often suggests 4 or 5 services which matches with our expectation. 
 
-%TODO ZIO: too much plain text. summarize assessment in a short and concise manner (figure or table)
-
 \subsection{Conclusion}
 
-%TODO ZIO: how much is "most"?
-In conclusion we can say that the Service Cutter did suggest the Trading System service cuts as we expected. For both algorithms most results can be considered \textit{good} with only one or two exceptions where the result was considered \textit{acceptable}. These are excellent results for a first test of the Service Cutters scoring and algorithms. 
+In conclusion we can say that the Service Cutter did suggest the Trading System service cuts as we expected. For both algorithms results are considered \textit{good} with only one or two exceptions where the result was considered \textit{acceptable} as described above. These are very satisfying results for a first test of the Service Cutters scoring and algorithms. 
 
 The tests furthermore show the advantages and disadvantages of a deterministic algorithm. Girvan-Newman produced very stable results and nicely shows the path from a monolith to a more service oriented architecture. Leung on the other hand is harder to analyze but provided us more reasonable candidate service cuts we have not considered before. Leung also suggests a reasonable number of services while this consideration completely lies in the responsibility of the user when using Girvan-Newman.
 
@@ -413,7 +406,7 @@ As there are not many compatibility criteria defined, the main reasons for our d
 
 \subsection{Girvan-Newman Algorithm Assessemnt}
 
-For the Cargo Tracking System we adjusted the default priorities to the following values:
+For the Cargo Tracking System we adjusted the default priorities to the following values. These priorities provided the best results and match the characteristics of the Cargo Tracking System.
 
 \begin{itemize}
 	\item Content Volatility: \textit{S} instead of \textit{XS}
@@ -422,7 +415,6 @@ For the Cargo Tracking System we adjusted the default priorities to the followin
 \end{itemize}
 
 The resulting candidate service cuts by the Girvan-Newman algorithm for 4 services are shown in Figure \ref{fig:dddGirvanNewman}.
-%TODO zio: why? how?
 
 \begin{figure}[H]
 	\includegraphics[scale=0.7]{images/ddd_girvan_4.png}
@@ -479,7 +471,7 @@ Other runs resulted in similar cuts whereas often only the location service was 
 
 The results provided by Leung can be classified as \textit{acceptable}.
 
-%TODO zio: conclusion?
+\section{Conclusion}
 %michi:
-We conclude that, depending on the input graph, one or both algorithms produces candidate service cuts that help an architect. However he always has to verify the result before taking any decision.
+We conclude that, depending on the specified system, one or both algorithms produce \textit{acceptable} or \textit{good} candidate service cuts that help an architect. However, the architect always has to verify the result before taking any decision. These results suggest that the Service Cutter approach can be used to assist service decomposition decisions. Further improvements on the scoring system or algorithms presented in Chapter \ref{cha:futureWork} may improve the presented result.
 

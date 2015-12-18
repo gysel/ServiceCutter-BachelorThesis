@@ -260,13 +260,11 @@ Nevertheless, the representative of our industry partner, W. Giersche, accuratel
 
 Providing the number of clusters as a parameter to the algorithm has the advantage of analyzing the service decomposition with any possible number of services. This feature can be used to better understand the structure and coupling between parts of the analyzed system by running an analysis with a number of services that is not optimal. Requesting a high number of service provides indications of how services internally might be further decomposed into modules. 
 
-Furthermore the parameter allows to help in the process of emerging from a monolithic architecture to service orientation as described in Section XXX.
-%TODO ref
+Furthermore the parameter allows to help in the process of emerging from a monolithic architecture to service orientation as described in Section \ref{subsec:monolithFirst}.
 
 Nevertheless, algorithms requesting the number of services as a parameter hand over the responsibility to answer this critical question to the user instead of answering it itself. W. Giersche pointed out that architects are often prejudiced on the number of services their system should be composed of. Having the Service Cutter providing not only the content of each service but also the number of services challenges the user to reassess his ideas against the candidate service cuts provided. 
 
-%TODO überleitung
-
+After analyzing and evaluating  different algorithms, the next section documents the scoring process used to define the weights between on edges between nodes.
 
 \section{Scoring}
 \label{sec:scores}
