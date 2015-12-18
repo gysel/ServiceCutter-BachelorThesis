@@ -30,7 +30,7 @@ The Service Cutter offers the following benefits:
 
 \section{Requirements Assessment}
 
-This section assesses the developed solution based on the defined requirements. The two domain models as described in Appendix \ref{appendix:serviceCutterAssessment} as well as the implemented Service Cutter itself serve as the test scenario.
+This section assesses the developed solution based on the defined requirements. The two sample system as described in Appendix \ref{appendix:serviceCutterAssessment} as well as the implemented Service Cutter itself serve as the test scenario.
 
 All requirements are rated with a rating from $1-3$.
 
@@ -73,7 +73,7 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution against t
 	\hline \textbf{Requirement} & \textbf{Rating} & \textbf{Assessment} \\ 
 	\hline Usability & 2 & We reviewed the user interface within the project team but did not conduct usability tests. \\
 	\hline Simplicity & 1 & A simple analysis can be performed with 5 mouse clicks. \\
-	\hline Performance & 2 & The sample domain models can be decomposed in not more than two seconds. Extensive performance tests have not been conducted due to time budget constraints as decided with our stakeholders. Section \ref{sec:future-tuning} lists this as a future activity. \\
+	\hline Performance & 2 & The sample systems can be decomposed in not more than two seconds. Extensive performance tests have not been conducted due to time budget constraints as decided with our stakeholders. Section \ref{sec:future-tuning} lists this as a future activity. \\
 	\hline Logging, \newline Deployment & 1 & Logging is based on SLF4J and a deployment based on Docker is implemented. \\
 	\hline Fault Tolerance & 1 & All errors are handled and occuring errors are logged. \\
 	\hline Maintainability & 1 & The implementation is based on two services (Editor and Engine) both built with suitable application layers. Communication between the layers is implemented with RESTful HTTP communication. Open source tools are used wherever possible. We rate this requirement as only partially satisfied as the RESTful HTTP interfaces do not meet the Richardson maturity level requirements.  \\
