@@ -19,8 +19,6 @@ The requirements listed in Table \ref{tab:requirementsAlgorithm} should be met b
 		\hline
 		Distinct Clusters & Every nanoentity is contained once and only once in a cluster. & High  \\
 		\hline
-		Balanced Coupling & The sum of weights of the edges a cluster connects with other clusters should be similar for all clusters. & High \\ %TODO besser formulieren
-		\hline
 		Minimal Coupling & The total weight of the edges connecting clusters should be minimal. & High \\
 		\hline
 		Implementation & A free implementation of the algorithm should be available either in Java or another language easily callable from the \gls{JVM}. & High  \\
@@ -31,7 +29,6 @@ The requirements listed in Table \ref{tab:requirementsAlgorithm} should be met b
 		\hline
 		Simplicity & It should be possible to understand the mechanism and parameters of the algorithm within a day assuming the mathematical background of an average \gls{HSR} student. & Low \\
 		\hline
-		%TODO: specify more
 		Edge Cases & Cases in which it is unclear which cut is best should be visualized in form of a hint or multiple solution suggestions. & Low \\
 		\hline
 		License & ? & ? \\
@@ -63,7 +60,6 @@ The algorithms listed in Table \ref{tab:algorithmEvaluation} were found by consu
 		\hline
 		Epidemic Label Propagation & A clustering algorithm working on weighted (un-)directed graphs. This algorithm was suggested by Raghavan\cite{raghavan} and refined by Leung\cite{leung}. & GraphStream\cite{leungGraphstream} provides an implementation of the algorithm in Java as part of their \texttt{gs-algo} package. & Positive \\
 		\hline
-		%TODO: what is maximal modularity clusterni?
 	\end{tabular}
 \end{table}
 
