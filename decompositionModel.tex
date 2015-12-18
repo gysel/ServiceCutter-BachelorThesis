@@ -50,7 +50,7 @@ We specified all coupling criteria listed in the grid as \enquote{CC cards} like
 	
 		\begin{description}[leftmargin=!,labelwidth=\widthof{\bfseries User Representation}]
 		\item[Description] #3
-		\item[User Representation] #4 %TODO source?
+		\item[User Representation] #4 
 		\ifthenelse{\equal{#5}{}}{}{\item[Literature] #5}
 		\item[Type] #6
 		\item[Perspective] #7
@@ -81,8 +81,6 @@ Cards share the following information:
 
 \ccCard{CC-4}{Structural Volatility}{How often change requests need to be implemented affecting nanoentities.}{Classification of nanoentities in characteristics.}{D.~L.~Parnas on modular programming: \newline \textit{We propose instead that one begins with a list of difficult design decisions or design decisions which are likely to change. Each module is then designed to hide such a decision from the others.}\cite{parnaDecomposing}}{Compatibility}{Domain}{Often, Normal \textit{(default)}, Rarely}
 
-Structural Volatility refers to the frequency of changes to the logic or data structure (\gls{DDL}) and requires a redeployment. Updates on the data itself is reflected in the coupling criterion Content Volatility (\gls{DML}).
-
 \ccCard{CC-5}{Latency}{Groups of nanoentities with high performance requirements for a specific user request. These nanoentities should be modelled in the same service to avoid remote calls.}{Use cases with latency requirements. All nanoentities read or written by the same use case belong a group. A nanoentity can belong to multiple groups.}{Design guidelines for application performance by Microsoft: \newline \textit{Minimize round trips to reduce call latency. For example, batch calls together and design coarse-grained services that allow you to perform a single logical operation by using a single round trip.}\cite{performance}}{Cohesiveness}{Quality}{}
 
 \ccCard{CC-6}{Consistency Criticality}{Some data such as financial records loses its value in case of inconsistencies while other data is more tolerant to inconsistencies.}{Classification of nanoentities in characteristics.}{W. Vogel on consistency requirements: \newline  
@@ -91,9 +89,6 @@ Structural Volatility refers to the frequency of changes to the logic or data st
 \ccCard{CC-7}{Availability Criticality}{Nanoentities have varying availability constraints. Some are critical while others can be unavailable for some time. As providing high availability comes at a cost, nanoentities classified with different characteristics should not be composed in the same service.}{Classification of nanoentities in characteristics.}{E. Woods on availability and resilience: \newline \textit{Getting your availability characteristics wrong can be very expensive. However, increased online availability comes at a cost, whether in terms of more hardware, increased software sophistication, or redundancy in your communications network.}\cite{rozanski2011software} }{Compatibility}{Quality}{Critical, Normal \textit{(default)}, Low}
 
 \ccCard{CC-8}{Content Volatility}{A nanoentity can be classified by its volatility which defines how frequent it is updated. Highly volatile and more stable nanoentities should be composed in different services.}{- Volatility can be calculated from use case definitions if they are equipped with a frequency information. \newline- Nanoentities can be classified by data types to determine the volatility: Master Data (regularly), Reference Data (rarely), Transaction Data (often) and Inventory Data (often) to determine the volatility.}{}{Compatibility}{Quality}{Often, Regularly \textit{(default)}, Rarely}
-%TODO add literature (datentypen?)
-
-%TODO data:  DDL, artifact: report regenerated
 
 \ccCard{CC-9}{Consistency Constraint}{A group of nanoentities that have a dependent state and therefore need to be kept consistent to each other. }{An aggregate as defined in domain-driven design.}{Aggregate as defined in domain-driven design by E. Evans: \newline \textit{A cluster of associated objects that are treated as a unit for the purpose of data changes. External references are restricted to one member of the aggregate, designated as the root. A set of consistency rules applies within the aggregate's boundaries.}\cite{evans2003domain} \newline U.~Dahan on service decomposition: \newline \textit{If modifying the value of one attribute involves changing the value of another, then those two attributes should fall under the responsibility of the same service.}\cite{udiConsistency}}{Constraint}{Quality}{}
 
@@ -102,8 +97,6 @@ A \textit{Consistency Contraint} differs from the \textit{Consistency Criticalit
 For example a payment and the account balance should be linked using a \textit{Consistency Constraint}. The Service Cutter therefore guarantees that those fields are in the same service. The \textit{Consistency Criticality} criterion is of type compatibility and only separates divergent characteristics.
 
 \ccCard{CC-10}{Mutability}{Immutable information is much simpler to manage in a distributed system than mutable objects. Immutable nanoentities are therefore good candidates for the published language shared between two services. Service decomposition should be done in a way that favors sharing immutable nanoentities over mutable ones. }{Classification of each nanoentity in mutable or immutable.}{U.~Dahan on finding service boundaries:\newline \textit{When you find something immutable, that is an indication that there is some loose coupling between the two sides passing immutable data.}\cite{mutability}}{Communication}{Quality}{}
-
-Developing nanoservices in an immutable manner is an implementation style that simplifies distributed communication and is not always possible to achieve. Volatility in contrast is an attribute whose characteristics can be assigned to all nanoservices. %TODO lukas: review!
 
 \ccCard{CC-11}{Storage Similarity}{Storage that is required to persist all instances of a nanoentity.}{The user classifies nanoentities into the given characteristics. The classification is system specific. In one system a nanoentity classified as \textit{huge} might need 1MB, but in another 1GB storage per instance.}{}{Compatibility}{Infrastructure}{Huge, Normal \textit{(default)}, Tiny}
 
@@ -122,7 +115,7 @@ Developing nanoservices in an immutable manner is an implementation style that s
 
 The following questionnaire is based on the coupling criteria and aims to fulfill the principles introduced in Chapter \ref{cha:analysis}. In a good decomposition solution, the answer to all those questions should be \enquote{yes}.
 
-\begin{enumerate} %TODO is it possible to remove some of the negation?
+\begin{enumerate} 
 	\item Does it not violate a constraint criterion?
 	\item Does it not combine too many nanoentities with diverging characteristics into one service?
 	\item Does each service depend on as few nanoentities of other services as possible? A use case should cross as few service boundaries as possible. %Do a small amount of use cases require more than one service to be completed?
@@ -134,9 +127,3 @@ The following questionnaire is based on the coupling criteria and aims to fulfil
 
 Those questions could form a check-list to validate a service cut suggested by the Service Cutter. This approach is outlined in Section \ref{sec:suggested-cut-grades}.
 
-
-%TODO User stories as most important criteria: check Ivar Jacobson, oose, a use case driven approach
-
-%TODO: Should we describe non relevant coupling criteria as well? (Hiding design decisions etc, see CC catalog doc)
-
-%TODO: (Bring result \& discussion already here?)

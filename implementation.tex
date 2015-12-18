@@ -43,7 +43,6 @@ The illustration does not show technical representation of the concepts but rath
 		\label{fig:overviewLayers}
 		\end{center}
 	\end{figure}
-	%TODO: fix layout problem for mini pages
 \end{minipage}
 
 \subsection{Service Cutter Process}
@@ -408,7 +407,6 @@ This section documents how each coupling criterion calculates its criterion scor
 
 Figure \ref{fig:scorer} shows the CriterionScorer interface used to calculate criterion scores. 
 
-%TODO update
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[scale=0.7]{diagrams/scorer.pdf}
@@ -417,9 +415,7 @@ Figure \ref{fig:scorer} shows the CriterionScorer interface used to calculate cr
 	\end{center}
 \end{figure}
 
-%ZIO: how does this match implementation? previous section content?
 
-%TODO implement other scorer and update
 Currently there are four CriterionScorer implementations for different coupling criteria. Not all criteria have a suitable implementation yet, as we prioritized the criteria during the project as there was not enough time to implement the scoring for all criteria. Table \ref{tab:scorer} outlines which implementation is used for which coupling criterion.
 
 \begin{table}[H]
@@ -467,8 +463,7 @@ The implementation sets a negative score of $-10$ from each nanoentity to all ot
 
 \subsubsection{SemanticProximityCriterionScorer}
 
-%TODO: name for UML diagram? 
-The SemanticProximityCriterionScorer is a more complex scoring implementation. It considers use cases and aggregations in a UML diagram. To calculate the score, the scorer uses an intermediate score summing up occurrences of the following conditions for the nanoentities $A$ and $B$:
+The SemanticProximityCriterionScorer is a more complex scoring implementation. It considers use cases and aggregations in a \gls{ERM}. To calculate the score, the scorer uses an intermediate score summing up occurrences of the following conditions for the nanoentities $A$ and $B$:
 
 \begin{description}
 	\item [READ\_ACCESS] $A$ and $B$ are both read in the same use case.
@@ -495,7 +490,6 @@ To reduce the intermediate score to the criterion score, the following rules are
 
 The calculation for the lower 90\% works as following:
 
-%TODO Michi: verstehe ich nicht!
 
 \begin{equation}
 \frac{referenceIntermediateScore}{x} = 10
@@ -510,7 +504,6 @@ criterionScore_{AB} = \frac{intermediateScore_{AB}}{X}
 Both the numbers counted for access or aggregation occurrences and the reduction to the criterion score have been experimentally evaluated. The algorithm documented here has proven to produce reasonable results for the example systems tested but might require further investigations for other systems. 
 
 \subsubsection{CharacteristicsCriteriaScorer}
-%TODO styles?
 
 Each coupling criterion of type compatibility defines multiple characteristics. The idea of these criteria is to create services with as homogeneous nanoentities as possible. The scorer therefore sets negative scores for a relation between two nanoentities having different characteristics. 
 
