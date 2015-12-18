@@ -50,7 +50,7 @@ Figure \ref{fig:bookingExampleGirvan} shows the unsatisfying result provided by 
 
 The idea this approach introduces is to create a set of all possible service cuts and rate the cuts isolated per coupling criteria. The approach is illustrated in Figure \ref{fig:setProcess}.
 
-%TODO update Data Fields to NanoEntities, Processor to Scorer
+
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[scale=0.45]{diagrams/scoring_process.png}
@@ -121,7 +121,6 @@ To improve this behavior, the algorithm should process optimization steps betwee
 \item[Optimization Step] One service with already assigned nanoentities is randomly chosen. Within the service, the score from each nanoentity to all its neighbors is calculated to determine the least suitable nanoentity in a service. This nanoentity is taken out of the service and put back on the list of unassigned nanoentities.
 \end{description}
 
-%TODO: illsutration?
 
 The algorithm starts by assigning the first nanoentity to a random service and then alternates between construction and optimization stages. It finishes either after a given time, by the user stopping the optimization or by detecting that no further optimization is possible. This is detected when nanoentities taken from services in an optimization step are put back to their original service during the construction step. To finish the algorithm all nanoentities must be assigned to a service.
 
