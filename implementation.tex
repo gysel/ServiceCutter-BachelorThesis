@@ -75,7 +75,7 @@ Once the user has defined and specified his system, he optionally sets coupling 
 
 The Editor then presents the candidate service cuts to the user.
 
-\subsubsection{Step 4: Analyse Service Cuts}
+\subsubsection{Step 4: Analyze Service Cuts}
 
 Once candidate service cuts have been presented, the user needs to interpret them and compare them with his own expectations. 
 
@@ -97,15 +97,15 @@ After introducing a broad overview, the next sections describe the introduced co
  A user representation is a concept familiar to the architect that can be used to feed the criteria information into the Service Cutter. The following user representations are supported:
  
  \begin{itemize}
- 	\item An \textbf{\gls{ERM}} consists of data fields, entities and relationships. The data fields are imported as nanoentitites, the entities and relationships of type composition or inheritance as\textit{ Identity \& Lifecycle Commonality} and relationships of type aggegation as \textit{Semantic Proximity}.
- 	\item \textbf{Use cases} primarly describe the \textit{Semantic Proximity} of a group of nanoentities. They can also be marked as latency critical which then results in \textit{Latency}.
+ 	\item An \textbf{\gls{ERM}} consists of data fields, entities and relationships. The data fields are imported as nanoentitites, the entities and relationships of type composition or inheritance as\textit{ Identity \& Lifecycle Commonality} and relationships of type aggregation as \textit{Semantic Proximity}.
+ 	\item \textbf{Use cases} primarily describe the \textit{Semantic Proximity} of a group of nanoentities. They can also be marked as latency critical which then results in \textit{Latency}.
  	\item \textbf{Shared owner group} represents a person, role or department that is responsible for a group of nanoentities, defining \textit{Shared Owner}.
  	\item An \textbf{aggregate} is a \gls{DDD} pattern defining a group of nanoentities that require consistency to each other which results in \textit{Consistency Constraint}. 
  	\item The \textbf{entity} is a \gls{DDD} pattern defining a common lifecycle and identify for a group of nanoentities. This defines \textit{Identity \& Lifecycle Commonality}.
  	\item A \textbf{predefined service} represents a service that already exists and therefore is harder or impossible to change. It defines the identically named criterion \textit{Predefined Service}.
  	\item \textbf{Separated security zones} represent groups of nanoentities that should not be combined into a common service for security reasons. They are defining the \textit{Security Constraints}.
  	\item A \textbf{security access group} represents a group of nanoentities that share a common security context, defining the \textit{Security Contextuality}.
- 	\item \textbf{Compatibilities} can be used to import all coupling criteria of type \textit{Compatability}.
+ 	\item \textbf{Compatibilities} can be used to import all coupling criteria of type \textit{Compatibility}.
  \end{itemize}
  
  Figure \ref{fig:userrep} lists all user representations and indicates which coupling criteria they are linked to.
@@ -151,7 +151,7 @@ Service decomposition describes the task of grouping nanoentities into services.
 	\begin{enumerate}
 		\item Coupling criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaOverview}. Cohesiveness criteria describe why nanoentities should belong to the same service while compatibility criteria ask for separation of nanoentities. Constraints criteria might require both. Criteria of type communication need to be processed differently as they define which nanoentities are suitable to be transmitted across services. The information from all types needs to be represented with a single unit to define a number used as a weight of an edge.
 		
-		\item Using a single number with only one unit of measurement bears the risk of unintended change of the relative importance between the coupling criteria. It is important to carefully assure that each coupling criteria uses the same range of numbers to allow comparison and prioritization of each criteria.   
+		\item Using a single number with only one unit of measurement bears the risk of unintended change of the relative importance between the coupling criteria. It is important to carefully assure that each coupling criterion uses the same range of numbers to allow comparison and prioritization of each criterion.   
 		
 		\item To allow the user to define the specific requirements of his system, priorities per coupling criteria can optionally be defined to influence the weights of each coupling criteria instance.
 	\end{enumerate}
@@ -188,7 +188,7 @@ Table \ref{tab:clusterAlgorithms} documents the detailed evaluation of the three
 		Author              & Stijn van Dongen\cite{markovCluster} & U. N. Raghavan\cite{raghavan}, Ian X.Y. Leung\cite{leung}    & M. E. J. Newman, M. Girvan\cite{girvan} \\ \hline
 		Year                & 2000                       & 2007/2009                         & \multicolumn{1}{l|}{2003}                       \\ \hline
 		Name                & Markov Cluster Algorithm   & Epidemic Label Propagation        & \multicolumn{1}{l|}{Girvan–Newman}              \\ \hline
-		Approach            & Random walks               & Labels spread to their neighbours & Edge betweenness, based on shortest-paths       \\ \hline
+		Approach            & Random walks               & Labels spread to their neighbors & Edge betweenness, based on shortest-paths       \\ \hline
 		Performance \newline \textit{N: Nodes} \newline \textit{E: Edges}         & $O (N k^2)$ \newline \textit{k: pruning constant} \cite[p.126]{markovCluster} & $O( E N )$ \cite[p.3]{leung}                         & $O ( N^3 )$\cite[p.14]{girvan}       \\ \hline
 		Java Implementation & Plugin of Gephi\cite{gephiMarkov} & GraphStream project\cite{leungGraphstream} & Plugin of Gephi\cite{gephiMarkov} \\ \hline
 		Test result         & Bugs                       & Good                              & \multicolumn{1}{l|}{Good}                       \\ \hline
@@ -199,7 +199,7 @@ Table \ref{tab:clusterAlgorithms} documents the detailed evaluation of the three
 	\end{tabular}
 \end{table}
 
-The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. However we found the Java implementation not to be mature enough as the output contains overlapping or missing nodes so that the \textit{distinct clusters} requirement is not met. Leung and Girvan-Newman are used in the Service Cutter and both provide good results as documented in Appendix \ref{appendix:serviceCutterAssessment}.
+The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. However, we found the Java implementation not to be mature enough as the output contains overlapping or missing nodes so that the \textit{distinct clusters} requirement is not met. Leung and Girvan-Newman are used in the Service Cutter and both provide good results as documented in Appendix \ref{appendix:serviceCutterAssessment}.
 
 \subsection{Girvan-Newman}
 \label{subsec:girvanNewman}
@@ -233,7 +233,7 @@ Raghvan described the algorithm as follows:
 join the community to which the maximum number of its neighbors belong to, with ties broken uniformly randomly. We initialize every node with unique labels and let the labels propagate through the network. As the labels propagate, densely connected groups of nodes quickly reach a consensus on a unique label.}\cite[p. 4]{raghavan}.
 \end{quote}
 
-Leung does not specify an order in which nodes are to be processed. Therefore the labels may spread differently in repeated runs. We witnessed varying clusters while testing the Service Cutter as document in Appendix \ref{appendix:serviceCutterAssessment}.
+Leung does not specify an order in which nodes are to be processed. Therefore, the labels may spread differently in repeated runs. We witnessed varying clusters while testing the Service Cutter as document in Appendix \ref{appendix:serviceCutterAssessment}.
 
 The algorithm occasionally forms so called \enquote{monster} families as described by Leung \textit{et al} resulting in a drop of cohesion in a cluster. 
 
@@ -247,9 +247,9 @@ Leung \textit{et al} therefore refined the algorithm by adding a \enquote{Hop At
  \textit{The value $\delta$ governs how far a particular label can spread as a function of the geodesic distance from its origin. This additional parameter adds in extra uncertainties to the algorithm but may encourage a stronger local community to form before a large cluster start to dominate.}\cite[p. 5]{leung}
 \end{quote}
 
-This parameters decelerates the propagation of a cluster from its origin and therefore encourages a stronger local cluster to form before a large cluster starts to dominate.
+These parameters decelerates the propagation of a cluster from its origin and therefore encourages a stronger local cluster to form before a large cluster starts to dominate.
 
-We observed monster clusters especially in the DDDSample documented in Appendix \ref{sec:dddSample} and were able to reduce their likelyhood by increasing the hop attenuation factor to a value of $\delta \approx 0.55$ compared to a default of $ \delta = 0.1$ as provided by the GraphStream implementation. We decided to keep the value of $\delta = 0.55$ as the default of the Service Cutter.
+We observed monster clusters especially in the DDDSample documented in Appendix \ref{sec:dddSample} and were able to reduce their likelihood by increasing the hop attenuation factor to a value of $\delta \approx 0.55$ compared to a default of $ \delta = 0.1$ as provided by the GraphStream implementation. We decided to keep the value of $\delta = 0.55$ as the default of the Service Cutter.
 
 \subsection{Discussion}
 \label{subsec:algoDiscussion}
@@ -268,7 +268,7 @@ Nevertheless, our industry partner accurately pointed out that an element of ran
 
 Providing the number of clusters as a parameter to the algorithm has the advantage of analyzing the service decomposition with any possible number of services. This feature can be used to better understand the structure and coupling between parts of the analyzed system by running an analysis with a number of services that is not optimal. Requesting a high number of service provides indications of how services internally might be further decomposed into modules. 
 
-Furthermore the parameter allows to help in the process of emerging from a monolithic architecture to service orientation as described in Section \ref{subsec:monolithFirst}.
+Furthermore, the parameter allows to help in the process of emerging from a monolithic architecture to service orientation as described in Section \ref{subsec:monolithFirst}.
 
 Nevertheless, algorithms requesting the number of services as a parameter hand over the responsibility to answer this critical question to the user instead of answering it itself. Our industry partner pointed out that architects are often prejudiced on the number of services their system should be composed of. Having the Service Cutter providing not only the content of each service but also the number of services challenges the user to reassess his ideas against the candidate service cuts provided. 
 
@@ -298,7 +298,7 @@ In this simple example, the Service Cutter would most probably suggest two servi
 \subsection{Single Dimensionality}
 \label{subsec:singleDimensionality}
 
-A big challenge with the graph based approach is that weights between nodes only have one dimension with a single unit of measurement. The edges can describe how close or cohesive two nanoentities are. This suites well to all coupling criteria of type cohesiveness as they describe reasons to combine nanoentities in the same service. Coupling criteria describing separation or incompatibility, where separation of nanoentities is asked by constraints or different nanoentity characteristics, cannot accurately be described using the weight on the edge.
+A big challenge with the graph based approach is that weights between nodes only have one dimension with a single unit of measurement. The edges can describe how close or cohesive two nanoentities are. This suits well to all coupling criteria of type cohesiveness as they describe reasons to combine nanoentities in the same service. Coupling criteria describing separation or incompatibility, where separation of nanoentities is asked by constraints or different nanoentity characteristics, cannot accurately be described using the weight on the edge.
 
 Our approach to solve this problem is to introduce negative scores as shown in the example above. A negative score implies in the view of a coupling criterion that two fields should be separated into different services. If the negative score exceeds the positive score given by cohesiveness criteria, the edge between two nanoentity nodes is removed. 
 
@@ -310,11 +310,11 @@ This approach implies two disadvantages:
 \end{enumerate}
 
 
-Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed into the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criteria, as described later in this section, in a way that positive scoring criteria are prioritized higher. Section \ref{sec:handling-for-separations} outlines the need for a better concept the handle separations.
+Nevertheless, the practical assessment documented in Appendix \ref{appendix:serviceCutterAssessment} proves effectiveness of this approach. Firstly, nanoentities without an edge are unlikely to be placed into the same service by the algorithm. Secondly, systems are described using an \gls{ERM} and use cases so that cohesiveness criteria are already provided with information. Negative scoring criteria only produce scores if nanoentities are described with characteristics not equal to the default characteristics. We furthermore defined the default priorities for each criterion, as described later in this section, in a way that positive scoring criteria are prioritized higher. Section \ref{sec:handling-for-separations} outlines the need for a better concept the handle separations.
 
 \subsection{Scoring Process}
 
-To determine the final score between two nanoentities, three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Finally the prioritized scores of all criteria are summed up to a final score.
+To determine the final score between two nanoentities, three steps are required. First every coupling criterion scores the relations it has information about. After that, priorities for each criterion are applied. Finally, the prioritized scores of all criteria are summed up to a final score.
 
 \subsubsection{Step 1: Score by Coupling Criterion}
 
@@ -324,7 +324,7 @@ Every coupling criterion calculates a score between $-10$ and $10$ for each nano
 criteria[i].score_{AB} = -10 ... 10
 \end{displaymath}
 
-A score of $10$ implies that \enquote{From the view of coupling criterion $i$, the nanoentities $A$ and $B$ should definitly reside in the same service.} A score of $-10$ implies that \enquote{From the view of coupling criterion $i$, the nanoentities $A$ and $B$ should definitly \textbf{not} reside in the same service.} 
+A score of $10$ implies that \enquote{From the view of coupling criterion $i$, the nanoentities $A$ and $B$ should definitely reside in the same service.} A score of $-10$ implies that \enquote{From the view of coupling criterion $i$, the nanoentities $A$ and $B$ should definitely \textbf{not} reside in the same service.} 
 
 The range from $-10$ to  $10$ was chosen to be able to compare scores of different coupling criterion with each other. A fixed range guarantees that not one criterion receives more importance than another one due to its scoring logic. Other ranges like $-1.00$ to $1.00$ would have worked as well, but in our opinion integer numbers are easier to understand for users than rational numbers. 
 
@@ -378,7 +378,7 @@ The final relation score between two nanoentities is the sum of all prioritized 
 finalScore_{AB} = \sum\limits_{i=1}^n criteria[i].score_{AB} * criteria[i].priorityValue_{AB}
 \end{displaymath}
 
-The undirected, weighted graph is then built with each vertex representing a nanoentity. Nanoentity relations with a positive score are connected by an weighted edge:
+The undirected, weighted graph is then built with each vertex representing a nanoentity. Nanoentity relations with a positive score are connected by a weighted edge:
 
 \begin{displaymath}
 edgeWeight_{AB} = max(0, finalScore_{AB})	
@@ -446,7 +446,7 @@ Table \ref{tab:scorer} outlines which implementation is used for which coupling 
 		\hline
 		Semantic Proximity & SemanticProximityCriterionScorer \\
 		\hline
-		Content Volatility \newline Consistency Criticality \newline Availability Criticality \newline Volatility \newline Storage Similarty \newline Security Criticality & CharacteristicsCriteriaScorer  \\
+		Content Volatility \newline Consistency Criticality \newline Availability Criticality \newline Volatility \newline Storage Similarity \newline Security Criticality & CharacteristicsCriteriaScorer  \\
 		\hline
 		Mutability \newline Network Traffic Suitability  & No Implementation  \\
 		\hline
@@ -526,9 +526,9 @@ Rarely: $0$ \newline
 
 Two nanoentities with different characteristics receive a negative score with the difference between the numbers. As an example, a nanoentity $A$ with characteristic \textit{often} and a nanoentity $B$ with characteristic \textit{normal} receive a criterion score of $-6$. 
 
-It is important that the highest and lowest number have a difference of $10$ to fully use the range a criterion has to rate a relation. \newline In this case there is an intermediate value of $4$ for the \textit{normal} characteristic. In our experience the often changing nanoentities are the most interesting and have the highest impact on service decomposition. With using the number $4$ instead of $5$ for \textit{normal} we put an emphasis on \textit{often} as the differences to this characteristics become bigger. 
+It is important that the highest and lowest number have a difference of $10$ to fully use the range a criterion has to rate a relation. \newline In this case there is an intermediate value of $4$ for the \textit{normal} characteristic. In our experience the often changing nanoentities are the most interesting and have the highest impact on service decomposition. With using the number $4$ instead of $5$ for \textit{normal} we put an emphasis on \textit{often} as the differences to these characteristics become bigger. 
 
-To improve usability we introduced default characteristics so that a user does not need to define characteristics of all criteria for all nanoentities. 
+To improve usability, we introduced default characteristics so that a user does not need to define characteristics of all criteria for all nanoentities. 
 
 Table \ref{tab:characteristics} outlines characteristics of all criteria with their values and defaults. 
 
@@ -599,7 +599,7 @@ The Engine offers a RESTful HTTP web service for all Editor components. It conta
 	\item[CouplingCriteria] contains an endpoint for the coupling criteria data to be displayed in the CriteriaBrowser.
 	\item[Solver] runs the scorers to create the graph, starts the algorithm, processes the result with the analyzer, and exposes the candidate service cuts on a web service.
 	\item[Analyzer] analyzes the candidate service cuts to determine use case responsibilities and published language between the candidate services.
-	\item[Scorer] calculates the scores between nanoentities based on the users system specification and coupling criteria.
+	\item[Scorer] calculates the scores between nanoentities based on the user's system specification and coupling criteria.
 	\item[Model] contains the coupling criteria catalog, all nanoentities and coupling data. The sub package repository encapsulates all interactions with the database.
 \end{description}
 
@@ -634,7 +634,7 @@ The main reasons were:
 \begin{itemize}
 	\item Our industry partner uses them successfully.
 	\item Spring Boot is considered state-of-the-art for Spring based applications nowadays.
-	\item JHipster is based on established technologies that are partially already familiar to us. Furthermore it provides a code generator and samples. This can noticeable speed up development especially in the prototyping area.
+	\item JHipster is based on established technologies that are partially already familiar to us. Furthermore, it provides a code generator and samples. This can noticeable speed up development especially in the prototyping area.
 	\item We were able to implement a technological proof of concept in a few days and did not face major obstacles.
 \end{itemize}
 
@@ -701,7 +701,7 @@ While we leverage the HTTP protocol and its verbs, the interfaces are modeled as
 \subsection{Deployment}
 \label{subsec:infrastructure}
 
-Technically the Service Cutter can be operated on a single server providing a relational database and a Tomcat web server. However we developed a more sophisticated infrastructure aligned with modern standards which is presented as follows.
+Technically the Service Cutter can be operated on a single server providing a relational database and a Tomcat web server. However, we developed a more sophisticated infrastructure aligned with modern standards which is presented as follows.
 
 \begin{itemize}
 \item Every components runs in an isolated Docker\cite{docker} container.
@@ -717,7 +717,7 @@ The Docker Compose definition is attached in Appendix \ref{appendix:dockerCompos
 
 \subsection{Information Security}
 
-The web application is secured using an authentication and authorization implementation based on Spring Security\cite{springSecurity}. Any other internal components such as the database or web services are hidden behind the servers firewall and therefore do not need any special security measures.
+The web application is secured using an authentication and authorization implementation based on Spring Security\cite{springSecurity}. Any other internal components such as the database or web services are hidden behind the server's firewall and therefore do not need any special security measures.
 
 The uploaded data models are shared amongst all registered users.
 

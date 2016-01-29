@@ -1,15 +1,15 @@
 \chapter{Service Cutter Assessment}
 \label{appendix:serviceCutterAssessment}
 
-We used two example systems to test the Service Cutter. After defining the input used to describe the systems we discussed and documented our expectations on how service decomposition of the systems would make sense from our experience. In order to rate the candidate service cuts provided by the service cutter we defined three categories of cuts:
+We used two example systems to test the Service Cutter. After defining the input used to describe the systems, we discussed and documented our expectations on how service decomposition of the systems would make sense from our experience. In order to rate the candidate service cuts provided by the service cutter we defined three categories of cuts:
 
 \begin{description}
-	\item[Excellent Service Cut] The cut is not the way we expected it but we find reasons why the cut makes sense from an architects perspective. It is therefore improves our own view of the analyzed system.
+	\item[Excellent Service Cut] The cut is not the way we expected it but we find reasons why the cut makes sense from an architect's perspective. It is therefore improving our own view of the analyzed system.
 	\item[Expected Service Cut] The cut is exactly the way we expected it. 
 	\item[Unreasonable Service Cut] The cut is not as we expected it and we do not find reasons why the cut would provide any benefits to a systems architecture. 
 \end{description}
 
-To assess the Service Cutter's output the following language is used:
+To assess the Service Cutter's output, the following language is used:
 
 \begin{itemize}
 	\item An \textit{excellent} output contains zero unreasonable service cuts and at least one excellent service cut.
@@ -32,7 +32,7 @@ We therefore tested the Service Cutter once with forward- and once with reverse-
 
 We developed the Trading System as a fictional example based on personal experience with similar systems. Its goal is to include various different coupling aspects in a rather small model.
 
-The Trading System is an application one might find in a typical swiss private bank offering its customers the ability to manage their stocks portfolio.
+The Trading System is an application one might find in a typical Swiss private bank offering its customers the ability to manage their stocks portfolio.
 
 \begin{itemize}
 \item The main focus is to buy or sell \textit{stocks} at a specific price (\textit{Order.triggerPrice}) using an \textit{order}.
@@ -145,7 +145,7 @@ In addition to the use cases, we defined the following characteristics.
 \item \textbf{Low}: News.title, News.text, News.image, Recommendation.description
 \end{itemize}
 
-Furthermore all default characteristics as documented in Section \ref{sec:couplingCriteriaCards} are taken into account.
+Furthermore, all default characteristics as documented in Section \ref{sec:couplingCriteriaCards} are taken into account.
 
 \subsection{Expected Service Cuts}
 
@@ -162,7 +162,7 @@ The following reasons led us to this decision.:
 \begin{itemize}
 	\item The service \textit{Order} encapsulates many use cases and contains several entities that need to be processed with high consistency (Order, Position).
 	\item The high content volatility of the entity price led to the isolation of this part into a separate service \textit{Price}.
-	\item News are not part of the core operations and therefore require lower availability and security criticality. News images furthermore require a significant amount of storage. Therefore we would isolate this into a separate \textit{News} service.
+	\item News are not part of the core operations and therefore require lower availability and security criticality. News images furthermore require a significant amount of storage. Therefore, we would isolate this into a separate \textit{News} service.
 	\item The recommendation algorithm will be changed frequently. A dedicated \textit{Recommendation} service allows independent deployment of updated versions. Moreover recommendations are, like the news, not part of the core operations and require lower availability. 
 	\item Security restrictions requires all \gls{PII} to be separated from other data. Extracting it into a \textit{Customer} service allows the architect to protect this data with additional measures. 
 \end{itemize}
@@ -193,7 +193,7 @@ The candidate service cuts are very stable when changing the priorities. Changin
 
 An own service for stocks is reasonable as these nanoentities can be categorized as master data and not transaction data like most of the other nanoentities in the order service. Requesting 6 number of services with these priorities creates cuts for both the recommendation and the stock service. 
 
-Changing the priority of compatibility or constraint criteria to any value between \textit{XS} and \textit{L} does not affect the resulting cuts. However the possibility to request a small number of services gets lost as too many relations between nanoentites are cut if criteria scoring negative values receive a high priority. 
+Changing the priority of compatibility or constraint criteria to any value between \textit{XS} and \textit{L} does not affect the resulting cuts. However, the possibility to request a small number of services gets lost as too many relations between nanoentites are cut if criteria scoring negative values receive a high priority. 
 
 \subsubsection{Number of Services}
 
@@ -209,7 +209,7 @@ As Girvan-Newman receives a number of services parameter we can analyze how a mo
 		\hline
 		1 & Not supported \\
 		\hline
-		2 & Customer Service extracted (only supported with \textit{Semantix Proximity} L) \\
+		2 & Customer Service extracted (only supported with \textit{Semantic Proximity} L) \\
 		\hline
 		3 & Price Service extracted  \\
 		\hline
@@ -223,7 +223,7 @@ As Girvan-Newman receives a number of services parameter we can analyze how a mo
 		\hline
 		8 & Stock Service extracted \\
 		\hline
-		9 & Stock Service splitted in \textit{Stock.name} and \textit{Stock.identifier} \\
+		9 & Stock Service split in \textit{Stock.name} and \textit{Stock.identifier} \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -234,7 +234,7 @@ Reasonable cuts are presented for up to 8 different services. The results produc
 
 Leung produces varying suggested cuts as it is not a deterministic algorithm. The algorithm is therefore harder to analyze, as we can't determine if changes in results emerge from changes in priorities or by coincidence. 
 
-Generally speaking the results are similar to those by Girvan-Newman. With the default priorities, the result matches the one of Girvan-Newman shown in Figure \ref{fig:tradingCutsTool} in approximately 50\%. In the cases it is not matching it suggests fewer service by merging two services together. This is due to the accidentally created monster clusters described in Section \ref{sec:monsterclusters}.
+Generally speaking, the results are similar to those by Girvan-Newman. With the default priorities, the result matches the one of Girvan-Newman shown in Figure \ref{fig:tradingCutsTool} in approximately 50\%. In the cases it is not matching it suggests fewer service by merging two services together. This is due to the accidentally created monster clusters described in Section \ref{sec:monsterclusters}.
 
 \subsubsection{Priorities Sensitivity}
 
@@ -267,11 +267,11 @@ The tests furthermore show the advantages and disadvantages of a deterministic a
 
 The Cargo Tracking System is a well known software project created to illustrate the concepts and patterns described in the \gls{DDD} book by E. Evans\cite{evans2003domain}. The DDDSample is hosted on Github\cite{dddGithub} and a short screencast on YouTube\cite{dddScreencast} outlines its functionality. 
 
-The Cargo Tracking System provides a domain with a suitable complexity and, unlike the Trading System, comes with a already implemented and well reasoned architecture. With reverse engineering we extracted the domain model, use cases and some characteristics from the code. The Cargo Tracking implements the following functionalities:
+The Cargo Tracking System provides a domain with a suitable complexity and, unlike the Trading System, comes with an already implemented and well reasoned architecture. With reverse engineering, we extracted the domain model, use cases and some characteristics from the code. The Cargo Tracking implements the following functionalities:
 
 \begin{itemize}
-	\item The main focus is to transport a \textit{Cargo} from \textit{Location} A to \textit{Location} B. \textit{Cargos} are created with a \textit{TrackingId} and specified with a \textit{RouteSpecification}. Once created, one of multiple suitable \textit{Itinerarys} is assigned.
-	\item The system calculates suitable \textit{Itinerarys} for a \textit{Cargo} from existing \textit{Voyages} each containing a list of \textit{CarrierMovements}.
+	\item The main focus is to transport a \textit{Cargo} from \textit{Location} A to \textit{Location} B. \textit{Cargos} are created with a \textit{TrackingId} and specified with a \textit{RouteSpecification}. Once created, one of multiple suitable \textit{Itineraries} is assigned.
+	\item The system calculates suitable \textit{Itineraries} for a \textit{Cargo} from existing \textit{Voyages} each containing a list of \textit{CarrierMovements}.
 	\item Once a \textit{Cargo} is routed, \textit{HandlingEvents} track the progress of each \textit{Cargo's} \textit{Itinerary}. A \textit{HandlingEvent} contains information about the event and references a \textit{Cargo} on a specific \textit{Voyage} and occurs in a particular \textit{Location}. 
 	\item The \textit{Delivery} of a \textit{Cargo} informs about its state, estimated arrival time and contains information whether the \textit{Cargo} is on track or not.
 \end{itemize}
@@ -401,9 +401,9 @@ As there are not many compatibility criteria defined, the main reasons for our d
 	\item The \textit{Tracking Service} is responsible to track the actual events of a cargo. The aggregates defined in the DDDSample assign the delivery to the Planning Service. In our opinion the nanoentities \textit{transportStatus}, \textit{misdirected} and \textit{isUnloadedAtLocation} are better assigned to the Tracking Service as they are defined as a consequence of handling events.
 \end{itemize}
 
-\subsection{Girvan-Newman Algorithm Assessemnt}
+\subsection{Girvan-Newman Algorithm Assessment}
 
-For the Cargo Tracking System we adjusted the default priorities to the following values. These priorities provided the best results and match the characteristics of the Cargo Tracking System.
+For the Cargo Tracking System, we adjusted the default priorities to the following values. These priorities provided the best results and match the characteristics of the Cargo Tracking System.
 
 \begin{itemize}
 	\item Content Volatility: \textit{S} instead of \textit{XS}

@@ -21,7 +21,7 @@ At first, the clustering algorithm evaluated documented in Appendix \ref{appendi
 	\label{fig:bookingExample}
 \end{figure}
 
-To keep the sample simple we only added information for the \textit{Lifecycle \& Identity Commonality} criterion, so that the output is expected to show exactly the entity borders as shown in Figure \ref{fig:bookingExample}.
+To keep the sample simple, we only added information for the \textit{Lifecycle \& Identity Commonality} criterion, so that the output is expected to show exactly the entity borders as shown in Figure \ref{fig:bookingExample}.
 
 
 \begin{figure}[H]
@@ -106,12 +106,12 @@ While analyzing the decomposition problem we realized that finding a good number
 	\label{fig:numberOfServices}
 \end{figure}
 
-To simplify the problem we assume the number of services is given by the user and does not need to be computed. Very often an architect has a reasonable assumption about the number of services suitable for his system. 
+To simplify the problem, we assume the number of services is given by the user and does not need to be computed. Very often an architect has a reasonable assumption about the number of services suitable for his system. 
 
 Given the number of services, the services can be imagined as empty boxes that need to be filled with nanoentities. The boxes are filled by construction and optimization steps. In every construction step, one nanoentity is assigned to a box by means of a greedy algorithm.
 
 \begin{description}
-	\item[Construction Step] One nanoentity is taken from an unordered list of all unassigned nanoentities and put in the best suitable service. The suitability is calculated by the criteria scores between the selected nanoentity and the nanoentities already assigned to a service. 
+	\item[Construction Step] One nanoentity is taken from an unordered list of all unassigned nanoentities and put in the best suitable service. The suitability is calculated by the criterion scores between the selected nanoentity and the nanoentities already assigned to a service. 
 \end{description}
 
 Such greedy algorithms often end in a local maxima and not in the global maxima that represents the optimal solution. In every step the assignment decision is only based on the already assigned nanoentities. Assignments by former steps cannot be changed. 

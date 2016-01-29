@@ -48,7 +48,7 @@ A \textit{service} can be seen as a module providing a remote \gls{API} to commu
 
 \textit{Service decomposition} refers to splitting a system's functionality and data into services. While we focus on service decomposition, most of the concepts are also true for non-distributed systems where a software internally is decomposed into modules. 
 
-Before a system can be decomposed, its functional and non-functional requirement need to be analyzed and specified in a entity-relationship model, use cases, and other artifacts. Based on these specifications the system can be decomposed into services. These are later implemented and connected using intra service communication. Figure \ref{fig:context} illustrates this process.
+Before a system can be decomposed, its functional and non-functional requirement need to be analyzed and specified in an entity-relationship model, use cases, and other artifacts. Based on these specifications the system can be decomposed into services. These are later implemented and connected using intra service communication. Figure \ref{fig:context} illustrates this process.
 
 \begin{figure}[H]
 	\begin{center}
@@ -58,7 +58,7 @@ Before a system can be decomposed, its functional and non-functional requirement
 	\label{fig:context}
 \end{figure}
 
-Our thesis focuses solely on service decomposition. Consequently the following areas are not in scope:
+Our thesis focuses solely on service decomposition. Consequently, the following areas are not in scope:
 
 \begin{itemize}
 	\item Requirements engineering and system specification need to be done before a system can be analyzed with the Service Cutter.
@@ -100,7 +100,7 @@ Other approaches tackle related problems but are focused on different layers of 
 
 Kenny Bastani suggests a graph based analysis to decompose monolithic software into microservices\cite{bastani}. In his decomposition approach, he focuses on dependencies from user stories to RESTfull HTTP resources. He uses Neo4J GraphGist\cite{graphGist} to visualize the dependencies but does not run any automated analysis on the graph. 
 
-The barrio eclipse plugin\cite{dietrich2008cluster} analyzes dependencies based on Java source code. It suggests a candidate package structure by leveraging the Girvan-Newman clustering algorithm. The tool has been published as part of a students project of the Massey University, New Zealand.
+The barrio eclipse plugin\cite{dietrich2008cluster} analyzes dependencies based on Java source code. It suggests a candidate package structure by leveraging the Girvan-Newman clustering algorithm. The tool has been published as part of a student's project of the Massey University, New Zealand.
 
 \bigskip
 

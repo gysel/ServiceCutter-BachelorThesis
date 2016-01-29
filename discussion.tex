@@ -13,7 +13,7 @@ The most likely scenario with existing software is the transition from a monolit
 
 \subsubsection{Greenfield Scenario}
 
-The other scenario is the greenfield scenario when the system is not yet developed but partially specified and designed. The requested user representations can be used as checklist during requirements engineering and design processes. Specification artifacts are then loaded into the Service Cutter and candidate service cuts can be the basis for an discussion between architects. Once agreed on service cuts, the assigned use cases and published language help to implement the services and their interfaces ot each other. 
+The other scenario is the greenfield scenario when the system is not yet developed but partially specified and designed. The requested user representations can be used as checklist during requirements engineering and design processes. Specification artifacts are then loaded into the Service Cutter and candidate service cuts can be the basis for a discussion between architects. Once agreed on service cuts, the assigned use cases and published language help to implement the services and their interfaces of each other. 
 
 \clearpage
 
@@ -24,7 +24,7 @@ The Service Cutter offers the following benefits:
 \begin{itemize}
 	\item By requesting different user representations, an architect is challenged to analyze which user representations and characteristics are relevant in his system. He might use the user representations as a checklist for requirement engineering.
 	\item The user representations and coupling criteria can further be used to educate junior architects or students on the driving forces of service decomposition.
-	\item The Service Cutter provides candidate service cuts based on the defined user representations. With these candidate service cuts the architects expectations of the number of services and their definition is either verified or challenged. 
+	\item The Service Cutter provides candidate service cuts based on the defined user representations. With these candidate service cuts the architect's expectations of the number of services and their definition is either verified or challenged. 
 	\item The greenfield scenario as well as an iterative approach from moving from a monolith to service orientation are supported by the Service Cutter.
 	\item Use cases are assigned to their responsible service. The published language between services is displayed in order to assist the development of services and their interfaces to each other.
 	\item By storing the candidate service cuts, architectural decisions can be persisted and documented (not yet implemented).
@@ -77,7 +77,7 @@ Table \ref{tab:conclusionNonFunctional} assesses the provided solution against t
 	\hline Simplicity & 1 & A simple analysis can be performed with 5 mouse clicks. \\
 	\hline Performance & 2 & The sample systems can be decomposed in not more than two seconds. Extensive performance tests have not been conducted due to time budget constraints as decided with our stakeholders. Section \ref{sec:future-tuning} lists this as a future activity. \\
 	\hline Logging, \newline Deployment & 1 & Logging is based on SLF4J and a deployment based on Docker is implemented. \\
-	\hline Fault Tolerance & 1 & All errors are handled and occuring errors are logged. The Service Cutter has remained robust even if exceptions or errors occurred. The user receives detailed validation feedback if a problem occurs while uploading JSON files. \\
+	\hline Fault Tolerance & 1 & All errors are handled and occurring errors are logged. The Service Cutter has remained robust even if exceptions or errors occurred. The user receives detailed validation feedback if a problem occurs while uploading JSON files. \\
 	\hline Maintainability & 2 & The implementation is based on two services (Editor and Engine) both built with suitable application layers. Communication between the layers is implemented with RESTful HTTP communication. Open source tools are used wherever possible. We rate this requirement as only partially satisfied as the RESTful HTTP interfaces do not meet the Richardson maturity level requirements.  \\
 	\hline State-of-the-Art Technology & 1 & The application is based on the technology stack suggested by our industry partner. \\
 	\hline License & 2 & The source code has been released under the Apache 2.0 license. The Girvan-Newman algorithm implementation however is published under the GPL license. This dependency should be replaced when the Service Cutter is used in a commercial environment. Section \ref{sec:future-license} lists this task. \\

@@ -17,7 +17,7 @@ The grid columns represent the following partitions:
 \begin{description}
 	\item[Cohesiveness] - Criteria describing the cohesiveness of nanoentities and therefore why they should belong to the same service. 
 	\item[Compatibility] - Criteria describing the divergent characteristics of nanoentities. The service should not contain nanoentities with different characteristics. Examples for incompatible characteristics are \textit{High}, \textit{Eventually}, and \textit{Weak} for the criterion \textit{Consistency Criticality}.
-	\item[Constraints] - Criteria describing constraints which enforce that group of nanoentities must be distributed amongst different services or form a service by itself.
+	\item[Constraints] - Criteria describing constraints which enforce that groups of nanoentities must be distributed amongst different services or form a service by itself.
 	\item[Communication] - Criteria describing which nanoentities are suitable to be used as part of the published language shared between services. 
 \end{description}
 
@@ -92,9 +92,9 @@ Cards share the following information:
 
 \ccCard{CC-9}{Consistency Constraint}{A group of nanoentities that have a dependent state and therefore need to be kept consistent to each other. }{An aggregate as defined in domain-driven design.}{Aggregate as defined in domain-driven design by Eric Evans: \newline \textit{A cluster of associated objects that are treated as a unit for the purpose of data changes. External references are restricted to one member of the aggregate, designated as the root. A set of consistency rules applies within the aggregate's boundaries.}\cite{evans2003domain} \newline Udi Dahan on service decomposition: \newline \textit{If modifying the value of one attribute involves changing the value of another, then those two attributes should fall under the responsibility of the same service.}\cite{udiConsistency}}{Constraint}{Quality}{}
 
-A \textit{Consistency Contraint} differs from the \textit{Consistency Criticality} coupling criteria in such a way that the constraint groups a set of nanoentities ensuring their atomic processing. 
+A \textit{Consistency Constraint} differs from the \textit{Consistency Criticality} coupling criteria in such a way that the constraint groups a set of nanoentities ensuring their atomic processing. 
 
-For example a payment and the account balance should be linked using a \textit{Consistency Constraint}. The Service Cutter therefore guarantees that those fields are in the same service. The \textit{Consistency Criticality} criterion is of type compatibility and only separates divergent characteristics.
+For example, a payment and the account balance should be linked using a \textit{Consistency Constraint}. The Service Cutter therefore guarantees that those fields are in the same service. The \textit{Consistency Criticality} criterion is of type compatibility and only separates divergent characteristics.
 
 \ccCard{CC-10}{Mutability}{Immutable information is much simpler to manage in a distributed system than mutable objects. Immutable nanoentities are therefore good candidates for the published language shared between two services. Service decomposition should be done in a way that favors sharing immutable nanoentities over mutable ones. }{Classification of each nanoentity in mutable or immutable.}{Udi Dahan on finding service boundaries:\newline \textit{When you find something immutable, that is an indication that there is some loose coupling between the two sides passing immutable data.}\cite{mutability}}{Communication}{Quality}{}
 
@@ -102,7 +102,7 @@ For example a payment and the account balance should be linked using a \textit{C
 
 \ccCard{CC-12}{Predefined Service Constraint}{There might be the following reasons why some nanoentities forcefully need to be modeled in the same service: \newline - Technological optimizations \newline - Legacy systems}{User defined service with each containing a group of nanoentities. Each nanoentity can be associated only once.}{}{Constraint}{Infrastructure}{}
 
-\ccCard{CC-13}{Network Traffic Similarity}{Service decomposition has a significant impact on network traffic, depending on which nanoentities are shared between services and how often. Small and less frequently accessed nanoentities are better suited to be shared between services.}{Use cases define the frequency of access on nanoentities. The size of each entity can be determined by CC-11: \textit{Storage Similarty}}{}{Communication}{Infrastructure}{}
+\ccCard{CC-13}{Network Traffic Similarity}{Service decomposition has a significant impact on network traffic, depending on which nanoentities are shared between services and how often. Small and less frequently accessed nanoentities are better suited to be shared between services.}{Use cases define the frequency of access on nanoentities. The size of each entity can be determined by CC-11: \textit{Storage Similarity}}{}{Communication}{Infrastructure}{}
 
 \ccCard{CC-14}{Security Contextuality}{A security role is allowed to see or process a group of nanoentities. Mixing security contexts in one service complicates authentication and authorization implementations.}{User defined security roles with each containing a group of nanoentities. A nanoentity can be associated to multiple groups.}{}{Cohesiveness}{Security}{}
 

@@ -24,7 +24,7 @@ An assessment of the MCL algorithm may produce better results compared to the ot
 
 Our evaluation of suitable graph clustering algorithms was limited to the ones having a stable Java implementation. Further research may prove that other algorithms are capable of calculating candidate service cuts even better according to the defined criteria in Section \ref{sec:decompositionRequirements}.
 
-Furthermore existing algorithms may be improved with optimizations. For instance Lancichinetti and Fortunato\cite{lancichinetti2009community} valuated a set of improved versions of the Girvan-Newman algorithm as well as a collection of alternative algorithms.
+Furthermore, existing algorithms may be improved with optimizations. For instance, Lancichinetti and Fortunato\cite{lancichinetti2009community} valuated a set of improved versions of the Girvan-Newman algorithm as well as a collection of alternative algorithms.
 
 We assume that optimizations of the Service Cutter's algorithm can be achieved when the selection is not limited to existing Java implementations.
 
@@ -97,7 +97,7 @@ Writing the required input is a significant effort. The model containing nanoent
 
 As the Service Cutter has sophisticated information about the usage of nanoentities in use cases, it is able to generate the APIs used to communicate between services. 
 
-Depending on the communication layer used to communicate between services, these \gls{API}s look differently. In a messaging based system the Service Cutter could generate a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter could generate Swagger\cite{swagger} \gls{API} definitions for the resources which need to be part of the published language. 
+Depending on the communication layer used to communicate between services, these \gls{API}s look differently. In a messaging based system, the Service Cutter could generate a set of messages or events needed to communicate between services. When services interact by RESTful HTTP interfaces, the Service Cutter could generate Swagger\cite{swagger} \gls{API} definitions for the resources which need to be part of the published language. 
 
 \section{Scoring}
 
