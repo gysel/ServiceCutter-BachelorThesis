@@ -146,7 +146,7 @@ Service decomposition describes the task of grouping nanoentities into services.
 	
 	Figure \ref{fig:graph_approach} outlines a solution sketch for this approach. User representations like an \gls{ERM} or use cases are imported. The \textit{Importer} component extracts the nanoentities and the coupling meta data and stores this information in a database.
 	
-	The \textit{Solver} then creates all vertices from the nanoentities and builds weighted edges between them according to the stored coupling criteria instances. This task is complex for the following reasons:
+	The \textit{Solver} then creates all nodes from the nanoentities and builds weighted edges between them according to the stored coupling criteria instances. This task is complex for the following reasons:
 	
 	\begin{enumerate}
 		\item Coupling criteria are not homogeneous as described in Section \ref{subsec:couplingCriteriaOverview}. Cohesiveness criteria describe why nanoentities should belong to the same service while compatibility criteria ask for separation of nanoentities. Constraints criteria might require both. Criteria of type communication need to be processed differently as they define which nanoentities are suitable to be transmitted across services. The information from all types needs to be represented with a single unit to define a number used as a weight of an edge.
@@ -205,7 +205,7 @@ The \gls{MCL} algorithm is theoretically suitable to calculate the clusters. How
 \label{subsec:girvanNewman}
 	
 
-M. E. J. Newman and M. Girvan\cite{girvan} proposed to use a divisive approach to graph clustering. This approach repeatedly finds the least similar connected pair of vertices and removes the edges between them. The least similar connected pair is defined by \textit{edge betweennees} which can be calculated using different approaches as described by Girvan-Newman. The Gephi implementation used in the Service Cutter calculates edge betweenness as the number of shortest paths of any pair of vertices running through an edge. Edges with the highest edge betweenness are removed first. This process divides the graph into smaller and smaller components and can be stopped at any time to select the components at this time to be the graph clusters.
+M. E. J. Newman and M. Girvan\cite{girvan} proposed to use a divisive approach to graph clustering. This approach repeatedly finds the least similar connected pair of nodes and removes the edges between them. The least similar connected pair is defined by \textit{edge betweennees} which can be calculated using different approaches as described by Girvan-Newman. The Gephi implementation used in the Service Cutter calculates edge betweenness as the number of shortest paths of any pair of nodes running through an edge. Edges with the highest edge betweenness are removed first. This process divides the graph into smaller and smaller components and can be stopped at any time to select the components at this time to be the graph clusters.
 
 In the ordered graph in Figure \ref{fig:girvan-newman-process} Girvan-Newman would remove the edges in ascending order. The graph is split into 4 clusters after 2 iterations.
 
@@ -378,7 +378,7 @@ The final relation score between two nanoentities is the sum of all prioritized 
 finalScore_{AB} = \sum\limits_{i=1}^n criteria[i].score_{AB} * criteria[i].priorityValue_{AB}
 \end{displaymath}
 
-The undirected, weighted graph is then built with each vertex representing a nanoentity. Nanoentity relations with a positive score are connected by a weighted edge:
+The undirected, weighted graph is then built with each node representing a nanoentity. Nanoentity relations with a positive score are connected by a weighted edge:
 
 \begin{displaymath}
 edgeWeight_{AB} = max(0, finalScore_{AB})	

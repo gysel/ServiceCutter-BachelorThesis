@@ -38,7 +38,7 @@ The exact importance of coupling is highly dependent on the context of a softwar
 
 \subsubsection{Decomposition by Graph Clustering}
 
-All scores are collected and utilized to construct a weighted, undirected graph. The vertices represent nanoentities and the weighted edges embody the strength of the coupling between two nanoentities.	
+All scores are collected and utilized to construct a weighted, undirected graph. The nodes represent nanoentities and the weighted edges embody the strength of the coupling between two nanoentities.	
 
 Once the graph is constructed, a graph clustering algorithm calculates clusters cutting as few edges as possible. A cluster represents a candidate service. Edges connecting nodes of two clusters represent coupling between the services. This process produces candidate service cuts with high cohesion and low coupling. Figure \ref{fig:mgmt-summary-graph} illustrates a graph created to analyze a sample application.
 
