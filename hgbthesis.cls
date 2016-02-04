@@ -210,7 +210,7 @@
     \vskip 2mm%
     {\large Supported by Zühlke Engineering AG}%
     \vskip 2mm%
-    {\large \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}}%
+    {\large \monthname[\value{@abgabemonat}] \arabic{@abgabejahr}} (v1.0.1)%
 \end{center}\par
   \vfil\null
 \end{titlepage}%
